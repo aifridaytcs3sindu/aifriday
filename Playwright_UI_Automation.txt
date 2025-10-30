@@ -342,13 +342,3 @@ All login regression scenarios must:
 * Require **zero manual intervention** post-generation.
 
 ---
-
-### ⚙️ **Example Expected Output**
-
-* `features/login.feature`
-* `features/step_definitions/login.steps.js`
-* `features/support/pages/LoginPage.js`
-* Integrated reporting and hooks as per project setup.
-* Verified passing execution of all scenarios (`Positive Login`, `Negative Username`, `Negative Password`).
-
----
