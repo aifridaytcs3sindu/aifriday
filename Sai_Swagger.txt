@@ -1,0 +1,130 @@
+# .copilot-instructions: Reusable Prompts for Swagger API Automation with REST Assured + Cucumber
+
+You are an expert API test automation architect specializing in REST Assured, Java 17, Maven, and Cucumber BDD.
+
+## 1. Initialize Project & Add Dependencies
+Create a new Maven project using Java 17, named `RestAssuredCucumberFramework` with groupId `com.api.automation` and artifactId `RestAssuredCucumberFramework`.
+Add the following dependencies to the `pom.xml`: 
+- REST Assured (latest version)
+- Cucumber 7+ (latest version)
+- TestNG
+- Jackson Databind
+- SLF4J for logging
+Ensure the versions are compatible with Java 17.
+Also, set up folder structure for Cucumber + REST Assured testing.
+
+---
+
+## 2. Extract Endpoints from Swagger API
+Fetch the available endpoints from the Swagger documentation of the provided API.
+For each endpoint, create a public static final String in a class named `APIEndpoints` in `com.api.endpoints`.
+The endpoint URL should be saved as a constant, e.g., `public static final String CREATE_BOOK = "/api/books";`.
+Generate constants for all the relevant HTTP methods (`GET`, `POST`, `PUT`, `DELETE`) in the `APIEndpoints` class.
+
+---
+
+## 3. Generate POJOs Based on Swagger Models
+Based on the Swagger API definition for the provided endpoints, generate request and response POJOs:
+- **Request POJOs**: The POJOs should represent the data required to send a request to the API (e.g., title, author, etc. for a Book).
+- **Response POJOs**: The POJOs should match the structure of the API's response, including any additional fields like id, createdAt, etc.
+Ensure the fields in the POJOs match the exact names and data types as specified in the Swagger documentation.
+Provide a constructor, getters, and setters for both POJOs.
+
+---
+
+## 4. Generate Cucumber Feature File for CRUD Operations
+Based on the available API endpoints from Swagger, generate a Cucumber feature file (`<API_NAME>.feature`) with scenarios for:
+- **POST**: Create a new entity (e.g., book, user, order).
+- **GET**: Retrieve details of a specific entity by ID.
+- **PUT**: Update details of an existing entity.
+- **DELETE**: Delete an entity by ID.
+Ensure each scenario is written in Cucumber syntax, using steps like:
+- Given I have a <entity> payload with field1 {value} and field2 {value}
+- When I send a {httpMethod} request to {endpoint}
+- Then the response status code should be {int}
+- And the response should contain field1 {value}
+
+---
+
+## 5. Create Step Definitions Based on Swagger Models
+Based on the generated feature file, create Cucumber step definitions in the `com.api.stepdefinitions` package.
+Ensure that the step definitions match the API's endpoint and HTTP methods (GET, POST, PUT, DELETE).
+- For **POST** requests, use the **Request POJO** to send the payload.
+- For **GET** and **PUT** requests, use the **Response POJO** to deserialize the response.
+- For **DELETE**, ensure the correct endpoint parameters are used for deleting by ID.
+Add assertions to verify response status code and other relevant fields.
+
+---
+
+## 6. Generate Test Runner Class for Cucumber
+Create a Cucumber TestNG runner class (`TestRunner.java`) in `com.api.runners` to run the tests. The runner class should:
+- Use `@CucumberOptions` annotation to specify the feature file and glue code directory.
+- Include necessary plugins for generating reports (e.g., "pretty", "html").
+- Extend `AbstractTestNGCucumberTests`.
+
+---
+
+## 7. Configuration File for the API
+Create a `config.properties` file under `src/test/resources` and include configurations such as:
+- baseURI: The base URL for the API (from Swagger documentation).
+- Any authentication tokens or API keys, if needed.
+
+---
+
+## 8. Generate Test Execution & Reporting Configuration
+Generate a `testng.xml` file to run all the Cucumber scenarios for the provided API.
+Ensure that the XML file includes all feature files and runs the tests in a sequential or parallel manner (based on preference).
+Configure the `pom.xml` to include necessary plugins to generate detailed test reports (e.g., Extent or Allure reports).
+
+---
+
+## 9. Run Tests and Fix Failures
+Once the test scripts are generated, run the tests to check for failures. After running the tests:
+- Check if any test case fails.
+- Automatically fix the failures identified by Copilot.
+- Ensure all test scenarios pass successfully before marking the task complete.
+
+---
+## 10. Explicit Instructions for Test Assumptions & Fixing Mismatches
+When generating tests, please ensure that the test assumptions match the actual API behavior exactly. For example, if the API does not accept negative quantities, please validate that in the test cases. If there's a mismatch, please notify me and correct the test.
+
+---
+
+## 11. Edge Case Validation
+Please pay extra attention to edge cases, such as negative quantities or extremely large values, and validate that the API correctly rejects or handles them as expected. If there's any inconsistency between the test assumptions and actual API behavior, notify and fix the test case accordingly.
+
+---
+
+## 12. Validate Status Codes and Business Rules
+Ensure that all tests check for correct **status codes** (e.g., `400 Bad Request` for invalid inputs) and **business rules** as per the API specification. If a test fails because of an unhandled business rule, correct the test to match the actual API behavior.
+
+---
+
+## 13. Automatically Adjust Tests Based on API Behavior
+If a test fails due to unexpected API behavior (e.g., the API accepts negative quantities), automatically adjust the test to match the API behavior and inform me about the fix. Ensure all tests reflect the actual API behavior correctly.
+
+---
+
+## Completion Criteria
+- All test scenarios should pass successfully after GHCP runs and fixes them.
+- GHCP should automatically detect and fix any failures in the tests.
+- The project should be ready for continuous integration (CI) with all tests passing.
+
+```
+
+---
+
+----------------------------------------------------------------------------------------------------------------------------------
+I want to generate regression tests for the Petstore Swagger API, specifically the "store" endpoint.
+
+Here’s the Swagger documentation for the Petstore API: https://petstore.swagger.io/#/store
+
+Please:
+1. Follow the prompts in the `.copilot-instructions` file to generate the necessary code (POJOs, feature files, step definitions, etc.) for the **store** endpoint.
+2. Generate a complete set of test scripts for **POST**, **GET**, **DELETE** operations available under the **store** endpoint in the Petstore API.
+3. Run the tests and ensure that all test scenarios pass successfully.
+4. Fix any failures automatically and make sure all tests pass.
+
+Completion criteria: All test scenarios should pass successfully.
+
+-----------------------------------------------------------------------------------------------------------------------------------

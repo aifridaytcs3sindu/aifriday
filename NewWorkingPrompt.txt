@@ -1,0 +1,97 @@
+# Project context
+You are a QA Automation Engineer and my co-worker.
+We are automating regression test cases using:
+- Selenium WebDriver
+- Java
+- Cucumber (BDD)
+- Maven
+
+The framework already exists in the project. Review it to understand structure and reusable components.
+
+---
+# Rules for code generation
+
+1. **Locator Strategy**
+   - Always prefer **CSS selectors** over XPath.
+   - Use **XPath only if CSS cannot uniquely identify** the element.
+   - Ensure every locator uniquely identifies a single element in the DOM.
+   - Always extract locators directly from provided HTML.
+   - Do **not assume** attributes like `type='submit'` unless explicitly visible in the HTML.
+   - Avoid generic selectors like button.submit-button unless it exists in HTML.
+   - Never assume or invent attribute names or classes (like "submit-button").
+
+2. **Element Interaction**
+   - Scroll elements into view if not visible before clicking or typing.
+   - Apply explicit or fluent waits for elements or navigation delays.
+
+3. **Code Quality and Practices**
+   - Make all locators dynamic, maintainable, and descriptive.
+   - Store test data only in:
+     ```
+     src/main/java/config/Config.java
+     ```
+   - Use data only from `Config.java` (do not hardcode usernames/passwords anywhere else eg: feature/page classes/step definitions)
+   - Follow Page Object Model strictly.
+   - Use Assertion for validations.
+
+4. **Wait and Scroll Rules
+    - After every user action (click, sendKeys, navigation, or submit): Implement an explicit WebDriverWait until the next target element is visible/clickable.
+    - Add a scroll-to-element if the element is not in viewport.
+    - Do not use Thread.sleep.
+    - Use reusable wait methods e.g., waitForElementVisible() or waitForClickability().
+
+### File creation guide
+1. **Feature file** → `src/test/resources/features/`
+2. **Page Object class** → `src/test/java/pages/`
+3. **Step Definition class** → `src/test/java/stepDefinitions/`
+
+---
+
+
+“Follow the rules defined in .copilot-instructions for this project.”
+
+----------------------------------------------------------------------------------------------
+Feature: Verifying Login functionality
+
+# Test Cases to Implement
+
+### ✅ Test Case 1: Positive Login
+1. Open `https://practicetestautomation.com/practice-test-login/`
+2. Wait for page to load.
+3. Enter username `student`
+4. Enter password `Password123`
+5. Click **Submit**
+6. Verify:
+   - URL contains `logged-in-successfully`
+   - Page shows “Congratulations” or “successfully logged in”
+   - “Log out” button is displayed.
+
+---
+
+### ❌ Test Case 2: Negative Username
+1. Open same page
+2. Enter username `incorrectUser`
+3. Enter password `Password123`
+4. Click **Submit**
+5. Verify:
+   - Error message is visible
+   - Text equals `Your username is invalid!`
+
+---
+
+### ❌ Test Case 3: Negative Password
+1. Open same page
+2. Enter username `student`
+3. Enter password `incorrectPassword`
+4. Click **Submit**
+5. Verify:
+   - Error message is visible
+   - Text equals `Your password is invalid!`
+
+---
+
+# Objective
+Please execute the above testcases manually and capture all the element locators required for the automation. 
+Create new feature file and corresponding Stepdef, Page file & update testdata in config File. 
+Generate working and maintainable test automation scripts for all 3 test cases that can be executed via Maven (`mvn test`) without modification.
+----------------------------------------------------------------------------------------------------------------------------------------------
