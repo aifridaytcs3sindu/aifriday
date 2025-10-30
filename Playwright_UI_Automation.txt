@@ -1,0 +1,354 @@
+
+# =========================================================
+# 🧠 Copilot Global Instructions for This Project
+# =========================================================
+
+## Project Type
+This project uses **Playwright + CucumberJS (JavaScript)** for automating **UI Regression Test Cases**.
+
+Copilot should generate **BDD-style test automation scripts** that are fully runnable in this framework.
+
+---
+
+## 1️⃣ Objective
+Whenever test scenarios or test cases are described, generate:
+- `.feature` file (Gherkin syntax)
+- `.steps.js` file (Playwright step definitions)
+- Optional page object (`.page.js`) for reusable actions
+
+All generated code must conform to this architecture and pass execution on the first run.
+
+---
+
+## 2️⃣ Folder & File Structure
+```
+
+features/
+├─ [feature-name].feature
+├─ step_definitions/
+│   └─ [feature-name].steps.js
+└─ support/
+├─ hooks.js
+├─ world.js (optional)
+└─ pages/
+└─ [page-name].page.js
+
+````
+
+---
+
+## 3️⃣ Feature File Rules
+- Use **Gherkin syntax** (`Feature:`, `Scenario:`, `Given/When/Then`).
+- Each test case = one `Scenario`.
+- Titles are descriptive and user-friendly.
+- Scenarios must match natural steps from the user prompt.
+---
+
+## 4️⃣ Step Definition Rules
+
+* Use **CommonJS** syntax.
+* Import required modules:
+
+  ```js
+  const { Given, When, Then } = require('@cucumber/cucumber');
+  const assert = require('assert');
+  ```
+* Always prefix Playwright actions with `await`.
+* Handle waits with:
+
+  * `waitForSelector`
+  * `waitForNavigation({ waitUntil: 'networkidle' })`
+  * `expect(await page.isVisible(selector))`
+* Each step performs a single logical action.
+* Use retries for flaky operations (selectors, clicks, navigation).
+
+---
+
+## 5️⃣ Page Object Rules
+
+When steps repeat, generate a class under `features/support/pages/`.
+
+Example:
+
+```js
+class LoginPage {
+  constructor(page) { this.page = page; }
+
+  async goto() {
+    await this.page.goto('https://example.com/login');
+  }
+
+  async login(username, password) {
+    await this.page.fill('#username', username);
+    await this.page.fill('#password', password);
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: 'networkidle' }),
+      this.page.click('#submit'),
+    ]);
+  }
+}
+
+module.exports = LoginPage;
+```
+
+---
+
+## 6️⃣ Hooks (Predefined)
+
+Hooks automatically:
+
+* Launch/close browser
+* Create Playwright page context
+* Take screenshots on failure
+* Set default timeouts
+
+---
+
+## 7️⃣ Reporting
+
+* JSON: `reports/cucumber-report.json`
+* HTML: via `generate-report.js`
+* Code should integrate seamlessly.
+
+---
+
+## 8️⃣ Naming Conventions
+
+| Type     | Format           | Example                                   |
+| -------- | ---------------- | ----------------------------------------- |
+| Feature  | lowercase-hyphen | `login.feature`                           |
+| Step Def | lowercase-hyphen | `login.steps.js`                          |
+| Page Obj | PascalCase       | `LoginPage.js`                            |
+| Scenario | Natural English  | `Successful login with valid credentials` |
+
+---
+
+## 9️⃣ Assertions
+
+Use Node’s `assert`:
+
+```js
+assert(this.page.url().includes('success'));
+assert(await this.page.isVisible('#logout'));
+```
+
+---
+
+## 🔟 Code Quality
+
+* Clear selectors and consistent naming
+* No hard waits (`setTimeout`) — use Playwright waits
+* Handle retries for dynamic elements
+* Self-contained test execution
+
+---
+
+## 🗣️ Prompt Schema (How to Interpret User Prompts)
+
+When the user provides a natural-language request such as:
+
+> “Generate Playwright + CucumberJS UI test scripts for verifying the Login page at `https://practicetestautomation.com/practice-test-login/` with positive and negative scenarios.”
+
+You must:
+
+### 🧩 1. Parse the Intent
+
+Extract from the prompt:
+
+* Website URL(s)
+* User actions (click, enter text, navigate)
+* Expected outcomes or validations
+* Scenario names (positive/negative/etc.)
+
+### 🏗️ 2. Generate
+
+* A `.feature` file (all test cases → scenarios)
+* `.steps.js` with Playwright logic
+* Optional page object for reusable patterns
+
+### 🔁 3. Apply Self-Healing and Retry Logic
+
+Automatically:
+
+* Detect unstable selectors or navigation failures.
+* Wrap key actions (`goto`, `click`, `fill`, `textContent`) in **auto-retry wrappers**:
+
+Example:
+
+```js
+async function safeClick(page, selector) {
+  for (let i = 0; i < 3; i++) {
+    try {
+      await page.waitForSelector(selector, { state: 'visible', timeout: 3000 });
+      await page.click(selector);
+      return;
+    } catch (e) {
+      if (i === 2) throw e;
+      await page.waitForTimeout(1000);
+    }
+  }
+}
+```
+
+* If a selector fails, auto-regenerate it using semantic cues from labels, placeholders, or text.
+* Use fallback queries like:
+
+  * `getByRole()`
+  * `getByText()`
+  * `locator('input[name="username"]')`
+
+### 🔄 4. Self-Correction Cycle
+
+If a generated test fails:
+
+1. Analyze the error message.
+2. Identify the cause (timeout, selector mismatch, navigation issue).
+3. Regenerate only the failing part (not the whole script).
+4. Retry until passing criteria are met.
+
+### ⚡ 5. Generation Behavior
+
+* Never ask for confirmation.
+* Assume Node.js, Playwright, and CucumberJS are ready.
+* Automatically fix syntax/import issues.
+* Always output runnable, self-healing tests.
+
+---
+
+## 🔍 Post-Generation Validation Rule
+After generating test scripts, Copilot must perform a quick validation step:
+
+1. For every selector used (`#id`, `.class`, `text=`, `role=`, etc.), ensure it exists in the page’s DOM by using:
+   ```js
+   await page.waitForSelector(selector, { timeout: 3000 });
+
+## ✅ Summary
+
+Copilot must:
+
+* Parse user intent.
+* Generate Playwright + CucumberJS test automation code.
+* Include **auto-retry and self-healing mechanisms** for flaky elements.
+* Self-correct any errors before presenting output.
+* Produce runnable, production-ready test scripts.
+
+---
+
+
+
+# 📘 **User Prompt — Generate UI Regression Tests**
+
+Generate **Playwright + CucumberJS UI test scripts** for the **Login functionality** of the web application:
+🔗 [https://practicetestautomation.com/practice-test-login/](https://practicetestautomation.com/practice-test-login/)
+
+Please strictly follow the architectural, folder, and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Details**
+
+* **Application URL:** [https://practicetestautomation.com/practice-test-login/](https://practicetestautomation.com/practice-test-login/)
+* **Feature Under Test:** Login Functionality
+* **Test Framework:** Playwright + CucumberJS (JavaScript)
+* **Assertions:** Node `assert` or `chai` (based on project setup)
+* **Goal:**
+  Generate all required files — `.feature`, `.steps.js`, `page.js`, and supporting config — to perform **UI regression validation** for the login module.
+
+---
+
+### **Test Cases to Implement**
+
+#### ✅ Test Case 1: Positive Login
+
+1. Open `https://practicetestautomation.com/practice-test-login/`
+2. Wait for page to load.
+3. Enter username `student`
+4. Enter password `Password123`
+5. Click **Submit**
+6. Verify:
+
+   * URL contains `logged-in-successfully`
+   * Page shows “Congratulations” or “successfully logged in”
+   * “Log out” button is displayed.
+
+---
+
+#### ❌ Test Case 2: Negative Username
+
+1. Open same page
+2. Enter username `incorrectUser`
+3. Enter password `Password123`
+4. Click **Submit**
+5. Verify:
+
+   * Error message is visible
+   * Text equals `Your username is invalid!`
+
+---
+
+#### ❌ Test Case 3: Negative Password
+
+1. Open same page
+2. Enter username `student`
+3. Enter password `incorrectPassword`
+4. Click **Submit**
+5. Verify:
+
+   * Error message is visible
+   * Text equals `Your password is invalid!`
+
+---
+
+### **Expected Output**
+
+1. **Feature Files:**
+   Gherkin-based `.feature` file under `features/` folder containing all login scenarios.
+
+2. **Step Definitions:**
+   `.steps.js` file under `features/step_definitions/` with Playwright actions (`page.goto`, `page.fill`, `page.click`, `assert`, etc.).
+
+3. **Page Object:**
+   Optional `LoginPage.js` under `features/support/pages/` encapsulating reusable UI actions like `goto()`, `login()`, and `logout()`.
+
+4. **Configuration & Hooks:**
+
+   * Reuse or generate Playwright + CucumberJS configuration (if missing).
+   * Include browser lifecycle hooks and screenshot capture on failure.
+
+5. **Execution Verification:**
+   Running `npm test` should execute all scenarios **successfully**.
+
+---
+
+### **Execution Behavior**
+
+* After generating all files:
+
+  * Run all tests automatically.
+  * Detect flaky elements and apply retry/self-healing logic as defined in `.copilot-instructions`.
+  * If any failure occurs, debug and regenerate failing steps automatically.
+  * Continue retrying until all tests pass successfully.
+
+---
+
+### ✅ **Completion Criteria**
+
+All login regression scenarios must:
+
+* Execute successfully via `npm test`.
+* Pass validations for URL, messages, and element visibility.
+* Implement retry logic for dynamic elements and self-healing selectors.
+* Log clear console messages for each step and assertion.
+* Require **zero manual intervention** post-generation.
+
+---
+
+### ⚙️ **Example Expected Output**
+
+* `features/login.feature`
+* `features/step_definitions/login.steps.js`
+* `features/support/pages/LoginPage.js`
+* Integrated reporting and hooks as per project setup.
+* Verified passing execution of all scenarios (`Positive Login`, `Negative Username`, `Negative Password`).
+
+---
