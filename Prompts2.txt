@@ -1,0 +1,221 @@
+# ============================================
+
+# .copilot-instructions
+
+# Universal Instructions for API Test Generation (Playwright + Cucumber + JS)
+
+# ============================================
+
+## 🧭 Objective
+
+When the user provides a Swagger URL and specifies one or more API endpoints (e.g., `/store`, `/user`, `/pet`), generate a **complete Playwright + Cucumber API test suite in JavaScript** for those endpoints.
+
+Assume:
+
+* Node.js v18+ (ESM syntax enabled)
+* Playwright v1.45+ (for `APIRequestContext`)
+* Cucumber.js v9+
+* Chai v5+ for assertions
+* The Swagger endpoint provides valid request/response schema.
+* The goal is to generate **fully automated regression tests** that can be executed and retried until all tests pass.
+
+---
+
+## 🧩 Code Architecture
+
+The generated project must follow this structure:
+
+```
+features/
+├── step_definitions/
+│     └── <endpoint>_steps.js
+├── support/
+│     ├── world.js
+│     └── hooks.js
+├── <endpoint>.feature
+helpers/
+├── <endpoint>ApiHelper.js
+└── retryHelper.js
+playwright.config.js
+package.json
+README.md
+```
+
+**Naming Rules**
+
+* Use lowercase filenames and camelCase function names.
+* Examples:
+
+  * `store_steps.js`
+  * `storeApiHelper.js`
+  * `retryHelper.js`
+  * Functions: `createOrder()`, `getOrderById()`, `deleteOrder()`
+
+---
+
+## ⚙️ Functional Requirements
+
+### 1. Generate POJOs (Data Models)
+
+* Based on Swagger schema definitions for the provided endpoint.
+* Use **JavaScript classes** to represent request and response objects.
+* Include constructors and default values for required fields.
+
+### 2. Create Feature File (.feature)
+
+* Written in **Gherkin syntax** (`Given`, `When`, `Then`).
+* Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
+
+  * Valid scenario (happy path)
+  * Invalid scenario (error handling)
+* Example file: `features/store.feature`
+
+### 3. Create Step Definitions
+
+* Implement using Playwright’s `request.newContext()` API.
+* Steps must:
+
+  * Perform HTTP requests using endpoint data from Swagger.
+  * Use `chai.expect` for response assertions.
+  * Reuse helper methods for each operation.
+* Example: `features/step_definitions/store_steps.js`
+
+### 4. Create Helper Functions
+
+* Each endpoint has a helper file, e.g., `helpers/storeApiHelper.js`.
+* Each helper exports methods like `createOrder()`, `getOrder()`, `deleteOrder()`.
+* Use Playwright’s request context to make calls and return parsed JSON responses.
+
+### 5. Custom World & Hooks
+
+* `features/support/world.js`: Initializes Playwright’s request context.
+* `features/support/hooks.js`: Adds setup and teardown hooks (`Before`, `After`).
+
+### 6. Retry Logic
+
+* Create `helpers/retryHelper.js` to retry failed requests or assertions.
+* Default retry configuration:
+
+  * Attempts: 3
+  * Delay: 500ms (exponential backoff)
+* Retry logic must re-execute only the failed step or scenario.
+
+### 7. Config & Execution
+
+* `playwright.config.js`: Sets baseURL from environment variable or Swagger host.
+* `package.json`:
+
+  ```json
+  {
+    "type": "module",
+    "scripts": {
+      "test": "cucumber-js --require 'features/**/*.js' --publish-quiet",
+      "test:watch": "nodemon --exec \"npm test\""
+    }
+  }
+  ```
+
+### 8. Reporting
+
+* Generate reports in:
+
+  * `/reports/cucumber-report.html`
+  * `/reports/cucumber-report.json`
+* Include step-level logs and error stack traces.
+* Display execution summary in console output.
+
+---
+
+## 🧠 Self-Healing & Failure Recovery
+
+If a test fails:
+
+1. Analyze error logs to identify cause (e.g., status code mismatch, missing field, schema deviation).
+2. Auto-adjust payload, endpoint URL, or assertions as needed.
+3. Regenerate the failed step definition file dynamically.
+4. Retry only the failed scenario (up to 3 times).
+5. Stop only after all tests pass successfully.
+
+---
+
+## 🌐 Swagger Parsing Rules
+
+When parsing Swagger/OpenAPI:
+
+* Use `/swagger.json` or `/openapi.json` endpoint.
+* Extract:
+
+  * Host and basePath
+  * All available `paths` and their operations (GET/POST/PUT/DELETE)
+  * Request/response schema from `definitions`
+  * Example payloads if present
+* Use these definitions to auto-generate request classes, payload builders, and assertions.
+
+---
+
+## 🧪 Test Generation Workflow
+
+When the user prompt specifies a Swagger URL and endpoint(s):
+
+1. Parse the Swagger API.
+2. Identify the specified endpoints and their available operations.
+3. Generate:
+
+   * Data models (JS classes)
+   * Gherkin feature files
+   * Step definitions
+   * Helper modules
+   * Hooks and world files
+4. Automatically execute the tests via:
+
+   ```bash
+   npm test
+   ```
+5. Retry or fix any failed tests until all pass.
+6. Produce a summary and store results in `/reports/`.
+
+---
+
+## 🧾 README.md Generation
+
+Automatically include:
+
+* Project overview
+* Setup instructions (`npm install`, `npm test`)
+* Folder structure explanation
+* Swagger endpoint customization guide
+* Adding new endpoint test instructions
+
+---
+
+## ✅ Completion Criteria
+
+All generated test scripts must:
+
+* Execute successfully using `npm test`.
+* Validate response codes, payloads, and schemas.
+* Log meaningful console output.
+* Regenerate or self-heal any failing steps.
+* Produce a readable Cucumber HTML report.
+* Be executable for any given Swagger endpoint by simply providing the Swagger URL and endpoint name.
+
+---
+
+## 🗣️ Prompt Schema (How to Interpret User Prompts)
+
+When the user gives a natural-language request such as:
+
+> “Generate Playwright + Cucumber test scripts for the `/store` endpoint from the Petstore Swagger API: [https://petstore.swagger.io/#/store”](https://petstore.swagger.io/#/store”)
+
+You must:
+
+1. Parse the provided Swagger URL.
+2. Identify the specified endpoint(s) and their operations.
+3. Apply the above generation rules and architecture.
+4. Automatically create all required files in the current project.
+5. Run tests, fix any issues automatically, and retry until all pass.
+
+Never ask the user for confirmations.
+Always regenerate, fix, and retry until test completion criteria are satisfied.
+
+---

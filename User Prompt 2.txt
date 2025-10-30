@@ -1,0 +1,44 @@
+📘 **User Prompt — Generate Swagger API Regression Tests**
+
+Generate **Playwright + Cucumber API test scripts** for the `/store` endpoint from the **Petstore Swagger API**:  
+🔗 https://petstore.swagger.io/#/store
+
+Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Details**
+- **Swagger API URL:** https://petstore.swagger.io/#/store  
+- **Target Endpoint:** `/store`  
+- **Operations to Cover:** `POST`, `GET`, `DELETE` (include `PUT` if available)  
+- **Tech Stack:** Playwright (for APIRequestContext) + Cucumber.js + Chai assertions  
+- **Goal:**  
+  Generate all necessary files (feature, step definitions, API client helper, config) and ensure the tests execute and pass **without any manual intervention**.
+
+---
+
+### **Expected Output**
+1. **Feature Files:** Readable Gherkin scenarios covering CRUD flows.  
+2. **Step Definitions:** Implemented using Playwright’s request context and helper functions.  
+3. **API Client Helper:** File handling API calls and schema-based payloads.  
+4. **Configuration:** Complete `package.json` setup with scripts (`npm test`, `npm run test:api`).  
+5. **Execution Verification:** Ensure `npm run test:api` runs successfully.
+
+---
+
+### **Execution Behavior**
+- After generation, run all tests automatically.  
+- If any failure occurs, debug and fix automatically.  
+- Retry until all tests pass successfully.  
+
+---
+
+### ✅ **Completion Criteria**
+All regression test scenarios for the specified Swagger endpoint must:
+- Execute successfully.  
+- Pass validation for status codes, payloads, and schema fields.  
+- Log meaningful console output.  
+- Require zero manual intervention.
+```
+
+---
