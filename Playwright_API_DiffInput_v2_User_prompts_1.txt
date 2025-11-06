@@ -1,0 +1,59 @@
+### 📘 **User Prompt — Generate Swagger API Regression Tests**
+
+Generate **Playwright + Cucumber API test scripts** for the `/store` endpoint from the **Petstore Swagger API**:
+🔗 [https://petstore.swagger.io/#/store](https://petstore.swagger.io/#/store) or provide a Swagger YAML/JSON file URL or an uploaded Swagger JSON file.
+
+Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Details**
+
+* **Swagger API URL (JSON/YAML format):** [https://petstore.swagger.io/#/store](https://petstore.swagger.io/#/store) or provide a link to the Swagger YAML or Swagger JSON file. Alternatively, you may upload the Swagger JSON file directly.
+* **Operations to Cover:** `POST`, `GET`, `DELETE` (include `PUT` if available)
+* **Tech Stack:** Playwright (for APIRequestContext) + Cucumber.js + Chai assertions
+* **Goal:**
+  Generate all necessary files (feature, step definitions, API client helper, config) and ensure the tests execute and pass **without any manual intervention**.
+
+---
+
+### **Expected Test Coverage**
+
+For **each API operation**, generate:
+
+1. **Positive flow (200)** – Valid request and response validation
+2. **Negative flows:**
+
+   * `400 Bad Request` – invalid or incomplete input
+   * `401 Unauthorized` – missing or invalid credentials
+   * `404 Not Found` – non-existent resource or wrong endpoint
+   * `500 Internal Server Error` – simulate server-side issue
+
+Each scenario should:
+
+* Have a descriptive Gherkin title and tags
+* Assert the **exact status code** and validate that the response contains a structured JSON error
+* Exclude any sensitive or null data in responses
+* Use helper methods for payload mutation and response validation
+
+---
+
+### **Execution Behavior**
+
+* Automatically run all tests after generation
+* If any failure occurs, debug and fix automatically.
+* Retry until all tests pass successfully.
+* Fix schema or payload automatically if the Swagger definition changes
+
+---
+
+### ✅ **Completion Criteria**
+
+All generated test suites must:
+
+* Include both positive and negative test coverage (400, 401, 404, 500)
+* Execute successfully using `npm test`
+* Produce Cucumber HTML and JSON reports under `/reports/`
+* Require zero manual intervention
+
+---
