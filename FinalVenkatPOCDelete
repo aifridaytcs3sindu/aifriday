@@ -11,7 +11,6 @@
 When the user provides a Swagger URL or Swagger JSON file and specifies one or more API endpoints (e.g., `/store`, `/user`, `/pet`), generate a **complete Playwright + Cucumber API test suite in JavaScript/TypeScript** for those endpoints.
 
 Assume:
-
 * Node.js v18+ (ESM syntax enabled)
 * Playwright v1.45+ (for `APIRequestContext`)
 * Cucumber.js v9+
@@ -47,7 +46,6 @@ README.md
 
 * Use lowercase filenames and camelCase function names.
 * Examples:
-
   * `store_steps.js`
   * `storeApiHelper.js`
   * `retryHelper.js`
@@ -67,7 +65,6 @@ README.md
 
 * Written in **Gherkin syntax** (`Given`, `When`, `Then`).
 * Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
-
   * Valid scenario (happy path)
   * Invalid scenario (error handling)
 * Example file: `features/store.feature`
@@ -75,14 +72,12 @@ README.md
 ### 2.1 Conditional Negative Test Scenarios Based on HTTP Methods
 
 For each API operation (e.g., `POST`, `GET`, `PUT`, `DELETE`), the system must generate **negative test cases** based on the endpoint's HTTP method. Some endpoints may not support specific error codes like `400`, `401`, or `500` for certain HTTP methods. 
-
   - **400 Bad Request** → Invalid payload or missing required fields
   - **401 Unauthorized** → Missing or invalid authentication header
   - **404 Not Found** → Requesting a non-existent resource ID or URL
   - **500 Internal Server Error** → Simulated server-side failure (invalid parameter or forced error)
 
 For instance:
-
 - **GET requests** typically do not support `400 Bad Request` or `401 Unauthorized` as they are designed to retrieve data, not to modify it.
 - **POST requests** may support all error codes, including `400`, `401`, `404`, and `500`.
 - **PUT and DELETE requests** are more likely to support `400`, `404`, and `500` error codes when resources are missing or the payload is invalid.
@@ -193,7 +188,6 @@ When generating API tests, the system should handle authentication as follows:
 ## 🌐 **JSON Parsing Rules**
 
 When parsing Swagger/OpenAPI **JSON** files:
-
 * Accept **JSON file format** (`swagger.json` or `openapi.json`).
 * Extract the following information:
   * Host and basePath
@@ -207,7 +201,6 @@ When parsing Swagger/OpenAPI **JSON** files:
 ## 🧪 Test Generation Workflow
 
 When the user prompt specifies a Swagger URL and endpoint(s):
-
 1. Parse the Swagger API (whether JSON or YAML format).
 2. Identify the specified endpoint(s) and their operations.
 3. Generate:
@@ -227,7 +220,6 @@ When the user prompt specifies a Swagger URL and endpoint(s):
 ## 🧾 README.md Generation
 
 Automatically include:
-
 * Project overview
 * Setup instructions (`npm install`, `npm test`)
 * Folder structure explanation
@@ -239,7 +231,6 @@ Automatically include:
 ## ✅ Completion Criteria
 
 All generated test scripts must:
-
 * Execute successfully using `npm test`.
 * Validate response codes, payloads, and schemas.
 * Log meaningful console output.
