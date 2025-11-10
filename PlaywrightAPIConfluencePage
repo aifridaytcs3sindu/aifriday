@@ -1,0 +1,177 @@
+---
+
+## **API Automation POC – Playwright + Cucumber Integration**
+
+---
+
+### 🧭 **1. Overview**
+
+#### **Objective**
+
+This document explains the **API Automation POC** built using **Playwright** and **Cucumber.js**, designed to automate API endpoint validation from Swagger definitions.
+
+#### **Key Technologies**
+
+* 🧩 **Playwright** – Handles API calls and assertions.
+* 🧠 **Cucumber.js** – Enables Behavior-Driven (BDD) test design.
+* ✅ **Chai** – Assertion library for validating responses.
+* 🤖 **GitHub Copilot + GHCP** – Auto-generates and self-heals test code using AI.
+
+#### **Purpose**
+
+To create an AI-assisted, self-healing, and retry-enabled API automation suite that runs against Swagger-defined endpoints with zero manual intervention.
+
+---
+
+### ⚙️ **2. Prerequisites**
+
+Before running the framework, ensure the following prerequisites:
+
+* **Active GitHub Copilot Business License**
+* **Node.js (v18+)** and **npm**
+* **Playwright + Cucumber.js** installed
+* **Swagger API JSON URL** or **local Swagger JSON file**
+
+#### 💻 **Supported IDEs**
+
+> The framework is compatible with both:
+>
+> * **Visual Studio Code (VS Code)** — Primary IDE used in this POC
+> * **IntelliJ IDEA** — Tested successfully for JetBrains users
+
+Both IDEs integrate seamlessly with **GitHub Copilot Chat** and **GHCP (GitHub Copilot CLI)**.
+
+---
+
+### 🧩 **3. Visual Architecture**
+
+```mermaid
+flowchart LR
+A[Swagger JSON File/URL] --> B[Copilot Prompt Processing]
+B --> C[Test Generation (Feature + Step Definitions)]
+C --> D[Test Execution (Playwright + Cucumber)]
+D --> E[Retry & Self-Healing Mechanism]
+E --> F[Reports (HTML / JSON)]
+```
+
+> **Diagram Explanation:**
+> The process starts with parsing the Swagger JSON, generating tests automatically, executing them using Playwright, applying retries/self-healing when failures occur, and producing detailed reports.
+
+---
+
+### 🚀 **4. Approach & Execution Steps**
+
+#### 📘 **Swagger JSON-Driven Test Generation**
+
+```bash
+Example URL: https://example.com/swagger.json
+Example Local File: /api/salesOrderApi.json
+```
+
+The framework accepts either a remote Swagger URL or a local JSON file and automatically extracts API endpoints, HTTP methods, and schemas.
+
+#### 🔄 **Execution Flow**
+
+1. **Parse Swagger JSON Definition**
+
+   * Extract endpoints, methods (GET/POST/PUT/DELETE), request/response schemas, and authentication rules.
+
+2. **Auto-Generate Test Suite**
+
+   * Creates **BDD-style feature files** and corresponding **step definitions** with positive and negative test scenarios.
+
+3. **Execute Tests**
+
+   * Runs tests automatically, logging detailed info about requests, responses, and errors.
+
+4. **Self-Healing & Retry**
+
+   * If a test fails, the framework auto-fixes payloads or request parameters and retries up to 3 times.
+
+5. **Reporting**
+
+   * Generates both **HTML** and **JSON** reports under `/reports/`, including stack traces and validation logs.
+
+---
+
+### 📂 **5. Detailed Execution Flow (Expandable)**
+
+<details>
+<summary>Expand to view details</summary>
+
+#### **Swagger JSON Handling**
+
+* Supports both **remote** and **local** Swagger JSONs.
+* Automatically detects:
+
+  * Base path
+  * Endpoints
+  * Request/response definitions
+  * Authentication method (Basic/Bearer)
+
+#### **Scenario Generation**
+
+* Each endpoint generates:
+
+  * **Positive Test (200)**
+  * **Negative Tests** based on HTTP method rules:
+
+    * **POST:** 400, 401, 404, 500
+    * **GET:** 404, 500
+    * **PUT/DELETE:** 400, 404, 500
+
+#### **Retry & Self-Healing Logic**
+
+* Automatically retries failed steps up to **3 times**.
+* Rebuilds payloads or assertions dynamically.
+* Stops execution only after all scenarios pass.
+
+</details>
+
+---
+
+### 🔍 **6. Observations & Key Findings**
+
+#### **Swagger JSON Handling**
+
+* The framework dynamically parses the Swagger JSON (local or remote) and auto-generates test cases for each endpoint.
+
+#### **IDE Insights**
+
+* **VS Code** offered better Copilot integration and smoother GHCP prompt execution.
+* **IntelliJ IDEA** was also supported, though certain auto-fixes required manual confirmation.
+
+---
+
+### ⚠️ **7. Challenges & Next Steps**
+
+#### **Challenges**
+
+* **Complex Authentication**: OAuth and JWT token-based APIs require additional configuration beyond Basic Auth.
+
+#### **Next Steps**
+
+* **Enhance Retry Logic** – Broaden self-healing coverage for network and schema mismatches.
+* **CI/CD Integration** – Automate execution in build pipelines for continuous regression testing.
+
+---
+
+### 🧪 **8. Sample Test Case**
+
+```gherkin
+@order @create
+Scenario: Successfully place a new order
+  Given I have a valid order payload
+  When I send a POST request to /orders with the payload
+  Then the response status should be 201
+  And the response body should contain the order ID
+```
+
+> **Note:** Each test is self-contained and automatically retries until successful execution.
+
+---
+
+### 🏁 **9. Conclusion**
+
+This POC showcases how **Playwright + Cucumber + GitHub Copilot** can automate API testing using **Swagger JSON definitions** with minimal human effort.
+The self-healing and retry-enabled architecture ensures reliable, repeatable regression testing that adapts dynamically to API changes.
