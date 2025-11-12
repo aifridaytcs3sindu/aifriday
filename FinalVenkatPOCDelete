@@ -223,7 +223,6 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
 
 ---
 
-
 ## 🧾 README.md Generation
 
 Automatically include:
@@ -278,6 +277,10 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
    * Always regenerate, fix, and retry until test completion criteria are satisfied.
 
 ---
+
+
+
+
 ### 📘 **User Prompt — Generate Swagger API Regression Tests**
 
 Generate **Playwright + Cucumber API test scripts** for all the endpoints defined in /api/salesOrderApi.json.
