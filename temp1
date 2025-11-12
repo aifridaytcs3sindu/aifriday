@@ -1,9 +1,17 @@
-Skip/tag the negative test scenarios that aren't supported by the API?
-Many endpoints return 500 errors or unexpected responses indicating the API either doesn't support these scenarios or has server-side issues.
-I'll analyze the failed negative test cases and remove those that the API doesn't support (returning 500 errors instead of proper validation errors).
+Summary of Key Suggestions:
 
+More granular error reporting and schema validation.
 
-https://pigw-mpcon-ca.marksandspencer.app
+Dynamic authentication (e.g., token refresh).
 
+Handle rate limiting with backoff strategies.
 
-Kaviya Ganeshan
+Generate dynamic test data for POST/PUT requests.
+
+Allow exclusion of specific tests or endpoints.
+
+Enable parallel test execution for faster results.
+
+Enhanced test reporting (e.g., with Allure).
+
+Handle versioning and environment configuration.
