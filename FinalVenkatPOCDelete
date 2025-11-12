@@ -27,11 +27,11 @@ The generated project must follow this structure:
 ```
 features/
 ├── step_definitions/
-│     └── <endpoint1>_steps.js
-      └── <endpoint2>_steps.js
+│   ├── <endpoint1>_steps.js
+│   └── <endpoint2>_steps.js
 ├── support/
-│     ├── world.js
-│     └── hooks.js
+│   ├── world.js
+│   └── hooks.js
 ├── <endpoint1>.feature
 ├── <endpoint2>.feature
 helpers/
