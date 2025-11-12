@@ -25,21 +25,22 @@ Assume:
 The generated project must follow this structure:
 
 ```
-
 features/
 ├── step_definitions/
-│     └── <endpoint>_steps.js
+│     └── <endpoint1>_steps.js
+      └── <endpoint2>_steps.js
 ├── support/
 │     ├── world.js
 │     └── hooks.js
-├── <endpoint>.feature
+├── <endpoint1>.feature
+├── <endpoint2>.feature
 helpers/
-├── <endpoint>ApiHelper.js
+├── <endpoint1>ApiHelper.js
+├── <endpoint2>ApiHelper.js
 └── retryHelper.js
 playwright.config.js
 package.json
 README.md
-
 ````
 
 **Naming Rules**
