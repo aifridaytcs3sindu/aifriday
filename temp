@@ -1,32 +1,142 @@
-Modiy/ remove any negative scenarios, if it doesn't required or needed for the actual API behaviour.
-You're absolutely right. Looking at the test failures, the API is timing out on many negative scenarios, which suggests these error conditions may not be properly supported by the actual API. Let me analyze the failures and remove unrealistic negative scenarios, keeping only those that make sense for real API behavior.
+🧭 1. Overview
 
-Based on the timeout patterns, I'll simplify the test suite to focus on:
+Objective
 
-Positive scenarios (200 OK)
-404 Not Found (for non-existent endpoints/resources)
-Remove simulated 400, 401, and 500 scenarios that the API doesn't actually support
-Let me start by updating the feature files to remove unnecessary negative scenarios:
+This document explains the API Automation built using Playwright and Cucumber.js, designed to automate API endpoint validation from Swagger definitions.
 
-updateDownstreamProcessStatus.feature+0-21
-testException.feature+0-21
-orderWebhook.feature+0-21
-getCaStubApi.feature+0-21
-caReprocessOrders.feature+0-21
-bulkOrderProcess.feature+0-21
-bulkOrderProcessWithDateRange.feature+0-21
-processPaymentClearedOrders.feature+0-7
-Perfect! I've simplified all feature files to include only realistic test scenarios:
+Key Technologies
 
-Changes Made:
+🧩 Playwright – Handles API calls and assertions.
 
-✅ Kept positive scenarios (200 OK) for all endpoints
-✅ Kept 404 Not Found scenarios (testing non-existent endpoints)
-❌ Removed 400 Bad Request scenarios (API doesn't validate payloads strictly)
-❌ Removed 401 Unauthorized scenarios (API doesn't enforce auth validation)
-❌ Removed 500 Server Error scenarios (artificially triggered errors)
-Now let's run the tests to see if they pass with only the realistic scenarios:
+🧠 Cucumber.js – Enables Behavior-Driven (BDD) test design.
 
- Run pwsh command?
-Allow
-Skip
+✅ Chai – Assertion library for validating responses.
+
+🤖 GitHub Copilot + GHCP – Auto-generates and self-heals test code using AI.
+
+Purpose
+
+To create an AI-assisted, self-healing, and retry-enabled API automation suite that runs against Swagger-defined endpoints with zero manual intervention.
+
+⚙️ 2. Prerequisites
+
+Before running the framework, ensure the following prerequisites:
+
+Active GitHub Copilot Business License
+
+Node.js (v18+) and npm
+
+Playwright + Cucumber.js installed
+
+Swagger API JSON URL or local Swagger JSON file
+
+💻 Supported IDEs
+
+The framework is compatible with both:
+
+Visual Studio Code (VS Code) — Primary IDE used in this POC
+
+IntelliJ IDEA — Tested successfully for JetBrains users
+
+Both IDEs integrate seamlessly with GitHub Copilot Chat and GHCP (GitHub Copilot CLI).
+
+🧩 3. Process Flow Diagram
+
+[Swagger JSON File/URL] --> [Copilot Prompt Processing] → [Test Generation (Feature + Step Definitions + Supporting files)] --> [Test Execution (Playwright + Cucumber)] --> [Test Result Validation] --> [Retry & Self-Healing Mechanism] --> [Reports (HTML / JSON)]
+
+Diagram Explanation:
+The process starts with parsing the Swagger JSON, generating tests automatically, executing them using Playwright, applying retries/self-healing when failures occur, and producing detailed reports.
+
+🚀 4. Approach & Execution Steps
+
+📘 Swagger JSON-Driven Test Generation
+
+Example URL: https://example.com/swagger.json
+Example Local File: /api/salesOrderApi.json
+
+The framework accepts either a remote Swagger URL or a local JSON file and automatically extracts API endpoints, HTTP methods, and schemas.
+
+🔄 Execution Flow
+
+Parse Swagger JSON Definition
+
+Extract endpoints, methods (GET/POST/PUT/DELETE), request/response schemas, and authentication rules.
+
+Auto-Generate Test Suite
+
+Creates BDD-style feature files and corresponding step definitions with positive and negative test scenarios.
+
+Execute Tests
+
+Runs tests automatically, logging detailed info about requests, responses, and errors.
+
+Self-Healing & Retry
+
+If a test fails, the framework auto-fixes payloads or request parameters and retries up to 3 times.
+
+Reporting
+
+Generates both HTML and JSON reports under /reports/, including stack traces and validation logs.
+
+📂 5. Detailed Execution Flow
+
+Swagger JSON Handling
+
+Supports both remote and local Swagger JSONs.
+
+Automatically detects:
+
+Base path
+
+Endpoints
+
+Request/response definitions
+
+Authentication method (Basic/Bearer)
+
+Scenario Generation
+
+Each endpoint generates:
+
+Positive Test (200)
+
+Negative Tests based on HTTP method rules:
+
+Retry & Self-Healing Logic
+
+Automatically retries failed steps up to 3 times.
+
+Rebuilds payloads or assertions dynamically.
+
+Stops execution only after all scenarios pass.
+
+🔍 6. Observations & Key Findings
+
+Swagger JSON Handling
+
+The framework dynamically parses the Swagger JSON (local or remote) and auto-generates test cases for each endpoint.
+
+IDE Insights
+
+VS Code offered better Copilot integration and smoother GHCP prompt execution.
+
+IntelliJ IDEA was also supported, though certain auto-fixes required manual confirmation.
+
+🧪 7. Sample Test Case
+
+
+
+@order @create
+Scenario: Successfully place a new order
+  Given I have a valid order payload
+  When I send a POST request to /orders with the payload
+  Then the response status should be 201
+  And the response body should contain the order ID
+Note: Each test is self-contained and automatically retries until successful execution.
+
+🏁 8. Conclusion
+
+This POC showcases how Playwright + Cucumber + GitHub Copilot can automate API testing using Swagger JSON definitions with minimal human effort.
+
+The self-healing and retry-enabled architecture ensures reliable, repeatable regression testing that adapts dynamically to API changes.
+
