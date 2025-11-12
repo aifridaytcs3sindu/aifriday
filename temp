@@ -1,4 +1,4 @@
-
+Modiy/ remove any negative scenarios, if it doesn't required or needed for the actual API behaviour.
 You're absolutely right. Looking at the test failures, the API is timing out on many negative scenarios, which suggests these error conditions may not be properly supported by the actual API. Let me analyze the failures and remove unrealistic negative scenarios, keeping only those that make sense for real API behavior.
 
 Based on the timeout patterns, I'll simplify the test suite to focus on:
