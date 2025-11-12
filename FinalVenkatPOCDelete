@@ -91,7 +91,6 @@ README.md
   * Perform HTTP requests using endpoint data from Swagger.
   * Use `chai.expect` for response assertions.
   * Reuse helper methods for each operation.
-* Example: `features/step_definitions/store_steps.js`
 
 ### 4. Create Helper Functions
 
