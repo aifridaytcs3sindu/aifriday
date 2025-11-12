@@ -254,15 +254,14 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
      * Accept the uploaded file and parse the Swagger JSON directly from the local file system.
      * Ensure that the file follows the Swagger 2.0 or OpenAPI 3.0 format.
      * Automatically detect and handle the available endpoints, methods, and authentication as defined within the file.
-
-3. Identify endpoint(s) and operations
-4. Generate Playwright + Cucumber tests following the structure.
-5. Run and self-heal until all tests pass.
-6. Report only realistic negative scenarios.
+3. **Identify the specified endpoint(s)**:
+   * Identify the API endpoints specified by the user (e.g., `/store`, `/user`, `/pet`) within the parsed Swagger definition.
+4. **Generate the test suite**:
+   * Based on the specified endpoints, generate a **complete Playwright + Cucumber API test suite** in JavaScript for those endpoints, following the architecture and rules outlined.
+5. **Execute tests**:
+   * Automatically execute the generated tests and perform any necessary retries until all tests pass.
+   * Always regenerate, fix, and retry until test completion criteria are satisfied.
 ---
-
-
-
 
 ### 📘 **User Prompt — Generate Swagger API Regression Tests**
 
@@ -276,7 +275,7 @@ Please strictly follow the architectural and coding standards defined in the `.c
 ### **Details**
 
 * **Swagger API Source:** '/api/salesOrderApi.json' 
-* **Base Url:** https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
+* **Base Url:** https://pigw-mpcon-ca.marksandspencer.app/
 * **Authentication:** Basic Authentication (username: intloninordersadNprod and password:0n1n0rder9Ad)
 * **Goal:**
   Generate all necessary files (feature, step definitions, API client helper, config) and ensure the tests execute and pass **without any manual intervention**.
@@ -297,8 +296,6 @@ For **each API operation**, generate:
 3. **Adaptive Pruning:**  
    Automatically remove or skip unrealistic negative tests that are unsupported by the actual API (e.g., 401 or 500 not implemented).  
    Retain only those that make sense for real API behavior (e.g., 404).
-
-
 ---
 
 ### **Execution Behavior**
