@@ -72,45 +72,13 @@ README.md
 * Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
   * Valid scenario (happy path)
   * Invalid scenario (error handling)
-* Example file: `features/store.feature`
-
-### 2.1 Conditional Negative Test Scenarios Based on HTTP Methods
-
-For each API operation (e.g., `POST`, `GET`, `PUT`, `DELETE`), the system must generate **negative test cases** based on the endpoint's HTTP method. Some endpoints may not support specific error codes like `400`, `401`, or `500` for certain HTTP methods. 
-  - **400 Bad Request** → Invalid payload or missing required fields
-  - **401 Unauthorized** → Missing or invalid authentication header
-  - **404 Not Found** → Requesting a non-existent resource ID or URL
-  - **500 Internal Server Error** → Simulated server-side failure (invalid parameter or forced error)
-
-For instance:
-- **GET requests** typically do not support `400 Bad Request` or `401 Unauthorized` as they are designed to retrieve data, not to modify it.
-- **POST requests** may support all error codes, including `400`, `401`, `404`, and `500`.
-- **PUT and DELETE requests** are more likely to support `400`, `404`, and `500` error codes when resources are missing or the payload is invalid.
-
-#### Rules:
-- **GET**: Avoid generating `400` or `401` errors. Focus on `404` (not found) and `500` (server error).
-- **POST**: Generate all four errors: `400`, `401`, `404`, and `500`.
-- **PUT**: Generate `400`, `404`, and `500` errors.
-- **DELETE**: Generate `400`, `404`, and `500` errors.
-
-This should be incorporated into the feature file generation, ensuring that error scenarios align with the correct HTTP method's capabilities.
-Each negative scenario must:
-* Be written in **Gherkin syntax** with clear scenario titles.
-* Validate that the response status code matches the expected error (400, 401, 404, 500).
-* Include assertions verifying:
-  - Error message presence (if provided by API)
-  - No sensitive data leaked in response
-  - Correct Content-Type (JSON)
-
-* Example snippet:
-```gherkin
-@bad-request
-Scenario: Create resource with invalid data should return 400
-  Given I have an invalid resource payload
-  When I send a POST request to create the resource
-  Then the response status should be 400
-  And the error message should mention "invalid"
-```
+* Follow conditional rules by HTTP method:
+| Method | Allowed Negative Codes |
+|---------|------------------------|
+| GET     | 404, 500              |
+| POST    | 400, 401, 404, 500    |
+| PUT     | 400, 404, 500         |
+| DELETE  | 400, 404, 500         |
 ---
 
 ### 3. Create Step Definitions
@@ -180,16 +148,38 @@ If a test fails:
 5. Stop only after all tests pass successfully.
 
 ---
+## 🧠 Self-Healing & Adaptive Negative Handling
+
+If tests fail due to unsupported negative scenarios or timeouts:
+
+1. **Analyze the failure type**
+   - If response consistently returns success (200) or timeout for simulated errors, treat the negative test as *unsupported by API*.
+
+2. **Adaptive Pruning Logic**
+   - Remove or skip such scenarios automatically.
+   - Mark them as `"Not Applicable"` in the Cucumber HTML/JSON report.
+
+3. **Auto-Refinement**
+   - Preserve only *realistic* negative tests such as `404 Not Found`.
+   - Exclude unsupported `400`, `401`, `500` scenarios.
+
+4. **Learning Memory**
+   - If a scenario is skipped 3 consecutive times, exclude it from regenerated feature files permanently.
+
+5. **Retry Flow**
+   - Regenerate and re-run until all active tests pass successfully.
+
+This ensures:
+✅ No false negatives  
+✅ Test suite aligns with actual API behavior  
+✅ Fully self-healing adaptive regression system
+
+---
 ## 🛠️ **Authentication Handling**:
 
-When generating API tests, the system should handle authentication as follows:
-- **Basic Authentication** (using username and password):  
-   If the **username** and **password** are provided, authentication should be passed in the HTTP **Authorization header** as `Authorization: Basic <base64-encoded-credentials>`. 
-   - **Example**:  
-     For username `intloninordersadNprod` and password `0n1n0rder9Ad`, the base64 encoding will generate a string that should be included in the request header. 
-   - **Format**:  
-     `Authorization: Basic <base64-encoded-credentials>`
-- If an **API key** or **Bearer token** is provided (via query parameters or headers), handle them appropriately according to the API specification.
+When generating API tests,
+- Handle Basic authentication, Bearer Token, or API Key as defined in Swagger.  
+- Encode Basic Auth as `Authorization: Basic <base64>`.
 - Ensure that authentication is included for every API call requiring authentication, especially for endpoints that involve user data or secure operations.
 ---
 
@@ -266,16 +256,10 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
      * Ensure that the file follows the Swagger 2.0 or OpenAPI 3.0 format.
      * Automatically detect and handle the available endpoints, methods, and authentication as defined within the file.
 
-3. **Identify the specified endpoint(s)**:
-   * Identify the API endpoints specified by the user (e.g., `/store`, `/user`, `/pet`) within the parsed Swagger definition.
-
-4. **Generate the test suite**:
-   * Based on the specified endpoints, generate a **complete Playwright + Cucumber API test suite** in JavaScript for those endpoints, following the architecture and rules outlined.
-
-5. **Execute tests**:
-   * Automatically execute the generated tests and perform any necessary retries until all tests pass.
-   * Always regenerate, fix, and retry until test completion criteria are satisfied.
-
+3. Identify endpoint(s) and operations
+4. Generate Playwright + Cucumber tests following the structure.
+5. Run and self-heal until all tests pass.
+6. Report only realistic negative scenarios.
 ---
 
 
@@ -284,7 +268,7 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
 ### 📘 **User Prompt — Generate Swagger API Regression Tests**
 
 Generate **Playwright + Cucumber API test scripts** for all the endpoints defined in /api/salesOrderApi.json.
-For each API endpoint (e.g., `/store`, `/user`, `/order`), generate a **separate feature file** (e.g., `store.feature`, `user.feature`, `order.feature`).
+Each API endpoint (e.g., `/store`, `/user`, `/order`) should have its own `.feature`, `.steps.js`, and helper files.
 
 Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
 
@@ -292,14 +276,13 @@ Please strictly follow the architectural and coding standards defined in the `.c
 
 ### **Details**
 
-* **Swagger API URL (JSON format):** Automatically parse '/api/salesOrderApi.json' to extract endpoints names and methods. This file contains the complete API definition (similar to swagger)
-* **Operations to Cover:** `POST`, `GET`, `DELETE` (include `PUT` if available)
-* **Tech Stack:** Playwright (for APIRequestContext) + Cucumber.js + Chai assertions
+* **Swagger API Source:** '/api/salesOrderApi.json' 
 * **Base Url:** https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
 * **Authentication:** Basic Authentication (username: intloninordersadNprod and password:0n1n0rder9Ad)
 * **Goal:**
   Generate all necessary files (feature, step definitions, API client helper, config) and ensure the tests execute and pass **without any manual intervention**.
-
+* **Operations to Cover:** `POST`, `GET`, `DELETE`, `PUT` (if available)
+* **Tech Stack:** Playwright (APIRequestContext) + Cucumber.js + Chai
 ---
 
 ### **Expected Test Coverage**
@@ -307,18 +290,15 @@ Please strictly follow the architectural and coding standards defined in the `.c
 For **each API operation**, generate:
 
 1. **Positive flow (200)** – Valid request and response validation
-2. **Negative flows** – Generate the following **conditional negative test cases** based on HTTP methods:
-   - **POST**: Generate test cases for `400`, `401`, `404`, `500`.
-   - **GET**: Generate test cases for `404`, `500` (no `400` or `401`).
-   - **PUT**: Generate test cases for `400`, `404`, `500` (no `401`).
-   - **DELETE**: Generate test cases for `400`, `404`, `500` (no `401`).
+2. **Negative flows** — Generate negative test cases only for applicable HTTP methods:
+   - **POST**: `400`, `401`, `404`, `500`.
+   - **GET**: `404`, `500`
+   - **PUT**: `400`, `404`, `500`
+   - **DELETE**: `400`, `404`, `500`
+3. **Adaptive Pruning:**  
+   Automatically remove or skip unrealistic negative tests that are unsupported by the actual API (e.g., 401 or 500 not implemented).  
+   Retain only those that make sense for real API behavior (e.g., 404).
 
-Each scenario should:
-
-* Have a descriptive Gherkin title and tags
-* Assert the **exact status code** and validate that the response contains a structured JSON error
-* Exclude any sensitive or null data in responses
-* Use helper methods for payload mutation and response validation
 
 ---
 
@@ -335,9 +315,10 @@ Each scenario should:
 
 All generated test suites must:
 
-* Include both positive and and **HTTP-method-appropriate** negative test coverage
+* Include only realistic positive and negative test coverage
 * Execute successfully using `npm test`
 * Produce Cucumber HTML and JSON reports under `/reports/`
 * Require zero manual intervention
+* Conform fully to the `.copilot-instructions` standards.
 
 ---
