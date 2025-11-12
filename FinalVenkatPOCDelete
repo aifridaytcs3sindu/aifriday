@@ -66,8 +66,8 @@ README.md
 
 * For each endpoint**, generate:
    - A **distinct feature file** named after the endpoint, for example:
-     * `store.feature` for `/store` endpoint
-     * `order.feature` for `/order` endpoint
+       * `store.feature` for `/store` endpoint
+       * `order.feature` for `/order` endpoint
 * Written in **Gherkin syntax** (`Given`, `When`, `Then`).
 * Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
   * Valid scenario (happy path)
