@@ -144,16 +144,21 @@ README.md
 ## 🧠 Self-Healing & Adaptive Failure Recovery
 
 If a test fails:
-
 1. Analyze error logs to identify cause (e.g., status code mismatch, missing field, schema deviation).
 2. Auto-adjust payload, endpoint URL, or assertions as needed.
 3. Regenerate the failed step definition file dynamically.
 4. Retry only the failed scenario (up to 5 times).
 5. Stop only after all tests pass successfully.
-
 ---
 
+### **Failure Handling for Negative Test Scenarios**
 
+If **negative status codes are not defined in the Swagger** and negative test cases are generated based on common expectations, and if a negative test scenario fails even after the specified retries (5 times):
+1. The system must **mark the scenario as "Not Supported"** in the final test report.
+   * This indicates that the failure is not due to a test issue, but because the API does not support the expected behavior for the tested status code (e.g., `401 Unauthorized`, `500 Internal Server Error`).
+   * The **"Not Supported"** label must be clearly displayed in the test report for such cases to differentiate them from regular test failures.
+
+---
 
 ## 🛠️ **Authentication Handling**:
 
@@ -284,10 +289,6 @@ For **each API operation**, generate the following tests:
    * **Note:**
      * Generate negative tests only for the methods and status codes that are relevant to the specific endpoint based on its Swagger definition.
      * If no negative status codes are defined in the Swagger, fall back on the above standard set.
-
-3. **Failure Handling**
-   * If a negative test scenario fails even after the specified retries (up to 5 attempts), mark the scenario as **"Not Supported"** in the final test report.
-   * This indicates that the failure is not due to a test issue but because the API does not support the expected behavior for the tested status code.
 ---
 
 ### **Execution Behavior**
