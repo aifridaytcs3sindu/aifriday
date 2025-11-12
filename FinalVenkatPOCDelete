@@ -111,6 +111,9 @@ Scenario: Create resource with invalid data should return 400
 ### 3. Create Step Definitions
 
 * Implement using Playwright’s `request.newContext()` API.
+* For each endpoint, generate a separate step definition file that contains steps specific to that endpoint.
+  * For example, if the endpoint is /store, create features/step_definitions/store_steps.js.
+  * Ensure each step definition file includes only the relevant steps for that endpoint, avoiding any cross-contamination between different API endpoints.
 * Steps must:
   * Perform HTTP requests using endpoint data from Swagger.
   * Use `chai.expect` for response assertions.
@@ -200,19 +203,20 @@ When parsing Swagger/OpenAPI **JSON** files:
 
 ## 🧪 Test Generation Workflow
 
-When the user prompt specifies a Swagger URL and endpoint(s):
-1. Parse the Swagger API (whether JSON or YAML format).
-2. Identify the specified endpoint(s) and their operations.
-3. Generate:
-
-   * Data models (JS classes)
-   * Gherkin feature files
-   * Step definitions
-   * Helper modules
-   * Hooks and world files
-4. Automatically create all required files in the current project.
-5. Run tests, fix any issues automatically, and retry until all pass.
-6. Produce a summary and store results in `/reports/`.
+When the user provides a **Swagger URL** or **Swagger JSON file** and specifies one or more API endpoints:
+1. **Parse the Swagger definition** to extract all available endpoints.
+2. **For each endpoint**, generate:
+   - A **distinct feature file** named after the endpoint, for example:
+     * `store.feature` for `/store` endpoint
+     * `order.feature` for `/order` endpoint
+     * `user.feature` for `/user` endpoint
+   - **Data models** (JavaScript classes) based on the Swagger request/response schema for that endpoint.
+   - **Step definitions** specific to that endpoint (e.g., `store_steps.js` for `/store`).
+   - **Helper functions** for operations on the endpoint (e.g., `storeApiHelper.js`).
+   - **Hooks** and **world.js** specific to each endpoint, ensuring test isolation.
+3. Automatically create all required files in the current project. 
+4. Run tests, fix any issues automatically, and retry until all pass. 
+5. Produce a summary and store results in `/reports/`.
 
 ---
 
@@ -274,6 +278,7 @@ When the user provides a **Swagger URL** or **Swagger JSON file** and specifies 
 ### 📘 **User Prompt — Generate Swagger API Regression Tests**
 
 Generate **Playwright + Cucumber API test scripts** for all the endpoints defined in /api/salesOrderApi.json.
+For each API endpoint (e.g., `/store`, `/user`, `/order`), generate a **separate feature file** (e.g., `store.feature`, `user.feature`, `order.feature`).
 
 Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
 
