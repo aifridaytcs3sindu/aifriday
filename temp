@@ -1,0 +1,343 @@
+# ============================================
+
+# .copilot-instructions
+
+# Universal Instructions for API Test Generation (Playwright + Cucumber + JavaScript)
+
+# ============================================
+
+## 🧭 Objective
+
+When the user provides a Swagger URL or Swagger JSON file and specifies one or more API endpoints (e.g., `/store`, `/user`, `/pet`), generate a **complete Playwright + Cucumber API test suite in JavaScript/TypeScript** for those endpoints.
+
+Assume:
+* Node.js v18+ (ESM syntax enabled)
+* Playwright v1.45+ (for `APIRequestContext`)
+* Cucumber.js v9+
+* Chai v5+ for assertions
+* The Swagger endpoint provides valid request/response schema.
+* The goal is to generate **fully automated regression tests** that can be executed and retried until all tests pass.
+
+---
+
+## 🧩 Code Architecture
+
+The generated project must follow this structure:
+
+```
+features/
+├── step_definitions/
+│     └── <endpoint1>_steps.js
+      └── <endpoint2>_steps.js
+├── support/
+│     ├── world.js
+│     └── hooks.js
+├── <endpoint1>.feature
+├── <endpoint2>.feature
+helpers/
+├── <endpoint1>ApiHelper.js
+├── <endpoint2>ApiHelper.js
+└── retryHelper.js
+playwright.config.js
+package.json
+README.md
+````
+
+**Naming Rules**
+
+* Use lowercase filenames and camelCase function names.
+* Examples:
+  * `store_steps.js`
+  * `storeApiHelper.js`
+  * `retryHelper.js`
+  * Functions: `createOrder()`, `getOrderById()`, `deleteOrder()`
+
+---
+
+## ⚙️ Functional Requirements
+
+### 1. Generate POJOs (Data Models)
+
+* Based on Swagger schema definitions for the provided endpoint.
+* Use **JavaScript classes** to represent request and response objects.
+* Include constructors and default values for required fields.
+
+### 2. Create Feature File (.feature)
+
+* For each endpoint**, generate:
+   - A **distinct feature file** named after the endpoint, for example:
+       * `store.feature` for `/store` endpoint
+       * `order.feature` for `/order` endpoint
+* Written in **Gherkin syntax** (`Given`, `When`, `Then`).
+* Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
+  * Valid scenario (happy path)
+  * Invalid scenario (error handling)
+* Example file: `features/store.feature`
+
+### 2.1 Conditional Negative Test Scenarios Based on HTTP Methods
+
+For each API operation (e.g., `POST`, `GET`, `PUT`, `DELETE`), the system must generate **negative test cases** based on the endpoint's HTTP method. Some endpoints may not support specific error codes like `400`, `401`, or `500` for certain HTTP methods. 
+  - **400 Bad Request** → Invalid payload or missing required fields
+  - **401 Unauthorized** → Missing or invalid authentication header
+  - **404 Not Found** → Requesting a non-existent resource ID or URL
+  - **500 Internal Server Error** → Simulated server-side failure (invalid parameter or forced error)
+
+For instance:
+- **GET requests** typically do not support `400 Bad Request` or `401 Unauthorized` as they are designed to retrieve data, not to modify it.
+- **POST requests** may support all error codes, including `400`, `401`, `404`, and `500`.
+- **PUT and DELETE requests** are more likely to support `400`, `404`, and `500` error codes when resources are missing or the payload is invalid.
+
+#### Rules:
+- **GET**: Avoid generating `400` or `401` errors. Focus on `404` (not found) and `500` (server error).
+- **POST**: Generate all four errors: `400`, `401`, `404`, and `500`.
+- **PUT**: Generate `400`, `404`, and `500` errors.
+- **DELETE**: Generate `400`, `404`, and `500` errors.
+
+This should be incorporated into the feature file generation, ensuring that error scenarios align with the correct HTTP method's capabilities.
+Each negative scenario must:
+* Be written in **Gherkin syntax** with clear scenario titles.
+* Validate that the response status code matches the expected error (400, 401, 404, 500).
+* Include assertions verifying:
+  - Error message presence (if provided by API)
+  - No sensitive data leaked in response
+  - Correct Content-Type (JSON)
+
+* Example snippet:
+```gherkin
+@bad-request
+Scenario: Create resource with invalid data should return 400
+  Given I have an invalid resource payload
+  When I send a POST request to create the resource
+  Then the response status should be 400
+  And the error message should mention "invalid"
+```
+---
+
+### 3. Create Step Definitions
+
+* Implement using Playwright’s `request.newContext()` API.
+* For each endpoint, generate a separate step definition file that contains steps specific to that endpoint.
+  * For example, if the endpoint is /store, create features/step_definitions/store_steps.js.
+  * Ensure each step definition file includes only the relevant steps for that endpoint, avoiding any cross-contamination between different API endpoints.
+* Steps must:
+  * Perform HTTP requests using endpoint data from Swagger.
+  * Use `chai.expect` for response assertions.
+  * Reuse helper methods for each operation.
+* Example: `features/step_definitions/store_steps.js`
+
+### 4. Create Helper Functions
+
+* Each endpoint has a helper file, e.g., `helpers/storeApiHelper.js`.
+* Each helper exports methods like `createOrder()`, `getOrder()`, `deleteOrder()`.
+* Use Playwright’s request context to make calls and return parsed JSON responses.
+
+### 5. Custom World & Hooks
+
+* `features/support/world.js`: Initializes Playwright’s request context.
+* `features/support/hooks.js`: Adds setup and teardown hooks (`Before`, `After`).
+
+### 6. Retry Logic
+
+* Create `helpers/retryHelper.js` to retry failed requests or assertions.
+* Default retry configuration:
+  * Attempts: 3
+  * Delay: 500ms (exponential backoff)
+* Retry logic must re-execute only the failed step or scenario.
+
+### 7. Config & Execution
+
+* `playwright.config.js`: Sets baseURL from environment variable or Swagger host.
+* `package.json`:
+
+  ```json
+  {
+    "type": "module",
+    "scripts": {
+      "test": "cucumber-js --require 'features/**/*.js' --publish-quiet",
+      "test:watch": "nodemon --exec \"npm test\""
+    }
+  }
+  ```
+
+### 8. Reporting
+
+* Generate reports in:
+  * `/reports/cucumber-report.html`
+  * `/reports/cucumber-report.json`
+* Include step-level logs and error stack traces.
+* Display execution summary in console output.
+
+---
+
+## 🧠 Self-Healing & Failure Recovery
+
+If a test fails:
+
+1. Analyze error logs to identify cause (e.g., status code mismatch, missing field, schema deviation).
+2. Auto-adjust payload, endpoint URL, or assertions as needed.
+3. Regenerate the failed step definition file dynamically.
+4. Retry only the failed scenario (up to 3 times).
+5. Stop only after all tests pass successfully.
+
+---
+## 🛠️ **Authentication Handling**:
+
+When generating API tests, the system should handle authentication as follows:
+- **Basic Authentication** (using username and password):  
+   If the **username** and **password** are provided, authentication should be passed in the HTTP **Authorization header** as `Authorization: Basic <base64-encoded-credentials>`. 
+   - **Example**:  
+     For username `intloninordersadNprod` and password `0n1n0rder9Ad`, the base64 encoding will generate a string that should be included in the request header. 
+   - **Format**:  
+     `Authorization: Basic <base64-encoded-credentials>`
+- If an **API key** or **Bearer token** is provided (via query parameters or headers), handle them appropriately according to the API specification.
+- Ensure that authentication is included for every API call requiring authentication, especially for endpoints that involve user data or secure operations.
+---
+
+## 🌐 **JSON Parsing Rules**
+
+When parsing Swagger/OpenAPI **JSON** files:
+* Accept **JSON file format** (`swagger.json` or `openapi.json`).
+* Extract the following information:
+  * Host and basePath
+  * All available `paths` and their operations (GET/POST/PUT/DELETE)
+  * Request/response schema from `definitions` or `components/schemas`
+  * Example payloads if present
+* Use these definitions to auto-generate request classes, payload builders, and assertions.
+
+---
+
+## 🧪 Test Generation Workflow
+
+When the user provides a **Swagger URL** or **Swagger JSON file** and specifies one or more API endpoints:
+1. **Parse the Swagger definition** to extract all available endpoints.
+2. Identify the specified endpoint(s) and their operations.
+3. Generate   
+   - **Data models** (JavaScript classes) 
+   - **Gherkin feature files**
+   - **Step definitions**
+   - **Helper functions** 
+   - **Hooks** and **world.js** files
+4. Automatically create all required files in the current project. 
+5. Run tests, fix any issues automatically, and retry until all pass. 
+6. Produce a summary and store results in `/reports/`.
+
+---
+
+## 🧾 README.md Generation
+
+Automatically include:
+* Project overview
+* Setup instructions (`npm install`, `npm test`)
+* Folder structure explanation
+* Swagger endpoint customization guide
+* Adding new endpoint test instructions
+
+---
+
+## ✅ Completion Criteria
+
+All generated test scripts must:
+* Execute successfully using `npm test`.
+* Validate response codes, payloads, and schemas.
+* Log meaningful console output.
+* Regenerate or self-heal any failing steps.
+* Produce a readable Cucumber HTML report.
+* Be executable for any given Swagger endpoint by simply providing the Swagger URL and endpoint name.
+
+---
+## 🗣️ **Prompt Schema (How to Interpret User Prompts)**
+
+When the user provides a **Swagger URL** or **Swagger JSON file** and specifies one or more API endpoints (e.g., `/store`, `/user`, `/pet`), the following steps should be taken:
+
+1. **Parse the Swagger input**:
+   * If the user provides a **Swagger URL**, fetch and parse the Swagger definition from the provided URL.
+   * If the user provides a **Swagger JSON file**, parse the locally uploaded Swagger JSON file.
+   
+2. **Swagger API Definition Handling**:
+   * The system must be able to handle both **remote Swagger URLs** and **local Swagger JSON files** for generating API tests.
+   #### 1. Remote Swagger URL:
+   * If the user provides a **Swagger URL** (e.g., `https://example.com/swagger.json`), the system should:
+     * Automatically fetch the Swagger JSON definition from the provided URL.
+     * Parse the definition to extract endpoint details, operations, and schemas.
+     * Ensure that any required authentication (e.g., Basic Auth or Bearer tokens) is handled for the API request.
+   #### 2. Local Swagger JSON File:
+   * If the user provides a **local Swagger JSON file**, the system should:
+     * Accept the uploaded file and parse the Swagger JSON directly from the local file system.
+     * Ensure that the file follows the Swagger 2.0 or OpenAPI 3.0 format.
+     * Automatically detect and handle the available endpoints, methods, and authentication as defined within the file.
+
+3. **Identify the specified endpoint(s)**:
+   * Identify the API endpoints specified by the user (e.g., `/store`, `/user`, `/pet`) within the parsed Swagger definition.
+
+4. **Generate the test suite**:
+   * Based on the specified endpoints, generate a **complete Playwright + Cucumber API test suite** in JavaScript for those endpoints, following the architecture and rules outlined.
+
+5. **Execute tests**:
+   * Automatically execute the generated tests and perform any necessary retries until all tests pass.
+   * Always regenerate, fix, and retry until test completion criteria are satisfied.
+
+---
+
+
+
+
+### 📘 **User Prompt — Generate Swagger API Regression Tests**
+
+Generate **Playwright + Cucumber API test scripts** for all the endpoints defined in /api/salesOrderApi.json.
+For each API endpoint (e.g., `/store`, `/user`, `/order`), generate a **separate feature file** (e.g., `store.feature`, `user.feature`, `order.feature`).
+
+Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Details**
+
+* **Swagger API URL (JSON format):** Automatically parse '/api/salesOrderApi.json' to extract endpoints names and methods. This file contains the complete API definition (similar to swagger)
+* **Operations to Cover:** `POST`, `GET`, `DELETE` (include `PUT` if available)
+* **Tech Stack:** Playwright (for APIRequestContext) + Cucumber.js + Chai assertions
+* **Base Url:** https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
+* **Authentication:** Basic Authentication (username: intloninordersadNprod and password:0n1n0rder9Ad)
+* **Goal:**
+  Generate all necessary files (feature, step definitions, API client helper, config) and ensure the tests execute and pass **without any manual intervention**.
+
+---
+
+### **Expected Test Coverage**
+
+For **each API operation**, generate:
+
+1. **Positive flow (200)** – Valid request and response validation
+2. **Negative flows** – Generate the following **conditional negative test cases** based on HTTP methods:
+   - **POST**: Generate test cases for `400`, `401`, `404`, `500`.
+   - **GET**: Generate test cases for `404`, `500` (no `400` or `401`).
+   - **PUT**: Generate test cases for `400`, `404`, `500` (no `401`).
+   - **DELETE**: Generate test cases for `400`, `404`, `500` (no `401`).
+
+Each scenario should:
+
+* Have a descriptive Gherkin title and tags
+* Assert the **exact status code** and validate that the response contains a structured JSON error
+* Exclude any sensitive or null data in responses
+* Use helper methods for payload mutation and response validation
+
+---
+
+### **Execution Behavior**
+
+* Automatically run all tests after generation
+* If any failure occurs, debug and fix automatically.
+* Retry until all tests pass successfully.
+* Fix schema or payload automatically if the Swagger definition changes
+
+---
+
+### ✅ **Completion Criteria**
+
+All generated test suites must:
+
+* Include both positive and and **HTTP-method-appropriate** negative test coverage
+* Execute successfully using `npm test`
+* Produce Cucumber HTML and JSON reports under `/reports/`
+* Require zero manual intervention
+
+---
