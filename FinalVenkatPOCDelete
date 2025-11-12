@@ -307,11 +307,11 @@ Please strictly follow the architectural and coding standards defined in the `.c
 For **each API operation**, generate:
 
 1. **Positive flow (200)** – Valid request and response validation
-2. **Negative flows** – **According to HTTP method rules in .copilot-instructions Section 2.1:**
-   * **POST**: `400`, `401`, `404`, `500`
-   * **GET**: `404`, `500` (no `400` or `401`)
-   * **PUT**: `400`, `404`, `500` (no `401`)
-   * **DELETE**: `400`, `404`, `500` (no `401`)
+2. **Negative flows** – Generate the following **conditional negative test cases** based on HTTP methods:
+   - **POST**: Generate test cases for `400`, `401`, `404`, `500`.
+   - **GET**: Generate test cases for `404`, `500` (no `400` or `401`).
+   - **PUT**: Generate test cases for `400`, `404`, `500` (no `401`).
+   - **DELETE**: Generate test cases for `400`, `404`, `500` (no `401`).
 
 Each scenario should:
 
