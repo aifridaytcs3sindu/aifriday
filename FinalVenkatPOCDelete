@@ -63,6 +63,10 @@ README.md
 
 ### 2. Create Feature File (.feature)
 
+* For each endpoint**, generate:
+   - A **distinct feature file** named after the endpoint, for example:
+     * `store.feature` for `/store` endpoint
+     * `order.feature` for `/order` endpoint
 * Written in **Gherkin syntax** (`Given`, `When`, `Then`).
 * Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
   * Valid scenario (happy path)
@@ -205,18 +209,16 @@ When parsing Swagger/OpenAPI **JSON** files:
 
 When the user provides a **Swagger URL** or **Swagger JSON file** and specifies one or more API endpoints:
 1. **Parse the Swagger definition** to extract all available endpoints.
-2. **For each endpoint**, generate:
-   - A **distinct feature file** named after the endpoint, for example:
-     * `store.feature` for `/store` endpoint
-     * `order.feature` for `/order` endpoint
-     * `user.feature` for `/user` endpoint
-   - **Data models** (JavaScript classes) based on the Swagger request/response schema for that endpoint.
-   - **Step definitions** specific to that endpoint (e.g., `store_steps.js` for `/store`).
-   - **Helper functions** for operations on the endpoint (e.g., `storeApiHelper.js`).
-   - **Hooks** and **world.js** specific to each endpoint, ensuring test isolation.
-3. Automatically create all required files in the current project. 
-4. Run tests, fix any issues automatically, and retry until all pass. 
-5. Produce a summary and store results in `/reports/`.
+2. Identify the specified endpoint(s) and their operations.
+3. Generate   
+   - **Data models** (JavaScript classes) 
+   - **Gherkin feature files**
+   - **Step definitions**
+   - **Helper functions** 
+   - **Hooks** and **world.js** files
+4. Automatically create all required files in the current project. 
+5. Run tests, fix any issues automatically, and retry until all pass. 
+6. Produce a summary and store results in `/reports/`.
 
 ---
 
