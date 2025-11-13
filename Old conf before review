@@ -1,0 +1,259 @@
+🧭 1. Overview
+
+Objective
+
+This document outlines an AI-assisted API Automation Framework built using Playwright and Cucumber.js, which automates API endpoint validation directly from Swagger definitions.
+
+Key Highlights
+
+● Config-driven approach: Read API specification and authentication from .env file. 
+
+● Auto-generates Playwright + Cucumber test suites from Swagger/OpenAPI (JSON or URL). 
+
+● Schema validation: Validates response structure using Ajv (required fields + data types). 
+
+● Allure reporting: Interactive HTML dashboards with test statistics and trends. 
+
+● Automatic retry logic: 3 attempts per scenario for transient failures. 
+
+● Flexible authentication: Supports Basic Auth, Bearer Token, or none. 
+
+● Seamlessly integrates with GitHub Copilot.
+
+Technical Stack
+
+🧩 Playwright – APIRequestContext for HTTP calls and response handling
+
+🧠 Cucumber.js v10+ – BDD test framework with retry configuration
+
+✅ Chai v5+ – Assertion library for response validation
+
+🔒 Ajv v8+ – JSON Schema validation for API contract compliance
+
+📊 Allure – Primary reporting tool with interactive dashboards
+
+🤖 GitHub Copilot – AI-powered test generation from .copilot-instructions
+
+🔐 dotenv – Environment variable management
+
+Purpose
+
+To create a configuration-driven, schema-validated, and visually reportable API automation suite that:
+
+Runs against Swagger/OpenAPI-defined endpoints
+
+Validates API contract compliance (schema validation)
+
+Categorizes failures (Critical, Validation Gaps, Schema Violations)
+
+Generates multiple report formats (Cucumber HTML/JSON, Allure dashboard, TEST_SUMMARY.md)
+
+Requires zero manual intervention after initial .env configuration
+
+⚙️ 2. Prerequisites
+
+● Active GitHub Copilot Business License 
+
+● Node.js v18+ and npm 
+
+● Playwright v1.45+ (APIRequestContext support) 
+
+● Swagger/OpenAPI specification (JSON file or URL)
+
+● .env file - Environment variables used during test execution
+
+💻 Supported IDEs
+
+The framework is compatible with both:
+
+IDE
+
+Status
+
+Notes
+
+VS Code       
+
+✅ Recommended 
+
+Seamless Copilot & GHCP integration        
+
+IntelliJ IDEA 
+
+✅ Supported   
+
+Minor confirmation prompts during auto-fix 
+
+🧩 3. Architecture & Process Flow
+
+High-Level Flow
+
+[.env Configuration]
+    ↓
+[Read INPUT_TYPE, INPUT_PATH, AUTH_TYPE]
+    ↓
+[Parse Swagger/OpenAPI Specification]
+    ↓
+[Generate Test Suite via Copilot]
+    ├── Feature files (.feature)
+    ├── Step definitions (*_steps.js)
+    ├── API Helpers (*ApiHelper.js)
+    ├── Data Models (*Models.js)
+    └── Schema Validator (schemaValidator.js)
+    ↓
+[Execute Tests with Playwright]
+    ├── Positive scenarios (200/201/204)
+    ├── Negative scenarios (400/401/404/500)
+    └── Schema validation (GET always, POST/PUT conditionally)
+    ↓
+[Retry Logic - 3 attempts per scenario]
+    ↓
+[Generate Reports]
+    ├── Cucumber HTML/JSON (/reports/)
+    ├── Allure Dashboard (/allure-report/)
+    └── TEST_SUMMARY.md (Comprehensive markdown)
+
+Key Features
+
+Configuration-Driven: All settings in .env (no hardcoded values)
+
+Schema Validation: Validates response structure against API specification
+
+Automatic Retry: Cucumber retries failed scenarios 3 times
+
+Failure Categorization: Critical, Validation Gaps, Schema Violations, Not Applicable
+
+Multiple Reports: Cucumber, Allure, and markdown summaries
+
+🚀 4. Setup & Configuration
+
+Step 1: Configure .env File 
+
+Create a .env file at the project root and add required environment variables. 
+
+Step 2: Create .copilot-instructions file
+
+Create .copilot-instructions file in the project root and add prompts to instruct GitHub copilot for API Test generation
+
+Step 3: Provide ‘User Prompt’ to GitHub Copilot in the GHCP Chat. 
+
+📘 Swagger JSON-Driven Test Generation
+
+Example URL: https://example.com/swagger.json
+Example Local File: /api/salesOrderApi.json
+
+The framework accepts either a remote Swagger URL or a local JSON file and automatically extracts API endpoints, HTTP methods, and schemas.
+
+🔄 Execution Flow
+
+Parse Swagger JSON Definition
+
+Extract endpoints, methods, request/response schema, and authentication details.
+
+Auto-Generate Test Suite
+
+Creates BDD-style feature files and corresponding step definitions with positive and negative test scenarios.
+
+Execute Tests
+
+Runs tests automatically, logging detailed info about requests, responses, and errors.
+
+Self-Healing & Retry
+
+Automatically fix failed payloads or assertions (up to 3 retries).
+
+Reporting
+
+Generates both HTML and JSON reports under /reports folder.
+
+📂 5. Detailed Execution Flow
+
+Swagger JSON Handling
+
+Supports both remote and local Swagger JSONs.
+
+Automatically detects:
+
+Base path
+
+Endpoints
+
+Request/response definitions
+
+Authentication method (Basic/Bearer)
+
+Scenario Generation
+
+Each endpoint generates:
+
+Positive Test (200)
+
+Negative Tests based on HTTP method rules:
+
+Retry & Self-Healing Logic
+
+Automatically retries failed steps up to 3 times.
+
+Rebuilds payloads or assertions dynamically.
+
+Stops execution only after all scenarios pass.
+
+🔍 6. Observations & Key Findings
+
+Swagger JSON Handling
+
+The framework dynamically parses the Swagger JSON (local or remote) and auto-generates test cases for each endpoint.
+
+IDE Insights
+
+VS Code offered better Copilot integration and smoother GHCP prompt execution.
+
+IntelliJ IDEA was also supported, though certain auto-fixes required manual confirmation.
+
+🧪 7. Sample Test Case
+
+@order @create
+Scenario: Successfully place a new order
+  Given I have a valid order payload
+  When I send a POST request to /orders with the payload
+  Then the response status should be 201
+  And the response body should contain the order ID
+
+Note: Each test is self-contained and automatically retries until successful execution.
+
+🏁 8. Conclusion
+
+This POC demonstrates how Playwright + Cucumber + GitHub Copilot can automate API testing using Swagger JSON definitions with minimal human effort.
+
+The self-healing and retry-enabled architecture ensures reliable, repeatable regression testing that adapts dynamically to API changes.
+
+Sample Executions
+
+Product Team
+
+Prompt Used
+
+Input URL (Swagger/json)
+
+Output (Regression Test Files)
+
+Final Execution Report
+
+O9
+
+
+
+https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
+
+
+
+
+
+
+
+
+
+
+
+
+
