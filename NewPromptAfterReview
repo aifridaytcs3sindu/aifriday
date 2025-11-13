@@ -1,0 +1,490 @@
+# ============================================
+
+# .copilot-instructions
+
+# Universal Instructions for API Test Generation (Playwright + Cucumber + JavaScript)
+
+# ============================================
+
+## 🧭 Objective
+
+When the user requests API test generation, **read the INPUT_TYPE and INPUT_PATH from the `.env` file** to locate the API specification (Swagger/OpenAPI), then generate a **complete Playwright + Cucumber API test suite in JavaScript/TypeScript** for all endpoints defined in that specification.
+
+**Configuration Source:**
+* Read `.env` file for `INPUT_TYPE` and `INPUT_PATH`
+* `INPUT_TYPE` can be: `swagger_json`, `swagger_url`, `openapi_json`, `openapi_url`
+* `INPUT_PATH` specifies the location (file path or URL)
+
+Assume:
+* Node.js v18+ (ESM syntax enabled)
+* Playwright v1.45+ (for `APIRequestContext`)
+* Cucumber.js v9+
+* Chai v5+ for assertions
+* The API specification provides valid request/response schema
+* The goal is to generate **fully automated regression tests** that can be executed immediately
+
+---
+
+## 🧩 Code Architecture
+
+The generated project must follow this structure:
+
+```
+features/
+├── step_definitions/
+│   ├── <endpoint1>_steps.js
+│   └── <endpoint2>_steps.js
+├── support/
+│   ├── world.js
+│   └── hooks.js
+├── <endpoint1>.feature
+├── <endpoint2>.feature
+helpers/
+├── <endpoint1>ApiHelper.js
+├── <endpoint2>ApiHelper.js
+└── retryHelper.js
+playwright.config.js
+package.json
+README.md
+````
+
+**Naming Rules**
+
+* Use lowercase filenames and camelCase function names.
+* Examples:
+  * `store_steps.js`
+  * `storeApiHelper.js`
+  * `retryHelper.js`
+  * Functions: `createOrder()`, `getOrderById()`, `deleteOrder()`
+
+---
+
+## ⚙️ Functional Requirements
+
+### 1. Generate POJOs (Data Models)
+
+* Read the API specification from the location specified in `.env` (`INPUT_TYPE` and `INPUT_PATH`)
+* Based on schema definitions in the specification, generate data models for the endpoints
+* Use **JavaScript classes** to represent request and response objects
+* Include constructors and default values for required fields
+
+### 2. Create Feature File (.feature)
+
+* For each endpoint, generate:
+   - A **distinct feature file** named after the endpoint, for example:
+       * `store.feature` for `/store` endpoint
+       * `order.feature` for `/order` endpoint
+* Written in **Gherkin syntax** (`Given`, `When`, `Then`).
+* Each endpoint operation (`POST`, `GET`, `DELETE`, `PUT` if available) should include:
+  * Valid scenario (happy path)
+  * Invalid scenario (error handling)
+
+### 2.1 Conditional Negative Test Scenarios Based on HTTP Methods
+
+* **If the API specification provides specific negative status codes**, implement those directly.
+* **If negative status codes are not defined in the specification**, generate negative test cases based on common expectations for each HTTP method:
+
+| Method | Allowed Negative Codes |
+| ------ | ---------------------- |
+| GET    | 404, 500               |
+| POST   | 400, 401, 404, 500     |
+| PUT    | 400, 404, 500          |
+| DELETE | 400, 404, 500          |
+---
+
+### 3. Create Step Definitions
+
+* Implement using Playwright's `request.newContext()` API.
+* For each endpoint, generate a separate step definition file that contains steps specific to that endpoint.
+  * For example, if the endpoint is /store, create features/step_definitions/store_steps.js.
+  * Ensure each step definition file includes only the relevant steps for that endpoint, avoiding any cross-contamination between different API endpoints.
+* Steps must:
+  * Perform HTTP requests using endpoint data from the API specification
+  * Use `chai.expect` for response assertions **based strictly on the specification definitions**
+  * Reuse helper methods for each operation
+* **CRITICAL ASSERTION RULES:**
+  * **Positive scenarios (200/201/204):** MUST use status codes defined in the specification. NEVER modify assertions based on actual API behavior.
+  * **Negative scenarios:** Use expected status codes (400, 401, 404, 500) and let tests fail naturally if API behavior differs.
+  * **Do NOT implement "graceful handling"** that skips assertions when API returns unexpected codes.
+  * Tests should FAIL when API behavior doesn't match expectations - this identifies real issues.
+
+### 4. Create Helper Functions
+
+* Each endpoint has a helper file, e.g., `helpers/storeApiHelper.js`.
+* Each helper exports methods like `createOrder()`, `getOrder()`, `deleteOrder()`.
+* Use Playwright’s request context to make calls and return parsed JSON responses.
+
+### 5. Custom World & Hooks
+
+* `features/support/world.js`: Initializes Playwright’s request context.
+* `features/support/hooks.js`: Adds setup and teardown hooks (`Before`, `After`).
+
+### 6. Retry Logic
+
+* Configure Cucumber to retry failed scenarios 3 times
+* **Purpose:** Handle transient environment issues (network glitches, temporary service issues)
+* **Implementation:** Add `retry: 3` to `cucumber.js` configuration
+* **Behavior:**
+  - Test runs and fails → automatically retries up to 3 times
+  - If passes on retry → marks as passed (was transient issue)
+  - If fails all 3 retries → marks as FAILED (genuine API issue)
+* **No code changes needed during retry** - assertions stay the same
+* Document consistently failing tests in TEST_SUMMARY.md
+
+Add to `cucumber.js`:
+```javascript
+export default {
+  default: {
+    retry: 3, // Retry failed scenarios 3 times
+    // ... other config
+  }
+};
+```
+
+### 7. Environment Configuration
+
+**Required Environment Variables (`.env` file):**
+
+```env
+# API Configuration
+BASE_URL=https://api.example.com
+
+# Authentication Configuration
+# Supported AUTH_TYPE values: basic, bearer, none
+AUTH_TYPE=basic
+
+# Basic Authentication (when AUTH_TYPE=basic)
+AUTH_USERNAME=your_username
+AUTH_PASSWORD=your_password
+
+# Bearer Token Authentication (when AUTH_TYPE=bearer)
+# AUTH_TOKEN=your_bearer_token_here
+
+# API Specification Configuration
+INPUT_TYPE=swagger_json
+INPUT_PATH=./api/spec.json
+```
+
+**Configuration Variables:**
+* `BASE_URL` - API base URL endpoint
+* `AUTH_TYPE` - Authentication method (`basic`, `bearer`, `none`)
+* `AUTH_USERNAME` / `AUTH_PASSWORD` - For Basic Authentication
+* `AUTH_TOKEN` - For Bearer Token Authentication
+* `INPUT_TYPE` - API specification type (`swagger_json`, `swagger_url`, `openapi_json`, `openapi_url`)
+* `INPUT_PATH` - Path to API specification (relative or absolute)
+
+### 8. Config & Execution
+
+* `playwright.config.js`: Sets baseURL from environment variable
+* Read API specification location from `.env` (`INPUT_TYPE` and `INPUT_PATH`)
+* `package.json`:
+
+  ```json
+  {
+    "type": "module",
+    "scripts": {
+      "test": "cucumber-js --require 'features/**/*.js' --publish-quiet",
+      "test:watch": "nodemon --exec \"npm test\""
+    }
+  }
+  ```
+
+### 9. Reporting
+
+* Generate reports in:
+  * `/reports/cucumber-report.html`
+  * `/reports/cucumber-report.json`
+* Include step-level logs and error stack traces.
+* Display execution summary in console output.
+* **Generate TEST_SUMMARY.md** with the following structure:
+  * Test Results: Total, Passed, Failed counts with success rate
+  * Test Coverage by Endpoint: List all scenarios with pass/fail status
+  * **Failed Test Cases Section:**
+    - **Positive Scenarios:** List scenarios where Swagger-defined 200 responses failed
+      * Include: Endpoint, Expected (per Swagger), Actual, Error message
+      * Mark as critical issues requiring API fixes
+    - **Negative Test Scenarios (Not in Swagger):** List failed negative tests generated from common expectations
+      * Include: Test type, Expected, Actual, Reason why API doesn't validate
+      * Mark as "Not Applicable" when API accepts invalid input (returns 200 instead of 400)
+  * **Not Applicable Test Cases Section:** Detailed explanation for each:
+    - What was tested
+    - Expected behavior (HTTP 400/404)
+    - Actual behavior (HTTP 200 or 500)
+    - Reason/Note explaining why API doesn't support expected validation
+  * API Issues Requiring Attention: Categorize as Critical (positive failures) vs Behavior Issues (validation gaps)
+  * Execution Details: Steps executed, passed, failed, execution time
+  * Next Steps: Prioritized action items
+
+---
+
+## 🧠 Test Execution & Failure Handling
+
+### Execution Rules
+
+1. **Run all tests** after generation
+2. **Do NOT modify test assertions** based on API responses
+3. **Let tests fail naturally** when API behavior doesn't match Swagger or expectations
+4. **Document all failures** in TEST_SUMMARY.md with clear categorization
+
+### Failure Analysis & Categorization
+
+When tests fail, categorize them in TEST_SUMMARY.md:
+
+#### Category 1: Positive Scenario Failures (CRITICAL)
+- **Definition:** Tests for successful operations (200/201/204) defined in Swagger
+- **Handling:** Mark as FAILED in test report
+- **Documentation:** List in "Failed Test Cases → Positive Scenarios" section
+- **Action:** These indicate API bugs - do NOT modify assertions
+- **Example:** POST endpoint expects 200 per Swagger but returns 500
+
+#### Category 2: Negative Scenario Failures - Validation Gaps
+- **Definition:** Negative tests generated from common expectations (not in Swagger)
+- **When API returns 200 instead of 400:**
+  * Mark as FAILED in test report
+  * Document in "Not Applicable Test Cases" section
+  * Label as validation gap (API accepts invalid input)
+  * Reason: API lacks input validation
+- **Example:** Missing required parameter returns 200 instead of 400
+
+#### Category 3: Negative Scenario Failures - Wrong Error Code
+- **Definition:** Negative tests where API returns wrong error code
+- **When API returns 500 instead of 400/404:**
+  * Mark as FAILED in test report
+  * Document in "Failed Test Cases → Negative Scenarios" section
+  * Reason: API has poor error handling
+- **Example:** Invalid payload returns 500 instead of 400
+
+### Retry Logic
+
+* **Simple Scenario Retry:** Cucumber automatically retries failed scenarios 3 times
+* **When test passes after retry:** Environment/transient issue - test passes
+* **When test fails all 3 retries:** Genuine API issue - mark as FAILED and document in TEST_SUMMARY.md
+* **No code modification during retries** - keep original assertions intact
+
+### CRITICAL: What NOT to Do
+
+❌ **NEVER** modify assertions to match actual API behavior  
+❌ **NEVER** add graceful handling that skips failed assertions  
+❌ **NEVER** change expected status codes based on API responses  
+❌ **NEVER** add "# Note:" comments in feature files  
+❌ **NEVER** mark tests as passing when they should fail  
+
+✅ **ALWAYS** let tests fail when API behavior is wrong  
+✅ **ALWAYS** stick to Swagger definitions for positive scenarios  
+✅ **ALWAYS** document failures comprehensively in TEST_SUMMARY.md  
+✅ **ALWAYS** categorize failures correctly (Critical vs Validation Gaps)
+---
+
+### **TEST_SUMMARY.md Generation Template**
+
+Generate a comprehensive TEST_SUMMARY.md with this exact structure:
+
+```markdown
+# Test Execution Summary
+
+## 📊 Test Results
+**Date:** [Current Date]
+**Total Scenarios:** X
+**Passed:** Y ✅
+**Failed:** Z ❌
+**Success Rate:** Y/X (percentage)
+
+## 🧪 Test Coverage by Endpoint
+[For each endpoint, list scenarios with ✅/❌/⚠️ status]
+
+## ❌ Failed Test Cases
+
+### Positive Scenarios (Expected per Swagger)
+[List scenarios where Swagger-defined success responses failed]
+- Endpoint, Expected, Actual, Issue description
+
+### Negative Scenarios (Generated based on common expectations)
+[List negative test failures with wrong error codes]
+- Test type, Expected, Actual, Reason
+
+## ⚠️ Not Applicable Test Cases
+[Detailed explanation for tests failing due to missing API validation]
+- What was tested, Expected behavior, Actual behavior, Note
+
+## 📝 API Issues Requiring Attention
+### Critical Issues (Positive Scenarios Failing)
+### API Behavior Issues (Validation Gaps)
+
+## 🎯 Test Execution Details
+## ✨ Test Features
+## 🚀 Next Steps
+```
+
+---
+
+## 🛠️ **Authentication Handling**:
+
+When generating API tests,
+- Handle Basic authentication, Bearer Token, or API Key as defined in Swagger.  
+- Encode Basic Auth as `Authorization: Basic <base64>`.
+- Ensure that authentication is included for every API call requiring authentication, especially for endpoints that involve user data or secure operations.
+---
+
+## 🌐 **JSON Parsing Rules**
+
+When parsing Swagger/OpenAPI **JSON** files:
+* Accept **JSON file format** (`swagger.json` or `openapi.json`).
+* Extract the following information:
+  * Host and basePath
+  * All available `paths` and their operations (GET/POST/PUT/DELETE)
+  * Request/response schema from `definitions` or `components/schemas`
+  * Example payloads if present
+* Use these definitions to auto-generate request classes, payload builders, and assertions.
+
+---
+
+## 🧪 Test Generation Workflow
+
+When the user provides a **Swagger URL** or **Swagger JSON file** and specifies one or more API endpoints:
+1. **Parse the Swagger definition** to extract all available endpoints.
+2. Identify the specified endpoint(s) and their operations.
+3. Generate   
+   - **Data models** (JavaScript classes) 
+   - **Gherkin feature files**
+   - **Step definitions**
+   - **Helper functions** 
+   - **Hooks** and **world.js** files
+4. Automatically create all required files in the current project. 
+5. Run the tests
+6. Retry failed tests automatically using configured retry logic. If failures persist, log diagnostic data for manual review.
+7. Produce a summary and store results in `/reports/`.
+
+---
+
+## 🧾 README.md Generation
+
+Automatically include:
+* Project overview
+* Setup instructions (`npm install`, `npm test`)
+* Folder structure explanation
+* Swagger endpoint customization guide
+* Adding new endpoint test instructions
+
+---
+
+## ✅ Completion Criteria
+
+All generated test scripts must:
+* Execute using `npm test` (tests may fail - this is expected and correct)
+* Validate response codes against Swagger definitions strictly
+* Log meaningful console output with clear failure reasons
+* Produce Cucumber HTML and JSON reports showing actual pass/fail status
+* Generate comprehensive TEST_SUMMARY.md documenting all failures
+* **NEVER modify assertions to make tests pass artificially**
+* Be executable for any Swagger endpoint by providing Swagger URL/file and endpoint name
+* Clearly distinguish between:
+  - Critical failures (positive scenarios per Swagger)
+  - Validation gap failures (negative tests returning 200)
+  - Error handling failures (negative tests returning wrong error codes)
+
+---
+## 🗣️ **Prompt Schema (How to Interpret User Prompts)**
+
+When the user requests API test generation, follow this workflow:
+
+1. **Read Configuration from `.env` file**:
+   * Read `INPUT_TYPE` to determine specification format (`swagger_json`, `swagger_url`, `openapi_json`, `openapi_url`)
+   * Read `INPUT_PATH` to locate the specification file or URL
+   * Read `BASE_URL` for the API endpoint
+   * Read `AUTH_TYPE` to determine authentication method (`basic`, `bearer`, `none`)
+   * Read authentication credentials based on AUTH_TYPE:
+     - If `AUTH_TYPE=basic`: Read `AUTH_USERNAME` and `AUTH_PASSWORD`
+     - If `AUTH_TYPE=bearer`: Read `AUTH_TOKEN`
+     - If `AUTH_TYPE=none`: No authentication required
+   
+2. **Parse the API Specification**:
+   * If `INPUT_TYPE` is `swagger_url` or `openapi_url`, fetch the specification from the URL in `INPUT_PATH`
+   * If `INPUT_TYPE` is `swagger_json` or `openapi_json`, read the specification from the file path in `INPUT_PATH`
+   * Ensure the specification follows Swagger 2.0 or OpenAPI 3.0 format
+   * Extract all endpoints, operations, request/response schemas, and authentication requirements
+   
+3. **Generate the test suite**:
+   * Generate a **complete Playwright + Cucumber API test suite** for all endpoints defined in the specification
+   * Follow the architecture and rules outlined in this document
+   * Generate separate feature files and step definitions for each endpoint
+   
+4. **Execute tests**:
+   * Automatically execute the generated tests
+   * Allow tests to fail naturally when API behavior doesn't match specification expectations
+   * Do NOT retry assertion failures or modify expectations
+   * Generate comprehensive TEST_SUMMARY.md documenting all results
+   * Categorize failures as: Critical (specification violations), Validation Gaps (missing input validation), or Error Handling Issues (wrong error codes)
+
+---
+
+### 📘 **User Prompt — Generate Swagger API Regression Tests**
+
+Generate Playwright + Cucumber API test scripts for all endpoints defined in the API specification configured in the .env file.
+Please strictly follow the architectural and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Generation Goal**
+* Read API specification from the location configured in .env
+* Generate all necessary files (feature, step definitions, API helpers, models, config)
+* Ensure tests execute successfully without manual intervention
+* Tech Stack: Playwright (APIRequestContext) + Cucumber.js + Chai
+---
+
+### **Expected Test Coverage**
+
+For **each API operation**, generate the following tests:
+
+1. **Positive Flow (200 OK)**
+   * Validate the request and response for successful operations.
+   * Assertions must strictly follow Swagger definitions
+   * If test fails, it indicates an API bug (not a test bug)
+
+2. **Negative Flows**
+   * Generate **negative test cases** based on the applicable HTTP methods. The negative test cases should cover the following status codes:
+
+   | HTTP Method | Allowed Negative Status Codes |
+   | ----------- | ----------------------------- |
+   | **POST**    | 400, 401, 404, 500            |
+   | **GET**     | 404, 500                      |
+   | **PUT**     | 400, 404, 500                 |
+   | **DELETE**  | 400, 404, 500                 |
+
+   * **IMPORTANT:** Negative tests may fail if:
+     - API lacks input validation (returns 200 instead of 400)
+     - API returns wrong error code (returns 500 instead of 400/404)
+     - This is EXPECTED and should be documented as "Not Applicable" in TEST_SUMMARY.md
+   * Do NOT modify assertions to match actual API behavior
+   * Assertions must reflect the EXPECTED behavior per Swagger definition
+   * If no negative status codes are defined in the Swagger, fall back on the above standard set
+
+---
+
+### **Execution Behavior**
+
+* Generate tests that strictly follow the Swagger definition
+* Run tests after generation to validate execution
+* **DO NOT modify assertions** to make tests pass
+* Document all failures in TEST_SUMMARY.md with proper categorization:
+  - **Critical Issues:** Positive scenarios (200) that fail
+  - **Not Applicable:** Negative scenarios where API doesn't support validation
+  - **Validation Gaps:** API returns success when it should return error
+* If tests fail, it indicates **API bugs**, not test bugs
+
+---
+
+### ✅ **Completion Criteria**
+
+All generated test suites must:
+
+* Include realistic positive and negative test coverage
+* Execute successfully using `npm test`
+* Produce Cucumber HTML and JSON reports under `/reports/`
+* Generate comprehensive TEST_SUMMARY.md documenting all results
+* Assertions must match Swagger definitions (not actual API behavior)
+* Generate valid, executable test suites
+* Document test failures properly (not hide them)
+* Pass rate may be < 100% due to API bugs (this is expected)
+* Conform fully to the `.copilot-instructions` standards
+
+---
