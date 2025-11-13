@@ -140,3 +140,6 @@ This POC showcases how Playwright + Cucumber + GitHub Copilot can automate API t
 
 The self-healing and retry-enabled architecture ensures reliable, repeatable regression testing that adapts dynamically to API changes.
 
+⏩ Next Step
+Enhanced Test Reporting with Allure
+Environment Configuration
