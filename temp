@@ -2,7 +2,15 @@
 
 Objective
 
-This document explains the API Automation built using Playwright and Cucumber.js, designed to automate API endpoint validation from Swagger definitions.
+This document outlines an AI-assisted API Automation Framework built using Playwright and Cucumber.js, which automates API endpoint validation directly from Swagger definitions.
+
+Key Highlights:
+
+Auto-generates Playwright + Cucumber test suites from Swagger URL/JSON.
+
+Supports self-healing, retry, and zero-manual-intervention execution.
+
+Seamlessly integrates with GitHub Copilot.
 
 Key Technologies
 
@@ -12,7 +20,7 @@ Key Technologies
 
 ✅ Chai – Assertion library for validating responses.
 
-🤖 GitHub Copilot + GHCP – Auto-generates and self-heals test code using AI.
+🤖 GitHub Copilot – Auto-generates and self-heals test code using AI.
 
 Purpose
 
@@ -22,23 +30,37 @@ To create an AI-assisted, self-healing, and retry-enabled API automation suite t
 
 Before running the framework, ensure the following prerequisites:
 
-Active GitHub Copilot Business License
-
 Node.js (v18+) and npm
+
+Active GitHub Copilot Business License
 
 Playwright + Cucumber.js installed
 
 Swagger API JSON URL or local Swagger JSON file
 
+Chai (Assertion library for validating responses)
+
 💻 Supported IDEs
 
 The framework is compatible with both:
 
-Visual Studio Code (VS Code) — Primary IDE used in this POC
+IDE
 
-IntelliJ IDEA — Tested successfully for JetBrains users
+Status
 
-Both IDEs integrate seamlessly with GitHub Copilot Chat and GHCP (GitHub Copilot CLI).
+Notes
+
+VS Code       
+
+✅ Recommended 
+
+Seamless Copilot & GHCP integration        
+
+IntelliJ IDEA 
+
+✅ Supported   
+
+Minor confirmation prompts during auto-fix 
 
 🧩 3. Process Flow Diagram
 
@@ -60,7 +82,7 @@ The framework accepts either a remote Swagger URL or a local JSON file and autom
 
 Parse Swagger JSON Definition
 
-Extract endpoints, methods (GET/POST/PUT/DELETE), request/response schemas, and authentication rules.
+Extract endpoints, methods, request/response schema, and authentication details.
 
 Auto-Generate Test Suite
 
@@ -72,11 +94,11 @@ Runs tests automatically, logging detailed info about requests, responses, and e
 
 Self-Healing & Retry
 
-If a test fails, the framework auto-fixes payloads or request parameters and retries up to 3 times.
+Automatically fix failed payloads or assertions (up to 3 retries).
 
 Reporting
 
-Generates both HTML and JSON reports under /reports/, including stack traces and validation logs.
+Generates both HTML and JSON reports under /reports folder.
 
 📂 5. Detailed Execution Flow
 
@@ -124,22 +146,54 @@ IntelliJ IDEA was also supported, though certain auto-fixes required manual conf
 
 🧪 7. Sample Test Case
 
-
-
 @order @create
 Scenario: Successfully place a new order
   Given I have a valid order payload
   When I send a POST request to /orders with the payload
   Then the response status should be 201
   And the response body should contain the order ID
+
 Note: Each test is self-contained and automatically retries until successful execution.
 
 🏁 8. Conclusion
 
-This POC showcases how Playwright + Cucumber + GitHub Copilot can automate API testing using Swagger JSON definitions with minimal human effort.
+This POC demonstrates how Playwright + Cucumber + GitHub Copilot can automate API testing using Swagger JSON definitions with minimal human effort.
 
 The self-healing and retry-enabled architecture ensures reliable, repeatable regression testing that adapts dynamically to API changes.
 
-⏩ Next Step
+⏩ 9. Next Step
+
 Enhanced Test Reporting with Allure
+
 Environment Configuration
+
+Sample Executions
+
+Product Team
+
+Prompt Used
+
+Input URL (Swagger/json)
+
+Output (Regression Test Files)
+
+Final Execution Report
+
+O9
+
+
+
+https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
+
+
+
+
+
+
+
+
+
+
+
+
+
