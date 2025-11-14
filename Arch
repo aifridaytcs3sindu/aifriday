@@ -1,0 +1,34 @@
+High-Level Flow
+
+[Provide user prompts in GHCP]
+
+            ↓
+
+[System Prompt Workflow]
+
+            ↓
+
+[.env Configuration]
+              ↓
+[Read INPUT_TYPE, INPUT_PATH, AUTH_TYPE]
+              ↓
+[Parse Swagger/OpenAPI Specification]
+              ↓
+[Generate Test Suite via Copilot]
+    ├── Feature files (.feature)
+    ├── Step definitions (*_steps.js)
+    ├── API Helpers (*ApiHelper.js)
+    ├── Data Models (*Models.js)
+    └── Schema Validator (schemaValidator.js)
+             ↓
+[Execute Tests with Playwright]
+    ├── Positive scenarios (200/201/204)
+    ├── Negative scenarios (400/401/404/500)
+    └── Schema validation (GET always, POST/PUT conditionally)
+             ↓
+[Retry Logic - 3 attempts per scenario]
+            ↓
+[Generate Reports]
+    ├── Cucumber HTML/JSON (/reports/)
+    ├── Allure Dashboard (/allure-report/)
+    └── TEST_SUMMARY.md (Comprehensive markdown)
