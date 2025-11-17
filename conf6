@@ -697,6 +697,34 @@ Apache 2.0
 
 
 
+4. README.md (Auto-Generated Project Documentation)
+
+A high-level documentation file generated for every test suite. Includes:
+
+Project overview
+
+Test execution commands
+
+How to generate and view Allure reports
+
+Folder structure overview
+
+Summary of test results
+
+Links to TEST_SUMMARY.md and other reports
+
+Location: README.md at project root.
+
+Purpose:
+
+Acts as onboarding documentation
+
+Helps teams understand test structure and execution flow
+
+Complements Allure and Cucumber reports
+
+
+
 
 
 
