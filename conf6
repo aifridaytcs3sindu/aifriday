@@ -1,11 +1,8 @@
 🧭 1. Overview
-
 Objective
-
 This document outlines an AI-assisted API Automation Framework built using Playwright and Cucumber.js, which automates API endpoint validation directly from Swagger definitions.
 
 Purpose
-
 To create a configuration-driven, schema-validated, and visually reportable API automation suite that:
 
 Runs against Swagger/OpenAPI-defined endpoints
@@ -19,7 +16,6 @@ Generates multiple report formats (Cucumber HTML/JSON, Allure dashboard, TEST_SU
 Requires zero manual intervention after initial .env configuration
 
 Key Highlights
-
 ● Config-driven approach: Read API specification and authentication from .env file. 
 
 ● Auto-generates Playwright + Cucumber test suites from Swagger/OpenAPI (JSON or URL). 
@@ -35,7 +31,6 @@ Key Highlights
 ● Seamlessly integrates with GitHub Copilot.
 
 Technical Stack
-
 🧩 Playwright – APIRequestContext for HTTP calls and response handling
 
 🧠 Cucumber.js v10+ – BDD test framework with retry configuration
@@ -51,7 +46,6 @@ Technical Stack
 🔐 dotenv – Environment variable management
 
 ⚙️ 2. Prerequisites
-
 ● Active GitHub Copilot Business License 
 
 ● Node.js v18+ and npm 
@@ -63,7 +57,6 @@ Technical Stack
 ● .env file - Environment variables used during test execution
 
 💻 Supported IDEs
-
 The framework is compatible with both:
 
 IDE
@@ -79,9 +72,8 @@ VS Code
 Seamless Copilot & GHCP integration        
 
 🧩 3. Architecture Diagram
-
+diagram-export-11-14-2025-11_12_02-AM-20251114-133512.png
 Key Features
-
 Configuration-Driven: All settings in .env (no hardcoded values)
 
 Schema Validation: Validates response structure against API specification
@@ -93,7 +85,6 @@ Failure Categorization: Critical, Validation Gaps, Schema Violations, Not Applic
 Multiple Reports: Cucumber, Allure, and markdown summaries
 
 🚀 4. Setup & Configuration
-
 Step 1: Configure .env File 
 
 Create a .env file at the project root and add the required environment variables (INPUT_TYPE, INPUT_PATH, AUTH_TYPE)
@@ -105,11 +96,8 @@ Create a .copilot-instructions file in the project root and add the prompts that
 Step 3: Provide the ‘User Prompt’ to GitHub Copilot in the GHCP Chat. 
 
 🧪 5. Test Coverage
-
 For Each Endpoint Operation:
-
 1. Positive Scenarios (200/201/204)
-
 Validates successful operations per Swagger definitions
 
 Schema validation performed on responses:
@@ -121,7 +109,6 @@ POST/PUT (200/201): Validate IF response returns an object
 If test fails → indicates API bug (not test bug)
 
 2. Negative Scenarios
-
 HTTP Method
 
 Tested Negative Codes
@@ -151,9 +138,7 @@ API returns wrong error code (returns 500 instead of 400) → Wrong Error Code
 These are documented in TEST_SUMMARY.md as expected failures.
 
 🔄 6. Retry & Failure Handling
-
 Automatic Retry Logic
-
 Cucumber configuration: retry: 3 (3 attempts per scenario)
 
 Purpose: Handle transient environment issues (network glitches, temporary service issues)
@@ -167,11 +152,9 @@ Passes on retry → transient issue (test passes)
 Fails all 3 retries → genuine API issue (marked as FAILED)
 
 Failure Categorization
-
 All failures are documented in TEST_SUMMARY.md:
 
 1. Positive Scenario Failures (CRITICAL)
-
 Swagger-defined success responses that fail
 
 Example: POST expects 200 but returns 500
@@ -179,7 +162,6 @@ Example: POST expects 200 but returns 500
 Action: These indicate API bugs
 
 2. Negative Scenario Failures - Validation Gaps
-
 API returns 200 instead of 400 (missing input validation)
 
 Documented in "Not Applicable Test Cases"
@@ -187,7 +169,6 @@ Documented in "Not Applicable Test Cases"
 Reason: API lacks input validation
 
 3. Negative Scenario Failures - Wrong Error Code
-
 API returns 500 instead of 400/404
 
 Documented in "Failed Test Cases → Negative Scenarios"
@@ -195,7 +176,6 @@ Documented in "Failed Test Cases → Negative Scenarios"
 Reason: API has poor error handling
 
 4. Schema Validation Failures (CRITICAL)
-
 Response structure doesn't match API specification
 
 Examples: Missing required fields, wrong data types, unexpected fields
@@ -203,17 +183,13 @@ Examples: Missing required fields, wrong data types, unexpected fields
 Action: API contract violation - requires immediate attention
 
 📊 7. Reporting
-
 Three Report Types Generated:
-
 1. Cucumber HTML/JSON Reports
-
 Location: cucumber-report.html, cucumber-report.json
 
 Basic test execution summary with step-level details
 
 2. Allure Report (Primary)
-
 Generate the report using the test run (Allure results get stored in allure-results/folder).     
 
 To open the Allure dashboard, run ‘npm run allure:open’.
@@ -231,7 +207,6 @@ Drill-down capabilities
 Open with: npm run allure:open
 
 3. TEST_SUMMARY.md
-
 Comprehensive markdown summary with:
 
 Test Results (Total, Passed, Failed, Success Rate)
@@ -246,460 +221,9 @@ API Issues Requiring Attention (Critical vs Behavior Issues)
 
 Next Steps (prioritized action items)
 
-🧪 8. Sample Test Case
+4. README.md
 
-Feature: Order Management API
-
-  @order @positive
-  Scenario: Successfully place a new order
-    Given I have a valid order payload
-    When I send a POST request to "/store/order"
-    Then the response status code should be 200
-    And the response should match the order schema
-    And the response should contain field "id"
-
-  @order @negative
-  Scenario: Place order with missing required fields
-    Given I have an order payload with missing required field "productId"
-    When I send a POST request to "/store/order"
-    Then the response status code should be 400
-
-Note:
-
-Each test is self-contained with automatic retry (3 attempts)
-
-Schema validation is performed on successful responses
-
-Failures are categorized and documented in TEST_SUMMARY.md
-
-🔍 9. Key Observations
-
-Configuration-Driven Approach
-
-All configuration centralized in .env file
-
-No hardcoded values in test code
-
-Easy to switch between environments or API specifications
-
-Parallel Execution Support
-
-The framework supports full parallel execution using cucumber.js (--parallel), with each scenario running in its own isolated manner.
-
-Ensures thread-safe execution by creating a separate playwright context per worker, enabling high-scale API test runs.
-
-Schema Validation
-
-Validates API contract compliance using Ajv
-
-Catches response structure issues early
-
-Documented as CRITICAL failures (API contract violations)
-
-Authentication Flexibility
-
-Supports multiple auth types: basic, bearer, none
-
-Configured via AUTH_TYPE in .env
-
-No code changes needed to switch auth methods
-
-Test Philosophy
-
-Tests NEVER modified to match API behavior
-
-Tests reflect expected behavior per specification
-
-Failures indicate API issues, not test issues
-
-Pass rate may be < 100% due to API bugs (this is expected)
-
-🏁 10. Conclusion
-
-This framework demonstrates how Playwright + Cucumber + Ajv + Allure + GitHub Copilot can automate comprehensive API testing using Swagger/OpenAPI specifications with:
-
-✅ Zero manual intervention after .env configuration
-✅ Schema validation for API contract compliance
-✅ Flexible authentication (basic/bearer/none)
-✅ Automatic retry logic (3 attempts per scenario)
-✅ Visual reporting with Allure dashboards
-✅ Failure categorization (Critical, Validation Gaps, Schema Violations)
-✅ AI-assisted test generation via GitHub Copilot
-
-The framework ensures reliable, repeatable regression testing that adapts dynamically to API changes while maintaining strict validation of API contracts and behavior.
-
-Sample Executions
-
-Product Team
-
-Prompt Used
-
-Input URL (Swagger/json)
-
-Output (Regression Test Files)
-
-Final Execution Report
-
-O9
-
-
-
-https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
-
-4. README.md (Auto-Generated Documentation)
 A high-level project documentation file summarizing:
-- Execution commands
-- How to generate and open Allure reports
-- Folder structure
-- Test coverage and explanation of auto-generated files
-
-Generated at project root for easy onboarding.
-
-# 🚀 MPSaleOrders API Test Suite
-
-Complete Playwright + Cucumber API test automation suite for MPSaleOrders API with schema validation, authentication, and comprehensive reporting.
-
-## 📋 Project Overview
-
-This test suite provides automated API testing for all 8 endpoints in the MPSaleOrders API specification, including:
-- ✅ Positive scenario testing (200/201 responses)
-- ❌ Negative scenario testing (400/401/404/500 responses)
-- 🔒 Authentication testing (Basic Auth)
-- 📊 Schema validation using Ajv
-- 🔄 Automatic retry logic (3 attempts)
-- 📈 Multiple report formats (Cucumber HTML, Allure Dashboard, TEST_SUMMARY.md)
-
-## 🎯 Test Results Summary
-
-**Latest Execution**:
-- **Total Scenarios**: 37 (19 passed, 18 failed)
-- **Success Rate**: 51.35%
-- **Execution Time**: ~16 seconds
-- **Critical Issues Found**: 2 (Order Webhook 500 error, CA Stub schema mismatch)
-- **Security Issues Found**: 6 endpoints missing authentication enforcement
-
-📖 **See [TEST_SUMMARY.md](./TEST_SUMMARY.md) for detailed results**
-
-## 📁 Project Structure
-
-```
-PlaywrightAPIFinal09Demo/
-├── features/                                   # Cucumber feature files (Gherkin)
-│   ├── updateDownstreamProcessStatus.feature
-│   ├── testException.feature
-│   ├── orderWebhook.feature
-│   ├── getCaStubApi.feature
-│   ├── caReprocessOrders.feature
-│   ├── bulkOrderProcess.feature
-│   ├── bulkOrderProcessWithDateRange.feature
-│   ├── processPaymentClearedOrders.feature
-│   ├── step_definitions/                      # Step implementations
-│   │   ├── updateDownstreamProcessStatus_steps.js
-│   │   ├── testException_steps.js
-│   │   ├── orderWebhook_steps.js
-│   │   ├── getCaStubApi_steps.js
-│   │   ├── caReprocessOrders_steps.js
-│   │   ├── bulkOrderProcess_steps.js
-│   │   ├── bulkOrderProcessWithDateRange_steps.js
-│   │   └── processPaymentClearedOrders_steps.js
-│   └── support/                               # Cucumber support files
-│       ├── world.js                           # Playwright context setup
-│       └── hooks.js                           # Before/After hooks
-├── helpers/                                    # Utility classes
-│   ├── orderApiHelper.js                      # API methods with retry
-│   ├── schemaValidator.js                     # Ajv schema validation
-│   └── retryHelper.js                         # Retry logic utility
-├── models/                                     # Data models
-│   └── orderModels.js                         # Request/response models
-├── reports/                                    # Test reports
-│   ├── cucumber-report.html                   # Cucumber HTML report
-│   └── cucumber-report.json                   # Cucumber JSON report
-├── allure-results/                            # Allure raw results
-├── allure-report/                             # Allure HTML dashboard
-├── api/
-│   └── salesOrderApiDev.json                  # OpenAPI specification
-├── .env                                        # Environment configuration
-├── .env.example                               # Environment template
-├── cucumber.js                                # Cucumber configuration
-├── playwright.config.js                       # Playwright configuration
-├── generate-allure.js                         # Allure report generator
-├── package.json                               # Dependencies & scripts
-├── TEST_SUMMARY.md                            # Comprehensive test summary
-└── README.md                                  # This file
-```
-
-## 🛠️ Prerequisites
-
-- **Node.js**: v18 or higher
-- **npm**: v8 or higher
-- **Java**: Required for Allure report generation
-
-## 📦 Installation
-
-```bash
-# Clone the repository or navigate to project directory
-cd PlaywrightAPIFinal09Demo
-
-# Install dependencies
-npm install
-```
-
-## ⚙️ Configuration
-
-Update `.env` file with your API credentials:
-
-```bash
-# API Configuration
-BASE_URL=https://pigw-mpcon-ca.dev.marksandspencer.app
-
-# Authentication Configuration
-AUTH_TYPE=basic                    # Options: basic, bearer, none
-AUTH_USERNAME=your_username
-AUTH_PASSWORD=your_password
-
-# API Specification
-INPUT_TYPE=swagger_json
-INPUT_PATH=./api/salesOrderApiDev.json
-```
-
-## 🚀 Running Tests
-
-### Execute Full Test Suite
-```bash
-npm test
-```
-
-### Run Specific Feature
-```bash
-npx cucumber-js features/orderWebhook.feature
-```
-
-### Watch Mode (Re-run on file changes)
-```bash
-npm run test:watch
-```
-
-## 📊 Generating Reports
-
-### Cucumber HTML Report
-Automatically generated after test execution:
-```bash
-# Open in browser
-start reports/cucumber-report.html
-```
-
-### Allure Dashboard (Recommended)
-```bash
-# Generate and open Allure report
-npm run allure:report
-npm run allure:open
-```
-
-### Combined: Test + Allure Report
-```bash
-npm run test:allure
-```
-
-## 📈 Understanding Test Results
-
-### Report Locations
-
-1. **Cucumber HTML Report**: `reports/cucumber-report.html`
-   - Basic test execution summary
-   - Step-by-step results
-   - Pass/fail status
-
-2. **Allure Dashboard**: `allure-report/index.html` ⭐
-   - Interactive charts and graphs
-   - Failure categorization
-   - Timeline view
-   - Retry information
-   - Test history
-
-3. **TEST_SUMMARY.md**: Comprehensive analysis
-   - Failure categorization
-   - API issues breakdown
-   - Prioritized action items
-   - Coverage metrics
-
-### Failure Categories
-
-Tests categorize failures to help identify root causes:
-
-| Category | Description | Example |
-|----------|-------------|---------|
-| **Critical Positive Failures** | Swagger-defined success responses that failed | Order webhook returns 500 instead of 200 |
-| **Wrong Error Codes** | API returns wrong error code | Returns 500 instead of 400 for bad input |
-| **Missing Authentication** | API accepts unauthenticated requests | Returns 200 instead of 401 |
-| **Schema Validation Failures** | Response doesn't match API spec | Empty JSON instead of CAOrderResponse |
-
-## 🔍 Test Coverage
-
-### Endpoints Tested (8 total)
-
-| Endpoint | Method | Scenarios | Status |
-|----------|--------|-----------|--------|
-| `/updateDownstreamProcessStatus` | POST | 5 | ⚠️ Issues |
-| `/testException` | POST | 5 | ⚠️ Issues |
-| `/orderwebhook` | POST | 4 | ❌ Critical |
-| `/getCaStubApi` | POST | 5 | ❌ Critical |
-| `/caReprocessOrders` | POST | 5 | ⚠️ Issues |
-| `/bulkOrderProcess` | POST | 4 | ✅ Pass |
-| `/bulkOrderProcessWithDateRange` | POST | 5 | ⚠️ Issues |
-| `/processPaymentClearedOrders` | GET | 4 | ⚠️ Issues |
-
-### Test Types
-
-- **Positive Tests**: 8 scenarios (success paths)
-- **Negative Tests**: 29 scenarios
-  - 400 Bad Request: 8 tests
-  - 401 Unauthorized: 7 tests  
-  - 404 Not Found: 8 tests
-  - 500 Server Error: 6 tests
-
-## 🎯 Key Features
-
-### ✨ Automatic Retry Logic
-All API requests automatically retry up to 3 times on failure:
-```javascript
-// Configured in helpers/retryHelper.js
-RetryHelper.retry(fn, maxAttempts=3, delay=1000)
-```
-
-### 🔒 Flexible Authentication
-Supports multiple authentication methods configured via `.env`:
-- Basic Authentication
-- Bearer Token
-- No Authentication (for testing)
-
-### 📊 Schema Validation
-Validates response structure against OpenAPI schemas:
-```javascript
-// Using Ajv library
-SchemaValidator.validateResponse('CAOrderResponse', responseData)
-```
-
-### 🏷️ @no-auth Tag
-Special tag for testing unauthorized access without auth setup:
-```gherkin
-@no-auth
-Scenario: Create order with unauthorized access
-  When I send a POST request to create order
-  Then the response status code should be 401
-```
-
-## 🐛 Known Issues
-
-See [TEST_SUMMARY.md](./TEST_SUMMARY.md) for detailed analysis. Key issues:
-
-1. **Order Webhook Endpoint** - Returns 500 Internal Server Error
-2. **CA Stub API** - Returns empty JSON (schema validation fails)
-3. **Missing Authentication** - 6 endpoints don't enforce auth properly
-4. **Poor Input Validation** - Returns 500 instead of 400 for bad input
-
-## 🔧 Troubleshooting
-
-### Tests fail with "Cannot connect"
-- Verify `BASE_URL` in `.env` is correct
-- Check network connectivity
-- Ensure API server is running
-
-### Authentication failures (401 errors)
-- Verify credentials in `.env` file
-- Check `AUTH_TYPE` is set correctly
-- Ensure API credentials are valid
-
-### Allure report generation fails
-- Install Java (required for Allure)
-- Run `npm install` to ensure allure-commandline is installed
-- Check `allure-results/` directory exists
-
-### Schema validation errors
-- Review OpenAPI specification in `api/salesOrderApiDev.json`
-- Check `helpers/schemaValidator.js` schema definitions
-- Verify API response format matches specification
-
-## 📚 Documentation
-
-- **OpenAPI Specification**: `api/salesOrderApiDev.json`
-- **Test Summary**: `TEST_SUMMARY.md`
-- **Instructions**: `copilot-instructions.md`
-
-## 🤝 Contributing
-
-### Adding New Tests
-
-1. **Create Feature File** in `features/` directory:
-```gherkin
-Feature: My New Endpoint
-  Scenario: Successfully call endpoint
-    Given authentication is set up
-    When I send a GET request to my endpoint
-    Then the response status code should be 200
-```
-
-2. **Create Step Definitions** in `features/step_definitions/`:
-```javascript
-When('I send a GET request to my endpoint', async function() {
-  this.response = await this.orderApiHelper.myEndpoint();
-});
-```
-
-3. **Add Helper Method** in `helpers/orderApiHelper.js`:
-```javascript
-async myEndpoint() {
-  return await RetryHelper.retry(async () => {
-    return await this.request.get('/api/my-endpoint');
-  });
-}
-```
-
-4. **Run Tests**:
-```bash
-npm test
-```
-
-## 📋 Scripts Reference
-
-| Script | Command | Description |
-|--------|---------|-------------|
-| `test` | `npm test` | Run all tests |
-| `test:watch` | `npm run test:watch` | Watch mode |
-| `generate:allure` | `npm run generate:allure` | Convert Cucumber JSON to Allure |
-| `allure:report` | `npm run allure:report` | Generate Allure HTML report |
-| `allure:open` | `npm run allure:open` | Open Allure report in browser |
-| `test:allure` | `npm run test:allure` | Run tests + generate Allure report |
-
-## 🔐 Security Notes
-
-- ⚠️ Never commit `.env` file with real credentials
-- ✅ Use `.env.example` as a template
-- ✅ Add `.env` to `.gitignore`
-- ⚠️ Current tests revealed 6 endpoints lacking authentication enforcement
-
-## 📞 Support
-
-For issues or questions:
-1. Review `TEST_SUMMARY.md` for detailed test results
-2. Check `reports/cucumber-report.html` for step-by-step execution
-3. View `allure-report/index.html` for interactive dashboard
-4. Refer to `copilot-instructions.md` for framework documentation
-
-## 📝 License
-
-Apache 2.0
-
----
-
-**Last Updated**: November 17, 2025  
-**Test Framework Version**: Playwright 1.45+ | Cucumber 10.3+  
-**Node Version**: 18+
-
-
-
-4. README.md (Auto-Generated Project Documentation)
-
-A high-level documentation file generated for every test suite. Includes:
 
 Project overview
 
@@ -713,7 +237,7 @@ Summary of test results
 
 Links to TEST_SUMMARY.md and other reports
 
-Location: README.md at project root.
+Location: ‘README.md’ at project root.
 
 Purpose:
 
@@ -721,21 +245,132 @@ Acts as onboarding documentation
 
 Helps teams understand test structure and execution flow
 
-Complements Allure and Cucumber reports
+🧪 8. Sample Test Case
 
 
+Feature: Order Management API
+  @order @positive
+  Scenario: Successfully place a new order
+    Given I have a valid order payload
+    When I send a POST request to "/store/order"
+    Then the response status code should be 200
+    And the response should match the order schema
+    And the response should contain field "id"
+  @order @negative
+  Scenario: Place order with missing required fields
+    Given I have an order payload with missing required field "productId"
+    When I send a POST request to "/store/order"
+    Then the response status code should be 400
+Note:
+
+Each test is self-contained with automatic retry (3 attempts)
+
+Schema validation is performed on successful responses
+
+Failures are categorized and documented in TEST_SUMMARY.md
+
+🔍 9. Key Observations
+Configuration-Driven Approach
+All configuration centralized in .env file
+
+No hardcoded values in test code
+
+Easy to switch between environments or API specifications
+
+Parallel Execution Support
+The framework supports full parallel execution using cucumber.js (--parallel), with each scenario running in its own isolated manner.
+
+Ensures thread-safe execution by creating a separate playwright context per worker, enabling high-scale API test runs.
+
+Schema Validation
+Validates API contract compliance using Ajv
+
+Catches response structure issues early
+
+Documented as CRITICAL failures (API contract violations)
+
+Authentication Flexibility
+Supports multiple auth types: basic, bearer, none
+
+Configured via AUTH_TYPE in .env
+
+No code changes needed to switch auth methods
+
+Test Philosophy
+Tests NEVER modified to match API behavior
+
+Tests reflect expected behavior per specification
+
+Failures indicate API issues, not test issues
+
+Pass rate may be < 100% due to API bugs (this is expected)
+
+🏁 10. Conclusion
+This framework demonstrates how Playwright + Cucumber + Ajv + Allure + GitHub Copilot can automate comprehensive API testing using Swagger/OpenAPI specifications with:
+
+✅ Zero manual intervention after .env configuration
+✅ Schema validation for API contract compliance
+✅ Flexible authentication (basic/bearer/none)
+✅ Automatic retry logic (3 attempts per scenario)
+✅ Visual reporting with Allure dashboards
+✅ Failure categorization (Critical, Validation Gaps, Schema Violations)
+✅ AI-assisted test generation via GitHub Copilot
+
+The framework ensures reliable, repeatable regression testing that adapts dynamically to API changes while maintaining strict validation of API contracts and behavior.
+
+Sample Executions
+Product Team
+
+Prompt Used
+
+Input URL (Swagger/json)
+
+Output (Regression Test Files)
+
+Final Execution Report
+
+Execution Report - Remarks
+
+O9
 
 
+Playwright_API_Test_Generator.txt
+17 Nov 2025, 02:15 PM
+ 
 
+https://pigw-mpcon-ca.dev.marksandspencer.app/swagger-ui/index.html
 
+features.zip
+17 Nov 2025, 02:23 PM
+ 
 
+AllureReport.zip
+17 Nov 2025, 02:34 PM
 
+TEST_SUMMARY.md
+17 Nov 2025, 02:26 PM
 
+README.md
+17 Nov 2025, 02:26 PM
 
+QUICK_START.md
+17 Nov 2025, 02:26 PM
+cucumber-report.html
+17 Nov 2025, 02:26 PM
+ 
 
+ 
 
+ 
 
+ 
 
+ 
 
+ 
 
+ 
 
+ 
+
+ 
