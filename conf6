@@ -346,6 +346,16 @@ O9
 
 https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
 
+4. README.md (Auto-Generated Documentation)
+A high-level project documentation file summarizing:
+- Execution commands
+- How to generate and open Allure reports
+- Folder structure
+- Test coverage and explanation of auto-generated files
+
+Generated at project root for easy onboarding.
+
+
 
 
 
