@@ -355,6 +355,347 @@ A high-level project documentation file summarizing:
 
 Generated at project root for easy onboarding.
 
+# 🚀 MPSaleOrders API Test Suite
+
+Complete Playwright + Cucumber API test automation suite for MPSaleOrders API with schema validation, authentication, and comprehensive reporting.
+
+## 📋 Project Overview
+
+This test suite provides automated API testing for all 8 endpoints in the MPSaleOrders API specification, including:
+- ✅ Positive scenario testing (200/201 responses)
+- ❌ Negative scenario testing (400/401/404/500 responses)
+- 🔒 Authentication testing (Basic Auth)
+- 📊 Schema validation using Ajv
+- 🔄 Automatic retry logic (3 attempts)
+- 📈 Multiple report formats (Cucumber HTML, Allure Dashboard, TEST_SUMMARY.md)
+
+## 🎯 Test Results Summary
+
+**Latest Execution**:
+- **Total Scenarios**: 37 (19 passed, 18 failed)
+- **Success Rate**: 51.35%
+- **Execution Time**: ~16 seconds
+- **Critical Issues Found**: 2 (Order Webhook 500 error, CA Stub schema mismatch)
+- **Security Issues Found**: 6 endpoints missing authentication enforcement
+
+📖 **See [TEST_SUMMARY.md](./TEST_SUMMARY.md) for detailed results**
+
+## 📁 Project Structure
+
+```
+PlaywrightAPIFinal09Demo/
+├── features/                                   # Cucumber feature files (Gherkin)
+│   ├── updateDownstreamProcessStatus.feature
+│   ├── testException.feature
+│   ├── orderWebhook.feature
+│   ├── getCaStubApi.feature
+│   ├── caReprocessOrders.feature
+│   ├── bulkOrderProcess.feature
+│   ├── bulkOrderProcessWithDateRange.feature
+│   ├── processPaymentClearedOrders.feature
+│   ├── step_definitions/                      # Step implementations
+│   │   ├── updateDownstreamProcessStatus_steps.js
+│   │   ├── testException_steps.js
+│   │   ├── orderWebhook_steps.js
+│   │   ├── getCaStubApi_steps.js
+│   │   ├── caReprocessOrders_steps.js
+│   │   ├── bulkOrderProcess_steps.js
+│   │   ├── bulkOrderProcessWithDateRange_steps.js
+│   │   └── processPaymentClearedOrders_steps.js
+│   └── support/                               # Cucumber support files
+│       ├── world.js                           # Playwright context setup
+│       └── hooks.js                           # Before/After hooks
+├── helpers/                                    # Utility classes
+│   ├── orderApiHelper.js                      # API methods with retry
+│   ├── schemaValidator.js                     # Ajv schema validation
+│   └── retryHelper.js                         # Retry logic utility
+├── models/                                     # Data models
+│   └── orderModels.js                         # Request/response models
+├── reports/                                    # Test reports
+│   ├── cucumber-report.html                   # Cucumber HTML report
+│   └── cucumber-report.json                   # Cucumber JSON report
+├── allure-results/                            # Allure raw results
+├── allure-report/                             # Allure HTML dashboard
+├── api/
+│   └── salesOrderApiDev.json                  # OpenAPI specification
+├── .env                                        # Environment configuration
+├── .env.example                               # Environment template
+├── cucumber.js                                # Cucumber configuration
+├── playwright.config.js                       # Playwright configuration
+├── generate-allure.js                         # Allure report generator
+├── package.json                               # Dependencies & scripts
+├── TEST_SUMMARY.md                            # Comprehensive test summary
+└── README.md                                  # This file
+```
+
+## 🛠️ Prerequisites
+
+- **Node.js**: v18 or higher
+- **npm**: v8 or higher
+- **Java**: Required for Allure report generation
+
+## 📦 Installation
+
+```bash
+# Clone the repository or navigate to project directory
+cd PlaywrightAPIFinal09Demo
+
+# Install dependencies
+npm install
+```
+
+## ⚙️ Configuration
+
+Update `.env` file with your API credentials:
+
+```bash
+# API Configuration
+BASE_URL=https://pigw-mpcon-ca.dev.marksandspencer.app
+
+# Authentication Configuration
+AUTH_TYPE=basic                    # Options: basic, bearer, none
+AUTH_USERNAME=your_username
+AUTH_PASSWORD=your_password
+
+# API Specification
+INPUT_TYPE=swagger_json
+INPUT_PATH=./api/salesOrderApiDev.json
+```
+
+## 🚀 Running Tests
+
+### Execute Full Test Suite
+```bash
+npm test
+```
+
+### Run Specific Feature
+```bash
+npx cucumber-js features/orderWebhook.feature
+```
+
+### Watch Mode (Re-run on file changes)
+```bash
+npm run test:watch
+```
+
+## 📊 Generating Reports
+
+### Cucumber HTML Report
+Automatically generated after test execution:
+```bash
+# Open in browser
+start reports/cucumber-report.html
+```
+
+### Allure Dashboard (Recommended)
+```bash
+# Generate and open Allure report
+npm run allure:report
+npm run allure:open
+```
+
+### Combined: Test + Allure Report
+```bash
+npm run test:allure
+```
+
+## 📈 Understanding Test Results
+
+### Report Locations
+
+1. **Cucumber HTML Report**: `reports/cucumber-report.html`
+   - Basic test execution summary
+   - Step-by-step results
+   - Pass/fail status
+
+2. **Allure Dashboard**: `allure-report/index.html` ⭐
+   - Interactive charts and graphs
+   - Failure categorization
+   - Timeline view
+   - Retry information
+   - Test history
+
+3. **TEST_SUMMARY.md**: Comprehensive analysis
+   - Failure categorization
+   - API issues breakdown
+   - Prioritized action items
+   - Coverage metrics
+
+### Failure Categories
+
+Tests categorize failures to help identify root causes:
+
+| Category | Description | Example |
+|----------|-------------|---------|
+| **Critical Positive Failures** | Swagger-defined success responses that failed | Order webhook returns 500 instead of 200 |
+| **Wrong Error Codes** | API returns wrong error code | Returns 500 instead of 400 for bad input |
+| **Missing Authentication** | API accepts unauthenticated requests | Returns 200 instead of 401 |
+| **Schema Validation Failures** | Response doesn't match API spec | Empty JSON instead of CAOrderResponse |
+
+## 🔍 Test Coverage
+
+### Endpoints Tested (8 total)
+
+| Endpoint | Method | Scenarios | Status |
+|----------|--------|-----------|--------|
+| `/updateDownstreamProcessStatus` | POST | 5 | ⚠️ Issues |
+| `/testException` | POST | 5 | ⚠️ Issues |
+| `/orderwebhook` | POST | 4 | ❌ Critical |
+| `/getCaStubApi` | POST | 5 | ❌ Critical |
+| `/caReprocessOrders` | POST | 5 | ⚠️ Issues |
+| `/bulkOrderProcess` | POST | 4 | ✅ Pass |
+| `/bulkOrderProcessWithDateRange` | POST | 5 | ⚠️ Issues |
+| `/processPaymentClearedOrders` | GET | 4 | ⚠️ Issues |
+
+### Test Types
+
+- **Positive Tests**: 8 scenarios (success paths)
+- **Negative Tests**: 29 scenarios
+  - 400 Bad Request: 8 tests
+  - 401 Unauthorized: 7 tests  
+  - 404 Not Found: 8 tests
+  - 500 Server Error: 6 tests
+
+## 🎯 Key Features
+
+### ✨ Automatic Retry Logic
+All API requests automatically retry up to 3 times on failure:
+```javascript
+// Configured in helpers/retryHelper.js
+RetryHelper.retry(fn, maxAttempts=3, delay=1000)
+```
+
+### 🔒 Flexible Authentication
+Supports multiple authentication methods configured via `.env`:
+- Basic Authentication
+- Bearer Token
+- No Authentication (for testing)
+
+### 📊 Schema Validation
+Validates response structure against OpenAPI schemas:
+```javascript
+// Using Ajv library
+SchemaValidator.validateResponse('CAOrderResponse', responseData)
+```
+
+### 🏷️ @no-auth Tag
+Special tag for testing unauthorized access without auth setup:
+```gherkin
+@no-auth
+Scenario: Create order with unauthorized access
+  When I send a POST request to create order
+  Then the response status code should be 401
+```
+
+## 🐛 Known Issues
+
+See [TEST_SUMMARY.md](./TEST_SUMMARY.md) for detailed analysis. Key issues:
+
+1. **Order Webhook Endpoint** - Returns 500 Internal Server Error
+2. **CA Stub API** - Returns empty JSON (schema validation fails)
+3. **Missing Authentication** - 6 endpoints don't enforce auth properly
+4. **Poor Input Validation** - Returns 500 instead of 400 for bad input
+
+## 🔧 Troubleshooting
+
+### Tests fail with "Cannot connect"
+- Verify `BASE_URL` in `.env` is correct
+- Check network connectivity
+- Ensure API server is running
+
+### Authentication failures (401 errors)
+- Verify credentials in `.env` file
+- Check `AUTH_TYPE` is set correctly
+- Ensure API credentials are valid
+
+### Allure report generation fails
+- Install Java (required for Allure)
+- Run `npm install` to ensure allure-commandline is installed
+- Check `allure-results/` directory exists
+
+### Schema validation errors
+- Review OpenAPI specification in `api/salesOrderApiDev.json`
+- Check `helpers/schemaValidator.js` schema definitions
+- Verify API response format matches specification
+
+## 📚 Documentation
+
+- **OpenAPI Specification**: `api/salesOrderApiDev.json`
+- **Test Summary**: `TEST_SUMMARY.md`
+- **Instructions**: `copilot-instructions.md`
+
+## 🤝 Contributing
+
+### Adding New Tests
+
+1. **Create Feature File** in `features/` directory:
+```gherkin
+Feature: My New Endpoint
+  Scenario: Successfully call endpoint
+    Given authentication is set up
+    When I send a GET request to my endpoint
+    Then the response status code should be 200
+```
+
+2. **Create Step Definitions** in `features/step_definitions/`:
+```javascript
+When('I send a GET request to my endpoint', async function() {
+  this.response = await this.orderApiHelper.myEndpoint();
+});
+```
+
+3. **Add Helper Method** in `helpers/orderApiHelper.js`:
+```javascript
+async myEndpoint() {
+  return await RetryHelper.retry(async () => {
+    return await this.request.get('/api/my-endpoint');
+  });
+}
+```
+
+4. **Run Tests**:
+```bash
+npm test
+```
+
+## 📋 Scripts Reference
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `test` | `npm test` | Run all tests |
+| `test:watch` | `npm run test:watch` | Watch mode |
+| `generate:allure` | `npm run generate:allure` | Convert Cucumber JSON to Allure |
+| `allure:report` | `npm run allure:report` | Generate Allure HTML report |
+| `allure:open` | `npm run allure:open` | Open Allure report in browser |
+| `test:allure` | `npm run test:allure` | Run tests + generate Allure report |
+
+## 🔐 Security Notes
+
+- ⚠️ Never commit `.env` file with real credentials
+- ✅ Use `.env.example` as a template
+- ✅ Add `.env` to `.gitignore`
+- ⚠️ Current tests revealed 6 endpoints lacking authentication enforcement
+
+## 📞 Support
+
+For issues or questions:
+1. Review `TEST_SUMMARY.md` for detailed test results
+2. Check `reports/cucumber-report.html` for step-by-step execution
+3. View `allure-report/index.html` for interactive dashboard
+4. Refer to `copilot-instructions.md` for framework documentation
+
+## 📝 License
+
+Apache 2.0
+
+---
+
+**Last Updated**: November 17, 2025  
+**Test Framework Version**: Playwright 1.45+ | Cucumber 10.3+  
+**Node Version**: 18+
+
+
 
 
 
