@@ -1,8 +1,11 @@
-1. Overview
+🧭 1. Overview
+
 Objective
+
 This document outlines an AI-assisted API Automation Framework built using Playwright and Cucumber.js, which automates API endpoint validation directly from Swagger definitions.
 
 Purpose
+
 To create a configuration-driven, schema-validated, and visually reportable API automation suite that:
 
 Runs against Swagger/OpenAPI-defined endpoints
@@ -16,6 +19,7 @@ Generates multiple report formats (Cucumber HTML/JSON, Allure dashboard, TEST_SU
 Requires zero manual intervention after initial .env configuration
 
 Key Highlights
+
 ● Config-driven approach: Read API specification and authentication from .env file. 
 
 ● Auto-generates Playwright + Cucumber test suites from Swagger/OpenAPI (JSON or URL). 
@@ -31,6 +35,7 @@ Key Highlights
 ● Seamlessly integrates with GitHub Copilot.
 
 Technical Stack
+
 🧩 Playwright – APIRequestContext for HTTP calls and response handling
 
 🧠 Cucumber.js v10+ – BDD test framework with retry configuration
@@ -46,6 +51,7 @@ Technical Stack
 🔐 dotenv – Environment variable management
 
 ⚙️ 2. Prerequisites
+
 ● Active GitHub Copilot Business License 
 
 ● Node.js v18+ and npm 
@@ -57,6 +63,7 @@ Technical Stack
 ● .env file - Environment variables used during test execution
 
 💻 Supported IDEs
+
 The framework is compatible with both:
 
 IDE
@@ -72,8 +79,9 @@ VS Code
 Seamless Copilot & GHCP integration        
 
 🧩 3. Architecture Diagram
-diagram-export-11-14-2025-11_12_02-AM-20251114-133512.png
+
 Key Features
+
 Configuration-Driven: All settings in .env (no hardcoded values)
 
 Schema Validation: Validates response structure against API specification
@@ -85,6 +93,7 @@ Failure Categorization: Critical, Validation Gaps, Schema Violations, Not Applic
 Multiple Reports: Cucumber, Allure, and markdown summaries
 
 🚀 4. Setup & Configuration
+
 Step 1: Configure .env File 
 
 Create a .env file at the project root and add the required environment variables (INPUT_TYPE, INPUT_PATH, AUTH_TYPE)
@@ -96,8 +105,11 @@ Create a .copilot-instructions file in the project root and add the prompts that
 Step 3: Provide the ‘User Prompt’ to GitHub Copilot in the GHCP Chat. 
 
 🧪 5. Test Coverage
+
 For Each Endpoint Operation:
+
 1. Positive Scenarios (200/201/204)
+
 Validates successful operations per Swagger definitions
 
 Schema validation performed on responses:
@@ -109,6 +121,7 @@ POST/PUT (200/201): Validate IF response returns an object
 If test fails → indicates API bug (not test bug)
 
 2. Negative Scenarios
+
 HTTP Method
 
 Tested Negative Codes
@@ -138,7 +151,9 @@ API returns wrong error code (returns 500 instead of 400) → Wrong Error Code
 These are documented in TEST_SUMMARY.md as expected failures.
 
 🔄 6. Retry & Failure Handling
+
 Automatic Retry Logic
+
 Cucumber configuration: retry: 3 (3 attempts per scenario)
 
 Purpose: Handle transient environment issues (network glitches, temporary service issues)
@@ -152,9 +167,11 @@ Passes on retry → transient issue (test passes)
 Fails all 3 retries → genuine API issue (marked as FAILED)
 
 Failure Categorization
+
 All failures are documented in TEST_SUMMARY.md:
 
 1. Positive Scenario Failures (CRITICAL)
+
 Swagger-defined success responses that fail
 
 Example: POST expects 200 but returns 500
@@ -162,6 +179,7 @@ Example: POST expects 200 but returns 500
 Action: These indicate API bugs
 
 2. Negative Scenario Failures - Validation Gaps
+
 API returns 200 instead of 400 (missing input validation)
 
 Documented in "Not Applicable Test Cases"
@@ -169,6 +187,7 @@ Documented in "Not Applicable Test Cases"
 Reason: API lacks input validation
 
 3. Negative Scenario Failures - Wrong Error Code
+
 API returns 500 instead of 400/404
 
 Documented in "Failed Test Cases → Negative Scenarios"
@@ -176,6 +195,7 @@ Documented in "Failed Test Cases → Negative Scenarios"
 Reason: API has poor error handling
 
 4. Schema Validation Failures (CRITICAL)
+
 Response structure doesn't match API specification
 
 Examples: Missing required fields, wrong data types, unexpected fields
@@ -183,14 +203,20 @@ Examples: Missing required fields, wrong data types, unexpected fields
 Action: API contract violation - requires immediate attention
 
 📊 7. Reporting
+
 Three Report Types Generated:
+
 1. Cucumber HTML/JSON Reports
+
 Location: cucumber-report.html, cucumber-report.json
 
 Basic test execution summary with step-level details
 
 2. Allure Report (Primary)
-Location: index.html
+
+Generate the report using the test run (Allure results get stored in allure-results/folder).     
+
+To open the Allure dashboard, run ‘npm run allure:open’.
 
 Interactive dashboard with:
 
@@ -205,6 +231,7 @@ Drill-down capabilities
 Open with: npm run allure:open
 
 3. TEST_SUMMARY.md
+
 Comprehensive markdown summary with:
 
 Test Results (Total, Passed, Failed, Success Rate)
@@ -221,8 +248,8 @@ Next Steps (prioritized action items)
 
 🧪 8. Sample Test Case
 
-
 Feature: Order Management API
+
   @order @positive
   Scenario: Successfully place a new order
     Given I have a valid order payload
@@ -230,11 +257,13 @@ Feature: Order Management API
     Then the response status code should be 200
     And the response should match the order schema
     And the response should contain field "id"
+
   @order @negative
   Scenario: Place order with missing required fields
     Given I have an order payload with missing required field "productId"
     When I send a POST request to "/store/order"
     Then the response status code should be 400
+
 Note:
 
 Each test is self-contained with automatic retry (3 attempts)
@@ -244,7 +273,9 @@ Schema validation is performed on successful responses
 Failures are categorized and documented in TEST_SUMMARY.md
 
 🔍 9. Key Observations
+
 Configuration-Driven Approach
+
 All configuration centralized in .env file
 
 No hardcoded values in test code
@@ -252,11 +283,13 @@ No hardcoded values in test code
 Easy to switch between environments or API specifications
 
 Parallel Execution Support
+
 The framework supports full parallel execution using cucumber.js (--parallel), with each scenario running in its own isolated manner.
 
 Ensures thread-safe execution by creating a separate playwright context per worker, enabling high-scale API test runs.
 
 Schema Validation
+
 Validates API contract compliance using Ajv
 
 Catches response structure issues early
@@ -264,6 +297,7 @@ Catches response structure issues early
 Documented as CRITICAL failures (API contract violations)
 
 Authentication Flexibility
+
 Supports multiple auth types: basic, bearer, none
 
 Configured via AUTH_TYPE in .env
@@ -271,6 +305,7 @@ Configured via AUTH_TYPE in .env
 No code changes needed to switch auth methods
 
 Test Philosophy
+
 Tests NEVER modified to match API behavior
 
 Tests reflect expected behavior per specification
@@ -280,6 +315,7 @@ Failures indicate API issues, not test issues
 Pass rate may be < 100% due to API bugs (this is expected)
 
 🏁 10. Conclusion
+
 This framework demonstrates how Playwright + Cucumber + Ajv + Allure + GitHub Copilot can automate comprehensive API testing using Swagger/OpenAPI specifications with:
 
 ✅ Zero manual intervention after .env configuration
@@ -291,3 +327,36 @@ This framework demonstrates how Playwright + Cucumber + Ajv + Allure + GitHub Co
 ✅ AI-assisted test generation via GitHub Copilot
 
 The framework ensures reliable, repeatable regression testing that adapts dynamically to API changes while maintaining strict validation of API contracts and behavior.
+
+Sample Executions
+
+Product Team
+
+Prompt Used
+
+Input URL (Swagger/json)
+
+Output (Regression Test Files)
+
+Final Execution Report
+
+O9
+
+
+
+https://pigw-mpcon-ca.marksandspencer.app/swagger-ui.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
