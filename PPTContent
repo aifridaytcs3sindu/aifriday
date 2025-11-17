@@ -6,3 +6,9 @@ It creates Framework, identify and create BDD faeture file, Stepdef file and Aut
 Approximately less than an hr
 Prompts and details are in Confluence page 
 As a next step, we are working on Playwright UI Automation Testing using GHCP. 
+
+Developed end-to-end API automation using Playwright, BDD, and JS directly from Swagger definitions.
+
+A process that normally takes 2–3 weeks (framework, test design, scripting, execution, fixes) is fully automated.
+
+Using GHCP system prompts, the solution auto-generates BDD scripts, builds the framework, executes tests, and retries failures.
