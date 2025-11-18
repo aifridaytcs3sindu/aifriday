@@ -1,0 +1,227 @@
+Playwright:
+1. What is Playwright?
+Playwright is a modern end-to-end testing framework created by Microsoft.
+
+It allows you to automate web applications across different browsers, devices, and platforms. 
+
+It allows you to test API’s and backend services with high quality and reliability. 
+
+Playwright is designed to make automated testing fast, stable, and developer-friendly.
+
+2. Why Playwright?
+Playwright solves the biggest problems seen in traditional UI testing tools:
+
+✔️ Auto-wait = No more flaky tests
+It automatically waits for elements to be:
+
+visible
+
+clickable
+
+stable
+
+attached/detached
+
+This eliminates timing issues and makes scripts extremely reliable.
+
+✔️ True Cross-Browser & Multi-Platform Support
+One test runs the same way across:
+
+All major browsers
+
+All operating systems
+
+Different screen sizes and devices
+
+✔️ Faster Execution & Parallel Runs
+Playwright runs tests in parallel out-of-the-box.
+This reduces execution time drastically—even large suites run quickly.
+
+✔️ First-class Developer Experience
+Easy to write, easy to debug
+
+Rich trace viewer
+
+Screenshots, videos, network logs for every test
+
+Supports JavaScript, TypeScript, Python, Java, .NET
+
+3. Key Capabilities of Playwright
+1. Auto-waiting & Actionability Checks
+Playwright performs actions only when an element is:
+
+Visible
+
+Enabled
+
+Stable
+
+Ready to receive input
+
+This ensures tests behave like a real user.
+
+2. Tracing & Debugging Tools
+Playwright generates:
+
+Screenshots (before & after steps)
+
+Videos of test executions
+
+Execution Trace Viewer with replay and step-by-step debugging
+
+This makes issue analysis fast and efficient.
+
+3. Network Interception
+Playwright can:
+
+Mock APIs
+
+Modify requests/responses
+
+Block ads or trackers
+
+Simulate backend outages
+
+This enables complete control over test scenarios.
+
+4. Browser Context Management
+Playwright allows:
+
+Multiple isolated browser contexts
+
+Parallel sessions within the same browser
+
+Faster execution without launching new browsers each time
+
+Great for data-driven and parallel test scenarios.
+
+5. Cross-language & Multi-platform
+Supported languages:
+
+JavaScript / TypeScript
+
+Python
+
+Java
+
+.NET (C#)
+
+Supported platforms:
+
+Windows, Linux, macOS
+
+Emulated iOS/Android
+
+6. Codegen Tool (Record & Play)
+Playwright includes a built-in recorder:
+
+Records user actions
+
+Generates test script automatically
+
+Excellent for beginners and rapid prototyping
+
+✅ Summary
+Playwright is a powerful, reliable, and developer-friendly test automation framework designed for modern web applications.
+Its auto-waiting, cross-browser capabilities, debugging tools, and speed make it one of the best choices for UI and end-to-end testing.
+
+Cucumber:
+1. What is Cucumber?
+Cucumber is a BDD automation framework that lets you write test scenarios in a human-readable format using:
+
+Gherkin Syntax
+Examples of keywords:
+
+Given – the starting point
+
+When – the action
+
+Then – the expected result
+
+And / But – additional steps
+
+A sample scenario:
+
+
+
+Given the user is on the login page
+When they enter valid credentials
+Then they should be logged in successfully
+This makes test cases readable for both technical and non-technical stakeholders.
+
+2. Why Cucumber?
+1. Human-Readable Test Scenarios
+Easy for Product, QA, and Dev to write
+
+No programming knowledge needed to understand scenarios
+
+2. Execution with Automation Frameworks
+Cucumber integrates with modern automation tools like:
+
+Playwright
+
+Selenium
+
+Appium
+
+REST API testing libraries
+
+It acts as the bridge between business language and automation code.
+
+3. Powerful Tagging System
+Use tags like:
+
+@smoke
+
+@regression
+
+@api
+
+@high-priority
+
+Tags help filter, group, and manage large test suites.
+
+4. Hooks for Setup & Cleanup
+Cucumber supports:
+
+Before hooks (preconditions)
+
+After hooks (teardown)
+
+BeforeStep/AfterStep (step-level control)
+
+This enables stable and repeatable tests.
+
+5. Rich Reporting Support
+Cucumber supports:
+
+HTML reports
+
+JSON reports
+
+Allure reports
+
+Jenkins/GitHub CI reports
+
+Teams can visualize test results with clarity.
+
+✅ Summary
+Cucumber brings clarity, communication, and structure into the testing process.
+By using BDD principles and Gherkin syntax, it helps teams create test scenarios that everyone can understand — while still supporting advanced automation behind the scenes.
+
+Use case 1:  Playwright API Automation
+Built complete end-to-end API automation using Playwright, BDD (Cucumber), and JavaScript directly from Swagger definitions.
+
+A process that normally takes 2–3 weeks (framework setup, test design, scripting, execution, fixes) is now fully automated.
+
+Using GHCP system prompts, the solution:
+
+Auto-generates BDD scripts
+
+Builds all required framework components
+
+Execute API tests with retries
+
+Self-heals failures wherever possible
+
+(Refer to the next page or click the link Playwright API Automation for detailed implementation steps.)
