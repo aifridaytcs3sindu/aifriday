@@ -2,3 +2,5 @@ https://mns-prod-test.apigee.net/
 
 
 /api/ordering/notifications/v1/ds/popupnotifications
+
+https://mns-prod-test.apigee.net/dsOrchService/api/ordering/notifications/v1/ds/popupnotifications
