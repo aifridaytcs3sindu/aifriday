@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "603cbaea-d9a5-4ebd-b555-8ea6fca42811",
+		"name": "Sample Json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17794953"
+	},
+	"item": [
+		{
+			"name": "Get User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-MS-IBT-User-ID",
+						"value": "850497",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-MS-APP-ID",
+						"value": "rb",
+						"type": "text"
+					},
+					{
+						"key": "X-User-Team",
+						"value": "drb",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "IBTCookie=true",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mns-prod-test.apigee.net/dsOrchService/api/userRoleManagement/v1/users/850194",
+					"protocol": "https",
+					"host": [
+						"mns-prod-test",
+						"apigee",
+						"net"
+					],
+					"path": [
+						"dsOrchService",
+						"api",
+						"userRoleManagement",
+						"v1",
+						"users",
+						"850194"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
