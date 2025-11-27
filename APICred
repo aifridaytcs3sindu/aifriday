@@ -57,6 +57,35 @@ Let me know if you'd like this saved or modified further!
 
 Let me know if you need further changes to this data or if you'd like it saved in a different format.
 
+I have extracted the content from the second Excel file. Here's the data in text format:
+
+```
+S.NO  | Controller Method                  | Endpoint                                                         | Request Payload
+------------------------------------------------------------------------------------------------------
+1     | windows-campaigns-controller        | /api/windowsandcamp/v1/listing                                    | {"franchiseNumber":9999,"season":"SM25","type":"listing"}
+2     | virtual-sales-plan-controller       | /api/virtualsalesplan/v1/listing                                  | {"franchiseNumber":9999,"season":"SM25"}
+3     | virtual-sales-plan-controller       | /api/virtualsalesplan/v1/getSalesPlan/{salesPlanId}               | /api/virtualsalesplan/v1/getSalesPlan/3621
+4     | range-building-controller           | /api/rangebuilding/v1/vspbasket/listing                           | {"moduleName":"Basket","sortBy":null,"sortOrder":"desc"}
+5     | range-building-controller           | /api/rangebuilding/v1/ranges/listing                              | {"businessUnit":"G3-02","franchiseeNumber":9999}
+6     | range-building-controller           | /api/rangebuilding/v1/plp/listing                                 | {"franchiseeNumber":9999}
+7     | range-building-controller           | /api/rangebuilding/v1/selectAll                                   | {"franchiseNumber":9999,"season":"SM25"}
+8     | range-building-controller           | /api/rangebuilding/v1/unselectAll                                 | {"franchiseNumber":9999,"season":"SM25"}
+9     | range-building-controller           | /api/rangebuilding/v1/pdp/sizes                                   | {"franchiseNumber":9999,"season":"SM25"}
+10    | range-building-controller           | /api/rangebuilding/v1/pdp/orders                                  | {"franchiseNumber":9999,"season":"SM25"}
+11    | range-building-controller           | /api/rangebuilding/v1/getProductData                              | {"franchiseNumber":9999,"season":"SM25"}
+12    | notification-controller             | /api/ordering/notifications/v1/drb/listing                       | {"franchiseNumber":9999,"season":"SM25"}
+13    | image-download-controller           | /api/images/v1/downloadImages                                     | {"imageIds":["12345","67890"]}
+14    | favourites-controller               | /api/favourites/v1/save                                          | {"productId":"12345"}
+15    | favourites-controller               | /api/favourites/v1/listing/{season}                               | {"season":"SM25"}
+16    | ds-settings-controller              | /api/dssettings/v1/saveSettings                                  | {"settings":"{}"}
+17    | notification-subscription-controller| /api/drbsubscriptionnotification/v1/getSubscription              | {"userId":"850680"}
+18    | ds-budget-controller                | /api/dsbudget/v1/details                                          | {"budgetYear":"2025"}
+19    | drb-images-controller               | /api/drbimages/v1/listing                                         | {"imageCategory":"product"}
+20    | generic-filter-controller           | /api/Filter/v1/listing                                           | {"filterType":"season"}
+21    | product-hierarchy-controller        | /api/productHierarchy/v1/listing/businessUnit                    | {"businessUnit":"G3-02"}
+```
+
+This is the data from the new Excel file. Let me know if you'd like further assistance or modifications.
 
 
 
