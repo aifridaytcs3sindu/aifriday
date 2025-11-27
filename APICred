@@ -22,6 +22,40 @@ X-User-Team             | drb
 
 This is a list of headers from a Postman request, showing keys and corresponding values.
 
+I have extracted the content of the Excel file you provided. Here's the data in text format:
+
+Here is the complete data from the Excel file in text format:
+
+```
+S.NO  | Controller Method                  | Endpoint
+-------------------------------------------------------------
+1     | windows-campaigns-controller        | POST      | /api/windowsandcamp/v1/listing
+2     | virtual-sales-plan-controller       | POST      | /api/virtualsalesplan/v1/listing
+3     | virtual-sales-plan-controller       | GET       | /api/virtualsalesplan/v1/getSalesPlan/{salesPlanId}
+4     | range-building-controller           | POST      | /api/rangebuilding/v1/vspbasket/listing
+5     | range-building-controller           | POST      | /api/rangebuilding/v1/ranges/listing
+6     | range-building-controller           | POST      | /api/rangebuilding/v1/plp/listing
+7     | range-building-controller           | POST      | /api/rangebuilding/v1/selectAll
+8     | range-building-controller           | POST      | /api/rangebuilding/v1/unselectAll
+9     | range-building-controller           | POST      | /api/rangebuilding/v1/pdp/sizes
+10    | range-building-controller           | POST      | /api/rangebuilding/v1/pdp/orders
+11    | range-building-controller           | POST      | /api/rangebuilding/v1/getProductData
+12    | notification-controller             | POST      | /api/ordering/notifications/v1/drb/listing
+13    | image-download-controller           | POST      | /api/images/v1/downloadImages
+14    | favourites-controller               | POST      | /api/favourites/v1/save
+15    | favourites-controller               | GET       | /api/favourites/v1/listing/{season}
+16    | ds-settings-controller              | POST      | /api/dssettings/v1/saveSettings
+17    | notification-subscription-controller| GET       | /api/drbsubscriptionnotification/v1/getSubscription
+18    | ds-budget-controller                | POST      | /api/dsbudget/v1/details
+19    | drb-images-controller               | GET       | /api/drbimages/v1/listing
+20    | generic-filter-controller           | POST      | /api/Filter/v1/listing
+21    | product-hierarchy-controller        | GET       | /api/productHierarchy/v1/listing/businessUnit
+```
+
+Let me know if you'd like this saved or modified further!
+
+
+Let me know if you need further changes to this data or if you'd like it saved in a different format.
 
 
 
