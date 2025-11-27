@@ -2,6 +2,25 @@
 DS Y-Account : Y9215320@mnscorp.net
 Dev User Id : 850680
 
+Here are the headers from the image in text format:
+
+```
+Key                     | Value
+----------------------------------------------------------
+Postman-Token            | <calculated when request is sent>
+Host                    | <calculated when request is sent>
+User-Agent              | PostmanRuntime/7.49.1
+Accept                  | */*
+Accept-Encoding         | gzip, deflate, br
+Connection              | keep-alive
+X-MS-IBT-User-ID        | 850680
+X-Auth-Token            | eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiODUwNjgwIiwiaWF0IjoxNjY2ODg5NzExLCJleHBpcmF0aW9uX2lkIjoiYWZmY2M0OGYyZTQwZDlmMTM1Yzc1YTliMzgzZjZkY2Y2ZjdmZTgxZDgzNmY5MTdjZGRlOGFiNjlhM2Q5ZThkZTcwMmI5ODlkNzcxZWZlZjc2ZTI5ZmMwYzZlYTgzMjY4NzI4MjVjYzYwMjgxYjMxMGRjY2U2YjlmZjkwYmYwZWI2ZDZlODI4OTYwZGZlY2RlZlRx4jCyOd...
+Content-Type            | application/json
+X-MS-APP-ID             | rb
+X-User-Team             | drb
+```
+
+This is a list of headers from a Postman request, showing keys and corresponding values.
 
 
 
