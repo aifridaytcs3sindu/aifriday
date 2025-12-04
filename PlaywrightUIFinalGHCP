@@ -1,0 +1,532 @@
+# =========================================================
+# 🧠 Copilot Global Instructions for This Project
+# =========================================================
+
+# =========================================================
+## To-Do List:
+1. **Create the project folder structure**: Ensure that all necessary directories (`features/`, `step_definitions/`, `support/`, `reports/`, etc.) are created as outlined in the folder structure section.
+2. Create feature files in `features/`.
+3. Implement step definitions in `step_definitions/`.
+4. Set up hooks in `support/hooks.js`.
+5. Implement page objects in `support/pages/`.
+6. Set up retries and helpers in `support/helpers/`.
+7. Add report generation logic in `utils/report.js`.
+8. Set up reporting in `reports/`.
+9. Ensure `.copilot-instructions` is included and properly configured.
+10. Confirm folder structure correctness.
+11. Verify test execution by running the tests (`npm test`).
+12. Verify HTML and JSON reports are generated successfully.
+13. Create a test summary in `test-summary.txt`.
+# =========================================================
+
+## Project Type
+This project uses **Playwright + CucumberJS (JavaScript)** for automating **UI Regression Test Cases**.
+
+Copilot should generate **BDD-style test automation scripts** that are fully runnable in this framework.
+
+---
+
+## 1️⃣ Objective
+Whenever test scenarios or test cases are described, generate:
+- `.feature` file (Gherkin syntax)
+- `.steps.js` file (Playwright step definitions)
+- Optional page object (`.page.js`) for reusable actions
+
+All generated code must conform to this architecture and pass execution on the first run.
+
+---
+
+## 2️⃣ Folder & File Structure
+
+Implement the following folder structure for your Playwright + CucumberJS project
+
+features/
+├─ [feature-name].feature               # Feature file with Gherkin syntax
+├─ step_definitions/
+│   └─ [feature-name].steps.js          # Step definitions for that feature
+└─ support/
+    ├─ hooks.js                        # Hooks file for setup and teardown
+    ├─ world.js (optional)             # Optional, for sharing state between steps
+    ├─ pages/                          # Folder for page object files
+    │   └─ [page-name].page.js         # Page object file for reusable actions
+    ├─ helpers/                        # Folder for helper functions
+    │   └─ retry.js (optional)         # Optional helper for retry logic
+    ├─ utils/
+    │   └─ report.js                   # Report generation logic
+    ├─ screenshots/                    # Folder to store screenshots on test failures
+reports/
+    ├─ html/
+    │   └─ cucumber-report.html       # HTML report generated after tests
+    ├─ json/
+    │   └─ cucumber-report.json       # JSON report generated after tests
+└─ .copilot-instructions               # Copilot instructions file
+└─ .gitignore                          # Git ignore file
+└─ cucumber.conf.js                    # Cucumber configuration file
+└─ package-lock.json                   # NPM package lock file
+└─ package.json                        # NPM package manifest
+└─ test-summary.txt                    # Test summary file
+
+---
+
+## 3️⃣ Feature File Rules
+- Use **Gherkin syntax** (`Feature:`, `Scenario:`, `Given/When/Then`).
+- Each test case = one `Scenario`.
+- Titles are descriptive and user-friendly.
+- Scenarios must match natural steps from the user prompt.
+
+### Feature file partitioning
+When the user requests multiple functional areas (e.g. Login, Cart, Checkout), **generate a separate `.feature` file for each area**. Do NOT combine unrelated features into a single `.feature` file.
+Naming:
+- Use `features/<feature-name>.feature` where `<feature-name>` is lowercase-hyphen (e.g. `login.feature`, `cart.feature`, `checkout.feature`).
+- Group related Scenarios inside that file only.
+
+---
+
+## 4️⃣ Step Definition Rules
+
+* Create a matching step definition file under `features/step_definitions/` with the same base name (e.g. `login.steps.js`, `cart.steps.js`, `checkout.steps.js`).
+* Use **CommonJS** syntax.
+* Import required modules:
+  ```js
+  const { Given, When, Then } = require('@cucumber/cucumber');
+  const assert = require('assert');
+  ```
+* Always prefix Playwright actions with `await`.
+* Handle waits with:
+  * `waitForSelector`
+  * `waitForNavigation({ waitUntil: 'networkidle' })`
+  * `expect(await page.isVisible(selector))`
+* Each step performs a single logical action.
+* Use retries for flaky operations (selectors, clicks, navigation).
+
+---
+
+## 5️⃣ Page Object Rules
+
+* Initialize page objects only after Cucumber context is set and this.page is available in Before.
+* Don't initialize at module level to avoid shared state between scenarios.
+* For repeated steps, create a class under features/support/pages/.
+
+Example:
+
+```js
+class LoginPage {
+  constructor(page) { this.page = page; }
+
+  async goto() {
+    await this.page.goto('https://example.com/login');
+  }
+
+  async login(username, password) {
+    await this.page.fill('#username', username);
+    await this.page.fill('#password', password);
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: 'networkidle' }),
+      this.page.click('#submit'),
+    ]);
+  }
+}
+
+module.exports = LoginPage;
+```
+
+---
+
+## 6️⃣ Hooks:
+- Ensure that the `hooks.js` file includes:
+  * **BeforeAll**: To launch the browser with Playwright.
+  * **AfterAll**: To close the browser after test execution.
+  * **Before**: Initialize page objects after the Cucumber context (`this.page`) is available.
+  * **After**: Capture screenshots on failure and perform cleanup actions.
+
+**Browser Lifecycle Management**: Properly manage the browser lifecycle to avoid flaky tests (e.g., stale elements, timeout issues).
+
+---
+
+## 7️⃣ Reporting
+
+### Directory Structure
+```
+reports/
+├── json/
+│   └── cucumber-report.json
+└── html/
+    └── cucumber-report.html
+```
+
+### Required Packages
+Add to package.json:
+```json
+{
+  "devDependencies": {
+    "cucumber-html-reporter": "^7.1.0",
+    "multiple-cucumber-html-reporter": "^3.5.0"
+  }
+}
+```
+
+### Package Scripts
+Add to package.json:
+```json
+{
+  "scripts": {
+    "test:report": "cucumber-js --require features/step_definitions/**/*.js --format json:reports/json/cucumber-report.json && node utils/report.js",
+    "report:generate": "node utils/report.js"
+  }
+}
+```
+
+### Report Generator Setup
+Create `utils/report.js`:
+```javascript
+const reporter = require('cucumber-html-reporter');
+const path = require('path');
+
+const options = {
+    theme: 'bootstrap',
+    jsonFile: path.join(__dirname, '..', 'reports', 'json', 'cucumber-report.json'),
+    output: path.join(__dirname, '..', 'reports', 'html', 'cucumber-report.html'),
+    reportSuiteAsScenarios: true,
+    scenarioTimestamp: true,
+    launchReport: true,
+    metadata: {
+        "App Version": "1.0.0",
+        "Test Environment": "Testing",
+        "Platform": "Windows 10",
+        "Parallel": "Scenarios",
+        "Executed": "Remote"
+    }
+};
+
+reporter.generate(options);
+```
+
+**Timestamp and Unique IDs**: Include timestamps and unique test run IDs in the reports for better tracking.
+
+---
+
+## 8️⃣ Naming Conventions
+
+| Type     | Format           | Example                                   |
+| -------- | ---------------- | ----------------------------------------- |
+| Feature  | lowercase-hyphen | `login.feature`                           |
+| Step Def | lowercase-hyphen | `login.steps.js`                          |
+| Page Obj | PascalCase       | `LoginPage.js`                            |
+| Scenario | Natural English  | `Successful login with valid credentials` |
+
+**Consistency in Naming**: Ensure consistent naming not only in filenames but also in variables and functions within the step definition files.
+
+---
+
+## 9️⃣ Assertions
+
+Use Node’s `assert`:
+
+```js
+assert(this.page.url().includes('success'));
+assert(await this.page.isVisible('#logout'));
+```
+
+---
+
+## 🔟 Code Quality
+
+* Clear selectors and consistent naming
+* Prefer getByRole, getByText, or semantic locators before CSS selectors.
+* No hard waits (`setTimeout`) — use Playwright waits
+* Handle retries for dynamic elements
+* Self-contained test execution
+
+---
+
+🧩 Universal Retry Helper
+
+Create a reusable helper in features/support/helpers/retry.js:
+
+async function retry(fn, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try { return await fn(); }
+    catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(res => setTimeout(res, delay));
+    }
+  }
+}
+module.exports = retry;
+
+
+Use in steps:
+
+const retry = require('../support/helpers/retry');
+await retry(async () => await page.click('#login'));
+---
+🧭 Stabilization Rules
+
+Before each test:
+
+* Set `page.setDefaultTimeout(30000)`.
+* Use `networkidle` wait strategy after navigation.
+* Capture console errors and attach them to the test report.
+
+---
+
+## 🗣️ Prompt Schema (How to Interpret User Prompts)
+
+When the user provides a natural-language request such as:
+
+> “Generate Playwright + CucumberJS UI test scripts for verifying the Login page at `https://practicetestautomation.com/practice-test-login/` with positive and negative scenarios.”
+
+You must:
+
+### 🧩 1. Parse the Intent
+
+Extract from the prompt:
+
+* Website URL(s)
+* User actions (click, enter text, navigate)
+* Expected outcomes or validations
+* Scenario names (positive/negative/etc.)
+
+### 2. Generate Test Files
+
+Generate:
+
+* **Feature file** in `features/`.
+* **Step definition file** in `step_definitions/`.
+* **Page Object** (if applicable) under `support/pages/`.
+
+### 🔁 3. Apply Self-Healing and Retry Logic
+
+Automatically detect unstable selectors or navigation failures. Use auto-retry wrappers and fallback queries.
+
+### 🔄 4. Self-Correction Cycle
+
+If a test fails, analyze the error, regenerate the failing part, and retry until it passes.
+
+### ⚡ 5. Generation Behavior
+
+Automatically fix syntax/import issues. Output runnable, self-healing tests.
+
+---
+
+## 🔍 Post-Generation Validation Rule
+
+After generating test scripts, perform a quick validation:
+
+* Ensure each selector used in the tests exists in the DOM (`waitForSelector`).
+
+---
+### 🚀 **Post-Generation Execution Rules**
+
+1. After generating all Playwright + CucumberJS files:
+
+   * Automatically execute the test suite (`npm test`).
+   * If any tests fail, retry with custom logic until success.
+   * Capture the test output (pass/fail summary).
+
+2. If any scenario fails:
+
+   * Identify the failed step and regenerate it using retry/self-healing logic.
+   * Re-run until all scenarios pass.
+
+3. **Generate HTML Report**: After running tests, generate the HTML report and save it to `reports/html/`.
+
+4. Once all tests pass, generate `test-summary.txt` containing success summary and execution date/time.
+
+---
+## Completion Criteria:
+After generating the tests, ensure all tasks from the to-do list are completed by verifying the folder structure, feature files, step definitions, reports, and test summary, and confirming all tests pass successfully.
+---
+
+
+# 📘 **User Prompt — Generate UI Regression Tests**
+
+Generate **Playwright + CucumberJS UI test scripts** for the **Login, Add/Remove items from cart, and Checkout Functionality** of the web application:
+🔗 https://www.saucedemo.com/
+
+Please strictly follow the architectural, folder, and coding standards defined in the `.copilot-instructions` file at the project root.
+
+---
+
+### **Details**
+
+* **Application URL:** https://www.saucedemo.com/
+* **Feature Under Test:** Login, Add/Remove items from cart, and Checkout Functionality
+* **Test Framework:** Playwright + CucumberJS (JavaScript)
+* **Assertions:** Node `assert` or `chai` (based on project setup)
+* **Goal:**
+  Generate all required files — `.feature`, `.steps.js`, `page.js`, and supporting config — to perform **UI regression validation** for the login, cart, and checkout functionality.
+
+---
+
+### **Test Cases to Implement**
+
+## Test Case 1: **Login with valid credentials**
+
+### Steps:
+
+1. **Navigate to the URL**: Open [https://www.saucedemo.com/](https://www.saucedemo.com/).
+2. **Enter Username**: In the username field, enter `standard_user`.
+3. **Enter Password**: In the password field, enter `secret_sauce`.
+4. **Click on the "Login" button**: Click the button labeled "LOGIN" to submit the login form.
+5. **Verify Login**:
+
+   * The URL should change to the product page (`https://www.saucedemo.com/inventory.html`).
+   * Ensure the product grid is displayed with product images, names, and prices.
+   * Verify that the **"Logout"** button is visible in the top right corner.
+
+### Expected Result:
+
+* User is logged in successfully.
+* The user is redirected to the inventory page and sees the product list.
+* The **"Logout"** button is visible, indicating a successful login.
+
+---
+
+## Test Case 2: **Login with invalid credentials (incorrect username)**
+
+### Steps:
+
+1. **Navigate to the URL**: Open [https://www.saucedemo.com/](https://www.saucedemo.com/).
+2. **Enter Username**: In the username field, enter `incorrect_user`.
+3. **Enter Password**: In the password field, enter `secret_sauce`.
+4. **Click on the "Login" button**: Click the "LOGIN" button to submit the login form.
+5. **Verify Error Message**:
+
+   * The login should fail.
+   * An error message should be displayed saying: "Epic sadface: Username and password do not match any user in this service".
+
+### Expected Result:
+
+* The login attempt should fail.
+* The error message **"Epic sadface: Username and password do not match any user in this service"** is displayed.
+* User remains on the login page.
+
+---
+
+## Test Case 3: **Add item to the cart**
+
+### Steps:
+
+1. **Login with valid credentials**: Follow the steps in Test Case 1 to log in.
+2. **Select a product**: On the inventory page, click on any product, for example, **"Sauce Labs Backpack"**.
+3. **Click on "Add to cart"**: Click the **"Add to cart"** button on the product page.
+4. **Verify the cart**:
+
+   * Click on the **"Cart"** icon in the top right corner.
+   * Ensure that **"Sauce Labs Backpack"** is listed in the cart.
+   * Verify that the cart icon shows the number **1**, indicating that an item has been added.
+
+### Expected Result:
+
+* The item is added to the cart successfully.
+* The cart icon displays the number **1** (or more if additional items are added).
+* The product appears in the cart with its name, quantity, and price.
+
+---
+
+## Test Case 4: **Remove item from the cart**
+
+### Steps:
+
+1. **Login with valid credentials**: Follow the steps in Test Case 1 to log in.
+2. **Add an item to the cart**: Follow the steps in Test Case 3 to add **"Sauce Labs Backpack"** to the cart.
+3. **Navigate to the cart**: Click on the **"Cart"** icon in the top right corner.
+4. **Click on the "Remove" button**: On the cart page, click the **"REMOVE"** button next to **"Sauce Labs Backpack"**.
+5. **Verify the Cart**:
+
+   * Ensure that **"Sauce Labs Backpack"** is no longer listed in the cart.
+   * Verify that the cart icon displays **0** (indicating that the cart is empty).
+
+### Expected Result:
+
+* The product is removed from the cart.
+* The cart icon should update to **0**, showing the cart is empty.
+
+---
+
+## Test Case 5: **Complete the checkout process**
+
+### Steps:
+
+1. **Login with valid credentials**: Follow the steps in Test Case 1 to log in.
+2. **Add items to the cart**: Follow the steps in Test Case 3 to add **"Sauce Labs Backpack"** and **"Sauce Labs Bike Light"** to the cart.
+3. **Navigate to the cart**: Click on the **"Cart"** icon in the top right corner.
+4. **Click on "Checkout"**: On the cart page, click the **"Checkout"** button.
+5. **Enter Personal Information**:
+
+   * Enter the **First Name**: `John`
+   * Enter the **Last Name**: `Doe`
+   * Enter the **Zip Code**: `90210`
+6. **Click on "Continue"**: After entering the details, click the **"Continue"** button.
+7. **Verify the Order Summary**:
+
+   * Ensure the order summary displays the correct items (Sauce Labs Backpack and Sauce Labs Bike Light) along with their prices.
+8. **Complete the Purchase**: Click on the **"Finish"** button to complete the checkout process.
+9. **Verify Confirmation Page**:
+
+   * After completing the checkout, the user should be redirected to the confirmation page with the message: "THANK YOU FOR YOUR ORDER".
+
+### Expected Result:
+
+* The user is able to successfully checkout with the correct items.
+* The **confirmation page** displays the "THANK YOU FOR YOUR ORDER" message, indicating that the order has been completed.
+
+---
+
+### **Expected Output**
+
+1. **Feature Files:**
+   Gherkin-based `.feature` files under `features/` folder containing all login, cart, and checkout scenarios.
+   Create **separate feature files and step-definition files** for each functionality requested
+   Do not merge multiple feature areas into one file.
+
+2. **Step Definitions:**
+   `.steps.js` file under `features/step_definitions/` with Playwright actions (`page.goto`, `page.fill`, `page.click`, `assert`, etc.).
+
+3. **Page Object:**
+	Generate required page objects based on the need, covering all essential actions for login, cart management, and checkout functionalities.
+	
+4. **Configuration & Hooks:**
+
+   * Reuse or generate Playwright + CucumberJS configuration (if missing).
+   * Include browser lifecycle hooks and screenshot capture on failure.
+
+5. **Execution Verification:**
+   Running `npm test` should execute all scenarios **successfully**.
+
+---
+### **Execution Behavior**
+
+* After generating all files:
+  * Run all tests automatically using `npm test`.
+  * Detect flaky elements and apply retry/self-healing logic as defined in .copilot-instructions. 
+  * Retry failed steps automatically until all tests pass.
+  * Generate Cucumber JSON and HTML reports after test execution.
+  * Provide final execution results and success summary.
+  * Create a test-summary.txt file in the project root that logs success summary.
+
+---
+
+### ✅ **Completion Criteria**
+
+All regression scenarios must:
+* Execute successfully via `npm test` with zero manual intervention.
+* Pass all validations for URLs, messages, and element visibility.
+* Apply retry and self-healing logic where required.
+* Generate automatically:
+	* reports/json/cucumber-report.json
+	* reports/html/cucumber-report.html
+	* test-summary.txt 
+* Log detailed results and mark completion when all scenarios pass.
+
+---
+
+PLAYWRIGHTUI6
+
+
+
+Changes to do:
+1. Configure Playwright.config. file
+2. Change project to ts
+3. 
