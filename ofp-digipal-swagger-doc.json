@@ -1,0 +1,6097 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/pal-service",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/v1/pal/PALProject/updateProject": {
+      "put": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePALProject",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/Personnel": {
+      "put": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePALProjectPersonnel",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectPersonnelUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/Personnel": {
+      "put": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePALProductPersonnel",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductPersonnel",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/Information": {
+      "put": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePALProductInformation",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/PALProductUpdateRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "request"
+                ]
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/PALProductUpdateRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "request"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductInformation",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/ImportProductField": {
+      "put": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "importProductField",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/PALProductUpdateRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "request"
+                ]
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/PALProductUpdateRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "request"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/users/listUserBySupplierOrg": {
+      "post": {
+        "tags": [
+          "user-list-controller"
+        ],
+        "operationId": "listUserBySupplier",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/users/listUserByRoles": {
+      "post": {
+        "tags": [
+          "user-list-controller"
+        ],
+        "operationId": "listUserByRoles",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/uploadFile": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "uploadFile",
+        "parameters": [
+          {
+            "name": "containerName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uploadFolder",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/updatePalConfigurations": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePalConfiguration",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/triggerExtract": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "triggerExtract",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALExtractRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/getProductDetails": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getProductDetails",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDetailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/getPALTemplates": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALTemplates",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALTemplateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/download": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "download",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/downloadFile": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/digitalCatalogue": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "downloadDigitalCatalogue",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/validatePalCompletion": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "validatePalCompletion",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALCompletionValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/updateCommercial": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "updatePALProjectCommercial",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Create"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectCommercialUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/unlinkDualSupplyGroups": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "deleteDualSupplyGroups",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Dual Supply"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Delete"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DualSupplyGroupUnLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/dualSupplyList": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getDualSupplyProducts",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Dual Supply"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDualRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/addProject": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "addPALProject",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Projects"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Create"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/ProjectList": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProjectList",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Projects"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectFilter"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/ProjectDetails": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getProjectDetails",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/Progress": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProjectProgress",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/ProductList": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductList",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/Commercial": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProjectCommercial",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProjectCommercialRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/Auditlogs": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductsAuditLogs",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectAuditRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/linkDualSupplyProducts": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "linkPALDualSupply",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Dual Supply"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALLinkDualSupplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/duplicateSubSectionInformation": {
+      "post": {
+        "tags": [
+          "pal-product-controller"
+        ],
+        "operationId": "duplicateSubSectionInformation",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicateSubSectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/duplicateProducts": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "duplicateProducts",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Create"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicateProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/deleteProjectOrProducts": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "deleteProjectOrProducts",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Projects"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Delete"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/createProduct": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "createPALProduct",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Create"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/bulkUpdateInformation": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "bulkUpdateInformation",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Project Details"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Update"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkProductUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/bulkInformation": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getBulkProductInformations",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/Progress": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductProgress",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/Auditlogs": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALProductAuditlogs",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "onemnsfood"
+            }
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "FSP PAL Product"
+            }
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Read"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PALProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALConfigurations": {
+      "post": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPALConfigurations",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/users/getSupplierCodes": {
+      "get": {
+        "tags": [
+          "user-list-controller"
+        ],
+        "operationId": "getSupplierCodes",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/listRoles": {
+      "get": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "listRoles",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/listProjectTemplateRoles": {
+      "get": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "listProjectTemplateRoles",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/": {
+      "get": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "index",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProject/sendPlatformNotification": {
+      "get": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "sendPlatFormNotification",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/v1/pal/PALProduct/getPalFields": {
+      "get": {
+        "tags": [
+          "product-attribute-listing-controller"
+        ],
+        "operationId": "getPalFields",
+        "parameters": [
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/evictCache": {
+      "get": {
+        "tags": [
+          "caching-controller"
+        ],
+        "operationId": "evictCache",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cacheKey",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-authentication",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": true
+          },
+          {
+            "name": "x-acl-required",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "true"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "http://localhost:"
+          },
+          {
+            "name": "x-module",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "onemnsfood"
+          },
+          {
+            "name": "x-object",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "FSP Home"
+          },
+          {
+            "name": "x-operation",
+            "in": "header",
+            "required": true,
+            "allowEmptyValue": false,
+            "explode": false,
+            "example": "Read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Data"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authorized!"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Information": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "templateName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "projectType": {
+            "type": "string"
+          },
+          "financialYear": {
+            "type": "string"
+          },
+          "projectCompletionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "cluster": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PALProjectUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "personnel": {
+            "$ref": "#/components/schemas/Personnel"
+          },
+          "information": {
+            "$ref": "#/components/schemas/Information"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "Personnel": {
+        "type": "object",
+        "properties": {
+          "internal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "external": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppResponsePALProjectResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALProjectResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChildProduct": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "supplierCode": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorInfo": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warningMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Header": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "projectStatus": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "supplierCode": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "productFileType": {
+            "type": "string"
+          },
+          "percentage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "childProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChildProduct"
+            }
+          },
+          "subRange": {
+            "type": "string"
+          },
+          "reasonsForChange": {
+            "type": "string"
+          },
+          "creativeGateDate": {
+            "type": "string"
+          },
+          "supplierAssigned": {
+            "type": "string"
+          },
+          "productStage": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProjectResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "templateName": {
+            "type": "string"
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "personnel": {
+            "$ref": "#/components/schemas/Personnel"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "information": {
+            "$ref": "#/components/schemas/Information"
+          },
+          "fieldsCompletionProgress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "productSetupProgress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "supplierEditableFieldsProgress": {
+            "$ref": "#/components/schemas/Progress"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Header"
+          }
+        }
+      },
+      "Progress": {
+        "type": "object",
+        "properties": {
+          "intoDepotDate": {
+            "type": "string"
+          },
+          "launchDate": {
+            "type": "string"
+          },
+          "totalFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleProgress"
+            }
+          },
+          "percentageCompletion": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RoleProgress": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "totalFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "percentageCompletion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assignedUser": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProjectPersonnelUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "personnelUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonnelUpdate"
+            }
+          }
+        }
+      },
+      "PersonnelUpdate": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "oldValue": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "newValue": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "FieldUpdate": {
+        "type": "object",
+        "properties": {
+          "section": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "oldValue": {
+            "type": "string"
+          },
+          "newValue": {
+            "type": "string"
+          },
+          "subSectionId": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProductUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "personnelUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonnelUpdate"
+            }
+          },
+          "fieldUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldUpdate"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "proceedUpdate": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AppResponsePALProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALProductResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Auditlog": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdTime": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "oldValue": {
+            "type": "string"
+          },
+          "newValue": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "child": {
+            "type": "string"
+          }
+        }
+      },
+      "PALFieldApiRef": {
+        "type": "object",
+        "properties": {
+          "endPoint": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "requestParam": {
+            "$ref": "#/components/schemas/PALFieldRequestParam"
+          }
+        }
+      },
+      "PALFieldRequestParam": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProductApiRequest": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "cmsContentTitle": {
+            "type": "string"
+          },
+          "requestParam": {
+            "$ref": "#/components/schemas/PALProductApiRequestParam"
+          }
+        }
+      },
+      "PALProductApiRequestParam": {
+        "type": "object",
+        "properties": {
+          "searchText": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProductResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "templateName": {
+            "type": "string"
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "personnel": {
+            "$ref": "#/components/schemas/Personnel"
+          },
+          "header": {
+            "$ref": "#/components/schemas/Header"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "fieldsCompletionProgress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "productSetupProgress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "supplierEditableFieldsProgress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "auditlogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Auditlog"
+            }
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSection"
+            }
+          }
+        }
+      },
+      "ProductField": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tooltip": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "value": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "creativeGate": {
+            "type": "boolean"
+          },
+          "mandatory": {
+            "type": "boolean"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "minDate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subSections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSubSection"
+            }
+          },
+          "productSetupRequired": {
+            "type": "boolean"
+          },
+          "fieldCompletionType": {
+            "type": "string"
+          },
+          "editable": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fieldLockedStage": {
+            "type": "string"
+          },
+          "apiRef": {
+            "$ref": "#/components/schemas/PALProductApiRequest"
+          },
+          "autoCalculateHelpText": {
+            "type": "string"
+          },
+          "validFileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fieldApiRef": {
+            "$ref": "#/components/schemas/PALFieldApiRef"
+          },
+          "fileImport": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductSection": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "totalFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedFields": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductField"
+            }
+          }
+        }
+      },
+      "ProductSubSection": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "fieldValue": {
+            "type": "string"
+          },
+          "subSectionId": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseMapStringListPALUser": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PALUser"
+              }
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseMapStringString": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALExtractRequest": {
+        "type": "object",
+        "properties": {
+          "projectIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "extractName": {
+            "type": "string"
+          },
+          "sendtodownstream": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AppResponseString": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductDetailRequest": {
+        "type": "object",
+        "properties": {
+          "upc": {
+            "type": "string"
+          },
+          "supplier": {
+            "type": "string"
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseProductDetails": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ProductDetails"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductDetails": {
+        "type": "object",
+        "properties": {
+          "upc": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "warningMessage": {
+            "type": "string"
+          },
+          "productFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductField"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "PALTemplateRequest": {
+        "type": "object",
+        "properties": {
+          "palTemplateIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sectionsRequired": {
+            "type": "boolean"
+          },
+          "projectType": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListPALTemplate": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALTemplate"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALConfiguration": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "valuesList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReasonsForChangeList"
+            }
+          },
+          "mapValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+
+              }
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "PALFields": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "creativeGate": {
+            "type": "boolean"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "mandatory": {
+            "type": "boolean"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "tooltip": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "minDate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "optionsRef": {
+            "$ref": "#/components/schemas/PALConfiguration"
+          },
+          "scripts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "readable": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editable": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completionStage": {
+            "type": "string"
+          },
+          "productSetupRequired": {
+            "type": "boolean"
+          },
+          "lockedStage": {
+            "type": "string"
+          },
+          "glossaryApiRef": {
+            "$ref": "#/components/schemas/PALProductApiRequest"
+          },
+          "autoCalculateHelpText": {
+            "type": "string"
+          },
+          "validFileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fieldApiRef": {
+            "$ref": "#/components/schemas/PALFieldApiRef"
+          },
+          "fileImport": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALTemplate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "templateName": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            }
+          }
+        }
+      },
+      "ReasonsForChangeList": {
+        "type": "object",
+        "properties": {
+          "reasonForChange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mapValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+
+              }
+            }
+          }
+        }
+      },
+      "Section": {
+        "type": "object",
+        "properties": {
+          "sectionName": {
+            "type": "string"
+          },
+          "sectionLabel": {
+            "type": "string"
+          },
+          "sectionFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALFields"
+            }
+          },
+          "subSections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubSection"
+            }
+          }
+        }
+      },
+      "SubSection": {
+        "type": "object",
+        "properties": {
+          "subSectionName": {
+            "type": "string"
+          },
+          "subSectionLabel": {
+            "type": "string"
+          },
+          "subSectionFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALFields"
+            }
+          }
+        }
+      },
+      "PALExportRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "downloadType": {
+            "type": "string"
+          }
+        }
+      },
+      "DownloadFileRequest": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "subSectionId": {
+            "type": "string"
+          }
+        }
+      },
+      "PALCompletionValidationRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "newProjectStatus": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "newProductStage": {
+            "type": "string"
+          },
+          "newProductStatus": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponsePALCompletionValidationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALCompletionValidationResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALCompletionValidationResponse": {
+        "type": "object",
+        "properties": {
+          "allowUpdate": {
+            "type": "boolean"
+          },
+          "showEmailNotification": {
+            "type": "boolean"
+          },
+          "warningMessage": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "errorMessage": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PALProjectCommercialUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "fieldUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldUpdate"
+            }
+          }
+        }
+      },
+      "AppResponsePALProjectCommercialResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALProjectCommercialResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALProjectCommercialResponse": {
+        "type": "object",
+        "properties": {
+          "projectCommercial": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductField"
+            }
+          }
+        }
+      },
+      "DualSupplyGroupUnLinkRequest": {
+        "type": "object",
+        "properties": {
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppResponseDualSupplyGroupUnLinkResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DualSupplyGroupUnLinkResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DualSupplyGroupUnLinkResponse": {
+        "type": "object",
+        "properties": {
+          "transactionStatus": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProductDualRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListProductDualSupplyResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDualSupplyResponse"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALLinkedProduct": {
+        "type": "object",
+        "properties": {
+          "produtTitle": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "uom": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductDualSupplyResponse": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "string"
+          },
+          "groupName": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALLinkedProduct"
+            }
+          }
+        }
+      },
+      "ProjectFilter": {
+        "type": "object",
+        "properties": {
+          "searchText": {
+            "type": "string"
+          },
+          "financialYear": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fromDate": {
+            "type": "string"
+          },
+          "toDate": {
+            "type": "string"
+          },
+          "projectType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "projectManager": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "projectStatuses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "cluster": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppResponseListPALProjectResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALProjectResponse"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "searchText": {
+            "type": "string"
+          },
+          "fromDate": {
+            "type": "string"
+          },
+          "toDate": {
+            "type": "string"
+          },
+          "status": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suppliers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supplierAssigned": {
+            "type": "string"
+          },
+          "progressRange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parent": {
+            "type": "string"
+          },
+          "intoDepotDate": {
+            "type": "string"
+          },
+          "launchByDate": {
+            "type": "string"
+          },
+          "ocadoProduct": {
+            "type": "boolean"
+          },
+          "internationalProduct": {
+            "type": "boolean"
+          },
+          "reasonsForChange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "roleProgress": {
+            "type": "string"
+          },
+          "dataFields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "productStage": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "productType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PALProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/Filter"
+          }
+        }
+      },
+      "PALProjectCommercialRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ProjectAuditRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "searchText": {
+            "type": "string"
+          },
+          "searchType": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListProjectAuditResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectAuditResponse"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProjectAuditHeader": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "productTitle": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          },
+          "supplierSiteCode": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ProjectAuditLogChildren": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Auditlog"
+          }
+        }
+      },
+      "ProjectAuditResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ProjectAuditHeader"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectAuditLogChildren"
+            }
+          }
+        }
+      },
+      "PALLinkDualSupplyRequest": {
+        "type": "object",
+        "properties": {
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponsePALLinkDualSupplyResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALLinkDualSupplyResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALLinkDualSupplyResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "DuplicateSubSectionRequest": {
+        "type": "object",
+        "properties": {
+          "modelProductId": {
+            "type": "string"
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "section": {
+            "type": "string"
+          },
+          "subSectionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "DataField": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "fieldValue": {
+            "type": "string"
+          },
+          "fieldObject": {
+
+          },
+          "multifields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultiField"
+            }
+          }
+        }
+      },
+      "DuplicateProductRequest": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALProductCreateRequest"
+            }
+          },
+          "modelProductId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "MultiField": {
+        "type": "object",
+        "properties": {
+          "multiFieldId": {
+            "type": "string"
+          }
+        }
+      },
+      "PALProductCreateRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "templateId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "dataFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataField"
+            }
+          },
+          "personnel": {
+            "$ref": "#/components/schemas/Personnel"
+          }
+        }
+      },
+      "AppResponseDuplicateProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DuplicateProductResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DuplicateProductResponse": {
+        "type": "object",
+        "properties": {
+          "productUpdateStatus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdateStatus"
+            }
+          }
+        }
+      },
+      "ProductUpdateStatus": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "updateStatus": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productUrl": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "PALDeleteRequest": {
+        "type": "object",
+        "properties": {
+          "userRole": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppResponsePALDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PALDeleteResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "successProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdateStatus"
+            }
+          },
+          "failedProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdateStatus"
+            }
+          },
+          "projectStatus": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "BulkProductUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdate"
+            }
+          },
+          "user": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductUpdate": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "fieldUpdates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldUpdate"
+            }
+          }
+        }
+      },
+      "AppResponseBulkProductUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BulkProductUpdateResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BulkProductUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "successProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdateStatus"
+            }
+          },
+          "failedProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductUpdateStatus"
+            }
+          }
+        }
+      },
+      "BulkProductRequest": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseBulkProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BulkProductResponse"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BulkProduct": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "oldValue": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "mandatory": {
+            "type": "boolean"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "BulkProductResponse": {
+        "type": "object",
+        "properties": {
+          "productResponse": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BulkProduct"
+            }
+          }
+        }
+      },
+      "PALProductRequest": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "sectionName": {
+            "type": "string"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/Filter"
+          },
+          "stage": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListPALConfiguration": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALConfiguration"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AppResponseListAuthzSupplierResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthzSupplierResponse"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthzSupplierResponse": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "type": "string"
+          },
+          "attributeId": {
+            "type": "string"
+          },
+          "supplierName": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListPALRole": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALRole"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PALRole": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "objectId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "AppResponseListPALFields": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PALFields"
+            }
+          },
+          "exception": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
