@@ -1,59 +1,133 @@
-I’ve integrated the necessary sections from the first file into the second one to retain the simplicity while ensuring all key details are included. Here's the updated version of the **second file** (`copilot-instructions-ESSENTIAL.md`), now enhanced with additional details:
-
----
-
-# REST Assured API Test Generator - Essential Instructions
+# REST Assured API Test Generator
 
 **Purpose**: Generate complete REST Assured + Cucumber test suite from Swagger/OpenAPI specification.
 
-**Usage**: `@workspace #file:copilot-instructions-ESSENTIAL.md Generate API tests from Swagger`
+**Usage**: `@workspace #file:copilot-instructions.md Generate API tests from Swagger`
 
 ---
 
 ## 🎯 Core Workflow
 
-1. **Parse Swagger** → Extract endpoints, schemas, authentication
-2. **Parse Response Schemas** → Get actual field names (response/data/result)
-3. **Generate Tests** → Feature files + testData.json + step definitions
-4. **Execute** → Run tests, generate reports
+1. **Check endpoint-config.json** → Determine which endpoints to generate tests for
+2. **Parse Swagger** → Extract endpoints, schemas, authentication
+3. **Parse Response Schemas** → Get actual field names (response/data/result)
+4. **Generate Tests** → Feature files + testData.json + step definitions
+5. **Validate Coverage** → Verify feature files match enabled endpoints
+6. **Execute** → Run tests, generate reports
+
+---
+
+## 🔧 Endpoint Selection Process
+
+**CRITICAL**: Always check `endpoint-config.json` before generating tests.
+
+### Configuration Logic
+
+```json
+{
+  "generateForAllEndpoints": false,  // or true
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/windowsandcamp/v1/listing",
+      "controller": "windows-campaigns-controller",
+      "enabled": true  // or false
+    }
+  ]
+}
+```
+
+**Rules**:
+- If `generateForAllEndpoints: true` → Parse ALL endpoints from Swagger specification
+- If `generateForAllEndpoints: false` → Generate tests ONLY for endpoints in the `endpoints` array where `enabled: true`
+
+### Validation Checklist (Post-Generation)
+
+After generating feature files, **ALWAYS validate**:
+
+```bash
+# Count enabled endpoints
+jq '[.endpoints[] | select(.enabled == true)] | length' endpoint-config.json
+
+# Count generated feature files
+ls -1 src/test/resources/features/*.feature | wc -l
+```
+
+**Expected Result**: Feature file count should match enabled endpoint count (or exceed if multiple scenarios per endpoint grouped in one file).
+
+### Coverage Verification
+
+**Before marking generation as complete**:
+- [ ] All enabled endpoints in `endpoint-config.json` have corresponding feature files
+- [ ] Each endpoint has positive scenario (200/201 response)
+- [ ] Each endpoint has negative scenario (@no-auth, 401 response)
+- [ ] testData.json has entries for all enabled endpoints
+- [ ] All feature files compile without errors
 
 ---
 
 ## ⚠️ CRITICAL RULES
 
-### 1. Swagger Response Schema Parsing
+### 1. Swagger Endpoint Parsing
 
-**MANDATORY**: Extract field names from Swagger - DON'T assume "data" or "response".
+**MANDATORY**: Extract HTTP method, path parameters, and response schema from Swagger.
 
 ```
 Swagger Navigation:
-paths → /api/endpoint → post/get → responses → 200 
-  → content → application/json → schema → $ref 
-  → components → schemas → ResponseSchemaName → properties
+paths → /api/endpoint/{pathParam} 
+  → [get|post|put|delete|patch]  # ← Extract HTTP method!
+  → parameters (optional)         # ← Check for path/query params
+    → name, in (path/query), schema.type
+  → responses → 200 
+    → content → application/json → schema → $ref 
+    → components → schemas → ResponseSchemaName → properties
 ```
 
-**Example**:
+**Example - GET with Path Parameter**:
 
-```json
-"ResponseMapStringListResponse": {
-  "properties": {
-    "response": { "type": "object" },  // ← Use this in assertions!
-    "status": { "type": "boolean" },
-    "error": { ... }
-  }
-}
+```yaml
+paths:
+  /api/favourites/v1/listing/{season}:
+    get:  # ← Use GET, not POST!
+      parameters:
+        - name: season
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseListFavourites'
 ```
 
 **Feature File**:
 
 ```gherkin
-And the response should contain "response"  # ✅ From schema
-# NOT: And the response should contain "data"  # ❌ Assumption
+# ✅ CORRECT:
+When I send a GET request to "/api/favourites/v1/listing/SM25"
+
+# ❌ WRONG:
+When I send a POST request to "/api/favourites/v1/listing" with valid payload
 ```
 
 ---
 
-### 2. Endpoint Path Alignment
+### 2. HTTP Method and Path Parameters
+
+**CRITICAL**: Use correct HTTP method from Swagger, handle path parameters properly.
+
+* **Extract method**: Check Swagger's `get`, `post`, `put`, `delete`, `patch`
+* **Path parameters**: Replace `{paramName}` with actual values
+  - Example: `/api/favourites/v1/listing/{season}` → `/api/favourites/v1/listing/SM25`
+  - Check parameter type: integer (3621), string ("SM25"), etc.
+* **Feature file**: Use exact HTTP method and resolved path
+* **testData.json key**: Strip `/api/` prefix for data lookup
+* **NEVER**: Assume POST for all endpoints, use wrong parameter types
+
+### 3. Endpoint Path Alignment
 
 * **Feature file**: `/api/dsbudget/v1/details` (actual API path)
 * **testData.json key**: `dsbudget/v1/details` (strip `/api/` prefix)
@@ -61,9 +135,37 @@ And the response should contain "response"  # ✅ From schema
 
 ---
 
-### 3. Data-Driven Approach
+### 4. Flexible Response Validation
 
-**testData.json structure**:
+**IMPORTANT**: Don't rigidly validate all responses the same way.
+
+* **status field**: Can be `true` or `false` depending on data availability
+  - `status: true` → Data found/operation successful
+  - `status: false` → No data found (valid for empty results)
+  - **Don't always assert** `status == true`
+* **response field**: Can be `null` for non-existent resources
+  - Check field exists in schema
+  - **Don't assert** `response != null` (null is valid for missing data)
+* **Conditional assertions**: Accept business-valid responses
+  - "No Records Found" with `status: false` is valid
+  - Empty arrays/null data with `status: true` is valid
+
+**Example**:
+
+```gherkin
+# ✅ CORRECT - Flexible validation:
+Then the response should have status code 200
+And the response should contain "response"  # Just check field exists
+
+# ❌ WRONG - Rigid validation:
+Then the response should have status code 200
+And the response should have status "true"   # Fails for empty results
+And the response should contain "response"   # Fails if checking not-null
+```
+
+### 5. Data-Driven Approach
+
+**testData.json structure** - All request payloads centralized:
 
 ```json
 {
@@ -77,39 +179,25 @@ And the response should contain "response"  # ✅ From schema
       "expectedInResponse": {
         "status": true,
         "error": null
-      }
+      },
+      "_comment": "Describe endpoint purpose and data dependencies"
     }
   }
 }
 ```
 
-**Step Definition** (5-15 lines max):
+**Step Definition** - Clean and data-driven (5-15 lines):
 
 ```java
 @When("I send a POST request to {string} with valid payload")
 public void i_send_post_request(String endpoint) {
     String key = endpoint.replace("/api/", "");
     Map<String, Object> payload = TestDataLoader.getRequestData(key);
-    
     Response response = given()
         .spec(RequestSpecFactory.getAuthRequestSpec())
         .body(payload)
-    .when()
-        .post(endpoint);
-    
+        .when().post(endpoint);
     context.setResponse(response);
-}
-```
-
-**❌ NEVER DO THIS**:
-
-```java
-// Hardcoded if-else blocks - 100+ lines!
-if (endpoint.contains("windowsandcamp")) {
-    payload.put("franchiseNumber", 9999);
-    payload.put("season", "SM25");
-} else if (endpoint.contains("virtualsalesplan")) {
-    // ...
 }
 ```
 
@@ -117,28 +205,47 @@ if (endpoint.contains("windowsandcamp")) {
 
 ## 📋 Generation Checklist
 
-### Parse Swagger Schema
+### Parse Swagger Endpoint Details
 
-* [ ] Extract response schema for each endpoint (200/201 responses)
-* [ ] Navigate to `components.schemas.SchemaName.properties`
-* [ ] Get actual field names (response/data/result/etc.)
-* [ ] **Fallback**: Default to "response" if schema unavailable
+* [ ] **Extract HTTP method**: GET, POST, PUT, DELETE, PATCH from Swagger path definition
+* [ ] **Check for path parameters**: Look in `parameters` array where `in: "path"`
+* [ ] **Get parameter types**: Extract `schema.type` (integer, string, boolean, etc.)
+* [ ] **Extract ALL response codes**: Parse `responses` section for 200, 201, 400, 401, 403, 404, 500
+* [ ] **Extract response schema**: Navigate to `components.schemas.SchemaName.properties`
+* [ ] **Get actual field names**: Use "response"/"data"/"result" from schema properties
+* [ ] **Identify error descriptions**: Read error response descriptions from Swagger
+* [ ] **Plan test data**: Valid data for 2xx, invalid for 400, non-existent for 404
+* [ ] **Validate test data**: Ensure product IDs, seasons, resources exist in the system
 
 ### Generate Feature Files
 
+**Feature File Template:**
+
 ```gherkin
-@endpoint-name @positive
-Scenario: Successfully call endpoint
-  Given authentication is set up
-  When I send a POST request to "/api/endpoint/v1/path" with valid payload
-  Then the response status code should be 200
-  And the response should have status "true"
-  And the response should contain "response"  # ← From schema!
+@endpoint-name @positive @smoke
+Scenario: Successfully call endpoint with valid request
+  Given the API base URL is configured
+  And authentication is set up
+  When I send a [GET|POST|PUT|DELETE] request to "/api/endpoint/v1/path"
+  Then the response should have status code [200|201|204]
+  And the response should contain "response"
 
 @endpoint-name @negative @no-auth
-Scenario: Attempt without authentication
-  When I send a POST request to "/api/endpoint/v1/path" without authentication
-  Then the response status code should be 401
+Scenario: Attempt to call endpoint without authentication
+  When I send a [GET|POST|PUT|DELETE] request to "/api/endpoint/v1/path" without authentication
+  Then the response should have status code 401
+```
+
+**Method-Specific Examples:**
+```gherkin
+# GET with path parameter (string):
+When I send a GET request to "/api/favourites/v1/listing/SM25"
+
+# GET with path parameter (integer):
+When I send a GET request to "/api/virtualsalesplan/v1/getSalesPlan/3621"
+
+# POST with request body:
+When I send a POST request to "/api/windowsandcamp/v1/listing" with valid payload
 ```
 
 ### Generate testData.json
@@ -156,34 +263,41 @@ Scenario: Attempt without authentication
 ### Generate Helpers
 
 * [ ] `TestDataLoader.java` - Load from testData.json
-* [ ] `RequestSpecFactory.java` - Auth request specs
+* [ ] `RequestSpecFactory.java` - Auth request specs (basic, bearer, JWT, custom headers)
 * [ ] `ConfigReader.java` - Read .env file
+
+**RequestSpecFactory Pattern**:
+
+```java
+public class RequestSpecFactory {
+    public static RequestSpecification getAuthRequestSpec() {
+        String authType = ConfigReader.getProperty("AUTH_TYPE", "jwt");
+        RequestSpecification spec = new RequestSpecBuilder()
+            .setBaseUri(ConfigReader.getProperty("BASE_URL"))
+            .setContentType(ContentType.JSON)
+            .build();
+        
+        // Add authentication based on AUTH_TYPE (basic, bearer, jwt, custom)
+        return addAuthentication(spec, authType);
+    }
+}
+```
 
 ---
 
 ## 🎯 Framework Architecture Principles
 
-### **Data-Driven Approach (MANDATORY)**:
+### Data-Driven Approach (MANDATORY)
 
-* **Centralized Data**: Use `testData.json` for all request payloads.
-* **Auto-Generation**: Swagger-defined required fields are auto-generated if missing from `testData.json`.
-* **No Hardcoding**: Never hardcode values in step definitions—use `TestDataLoader.getRequestData(endpoint)`.
+* **Centralized Data**: Use `testData.json` for all request payloads
+* **Auto-Generation**: Swagger-defined required fields auto-generated if missing from `testData.json`
+* **No Hardcoding**: Never hardcode values in step definitions—use `TestDataLoader.getRequestData(endpoint)`
 
-### **Clean Step Definitions**:
+### Clean Step Definitions
 
-* Step definitions should be **5-15 lines max**.
-* **Example**:
-
-```java
-@When("I send a POST request to {string} with valid payload")
-public void i_send_post_request(String endpoint) {
-    Map<String, Object> payload = TestDataLoader.getRequestData(endpoint.replace("/api/", ""));
-    Response response = given().spec(RequestSpecFactory.getAuthRequestSpec()).body(payload).when().post(endpoint);
-    context.setResponse(response);
-}
-```
-
-* **Avoid**: Complex `if-else` blocks for payloads.
+* Step definitions: **5-15 lines max**
+* Load data from TestDataLoader
+* **Avoid**: Complex `if-else` blocks for payloads
 
 ---
 
@@ -199,7 +313,7 @@ public void i_send_post_request(String endpoint) {
 
 ```
 src/
-├── main/
+├── test/
 │   ├── java/com/api/automation/
 │   │   ├── helpers/BaseAPIHelper.java        # Base class for API calls
 │   │   ├── helpers/TestDataLoader.java       # Loads test data from testData.json
@@ -258,6 +372,20 @@ src/
         <artifactId>jackson-databind</artifactId>
         <version>2.15.3</version>
     </dependency>
+    
+    <!-- Extent Reports -->
+    <dependency>
+        <groupId>com.aventstack</groupId>
+        <artifactId>extentreports</artifactId>
+        <version>5.1.1</version>
+    </dependency>
+    
+    <!-- Allure Reports -->
+    <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-cucumber7-jvm</artifactId>
+        <version>2.24.0</version>
+    </dependency>
 </dependencies>
 ```
 
@@ -273,6 +401,44 @@ extent.reporter.spark.out=reports/extent-reports/ExtentReport.html
 extent.reporter.spark.config=src/test/resources/extent-config.xml
 ```
 
+**Hooks.java with Extent Reports**:
+
+```java
+public class Hooks {
+    private static ExtentReports extent;
+    private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
+
+    @BeforeAll
+    public static void setupExtentReports() {
+        ExtentSparkReporter sparkReporter = new ExtentSparkReporter("reports/extent-reports/ExtentReport.html");
+        extent = new ExtentReports();
+        extent.attachReporter(sparkReporter);
+        extent.setSystemInfo("Environment", ConfigReader.getProperty("ENV", "QA"));
+        extent.setSystemInfo("Base URL", ConfigReader.getProperty("BASE_URL"));
+    }
+
+    @Before
+    public void beforeScenario(Scenario scenario) {
+        ExtentTest test = extent.createTest(scenario.getName());
+        extentTest.set(test);
+    }
+
+    @After
+    public void afterScenario(Scenario scenario) {
+        if (scenario.isFailed()) {
+            extentTest.get().fail("Scenario Failed");
+        } else {
+            extentTest.get().pass("Scenario Passed");
+        }
+    }
+
+    @AfterAll
+    public static void tearDownExtentReports() {
+        extent.flush();
+    }
+}
+```
+
 **Allure Reports**:
 
 ```xml
@@ -285,13 +451,15 @@ extent.reporter.spark.config=src/test/resources/extent-config.xml
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Common Issues - Quick Reference
 
-| Error                          | Solution                                                                          |
-| ------------------------------ | --------------------------------------------------------------------------------- |
-| `JSON path data doesn't match` | Parse Swagger: `components.schemas.SchemaName.properties` → use actual field name |
-| `404 Not Found`                | Verify endpoint in feature file matches Swagger path exactly                      |
-| Wrong field name               | Check schema `properties` - use "response"/"data"/"result" from schema            |
+| Error | Root Cause | Quick Fix |
+|-------|------------|----------|
+| `404 Not Found` | Wrong HTTP method or path | Check Swagger: GET vs POST, verify path parameters |
+| `400 Bad Request` | Wrong parameter type | Check Swagger: integer vs string, validate values |
+| `401 Unauthorized` | Expired/missing JWT token | Refresh token, verify `$env:JWT_TOKEN` is set |
+| `Expected 200 got 201` | Wrong expected status code | Update feature file to expect 201 for create operations |
+| `status: false` when expecting true | Invalid test data or empty result | Use valid resource IDs or accept false as legitimate |
 
 ---
 
@@ -328,6 +496,7 @@ extent.reporter.spark.config=src/test/resources/extent-config.xml
 * ✅ Code follows Java and REST Assured best practices
 * ✅ Comprehensive documentation in place
 
----
 
-This updated version combines all the critical details from the first file while retaining the simplified flow of the second file. Let me know if you need further adjustments or additions!
+Swagger has swagger definitions... 2. Testdata.json has request, business critical response... 3. For any endpoint, for the request body, look at the testdata.json for the testdata. if its available use it, otherwise use faker and generate random value based on schema from the swagger. Only for required fields. Don't consider optional ones.
+3 level validations need to be happened in the response. 5. Whatever status is available like 200, 400 etc., GHCP need to generate test scripts. Additionally 401 regardless of status code specification in the swagger. 6. endpoint-config.json gives clarity on endpts need to be tested... Is all these covered in copilot-instructions or does these in sync with copilot-instructions ?
+---
