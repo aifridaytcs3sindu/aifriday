@@ -1,0 +1,333 @@
+I’ve integrated the necessary sections from the first file into the second one to retain the simplicity while ensuring all key details are included. Here's the updated version of the **second file** (`copilot-instructions-ESSENTIAL.md`), now enhanced with additional details:
+
+---
+
+# REST Assured API Test Generator - Essential Instructions
+
+**Purpose**: Generate complete REST Assured + Cucumber test suite from Swagger/OpenAPI specification.
+
+**Usage**: `@workspace #file:copilot-instructions-ESSENTIAL.md Generate API tests from Swagger`
+
+---
+
+## 🎯 Core Workflow
+
+1. **Parse Swagger** → Extract endpoints, schemas, authentication
+2. **Parse Response Schemas** → Get actual field names (response/data/result)
+3. **Generate Tests** → Feature files + testData.json + step definitions
+4. **Execute** → Run tests, generate reports
+
+---
+
+## ⚠️ CRITICAL RULES
+
+### 1. Swagger Response Schema Parsing
+
+**MANDATORY**: Extract field names from Swagger - DON'T assume "data" or "response".
+
+```
+Swagger Navigation:
+paths → /api/endpoint → post/get → responses → 200 
+  → content → application/json → schema → $ref 
+  → components → schemas → ResponseSchemaName → properties
+```
+
+**Example**:
+
+```json
+"ResponseMapStringListResponse": {
+  "properties": {
+    "response": { "type": "object" },  // ← Use this in assertions!
+    "status": { "type": "boolean" },
+    "error": { ... }
+  }
+}
+```
+
+**Feature File**:
+
+```gherkin
+And the response should contain "response"  # ✅ From schema
+# NOT: And the response should contain "data"  # ❌ Assumption
+```
+
+---
+
+### 2. Endpoint Path Alignment
+
+* **Feature file**: `/api/dsbudget/v1/details` (actual API path)
+* **testData.json key**: `dsbudget/v1/details` (strip `/api/` prefix)
+* **NEVER invent endpoint paths** - use exact paths from Swagger
+
+---
+
+### 3. Data-Driven Approach
+
+**testData.json structure**:
+
+```json
+{
+  "endpoints": {
+    "dsbudget/v1/details": {
+      "request": {
+        "franchiseNumber": [8439, 8345],
+        "seasonName": "SM25",
+        "businessUnit": ["G3-02"]
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      }
+    }
+  }
+}
+```
+
+**Step Definition** (5-15 lines max):
+
+```java
+@When("I send a POST request to {string} with valid payload")
+public void i_send_post_request(String endpoint) {
+    String key = endpoint.replace("/api/", "");
+    Map<String, Object> payload = TestDataLoader.getRequestData(key);
+    
+    Response response = given()
+        .spec(RequestSpecFactory.getAuthRequestSpec())
+        .body(payload)
+    .when()
+        .post(endpoint);
+    
+    context.setResponse(response);
+}
+```
+
+**❌ NEVER DO THIS**:
+
+```java
+// Hardcoded if-else blocks - 100+ lines!
+if (endpoint.contains("windowsandcamp")) {
+    payload.put("franchiseNumber", 9999);
+    payload.put("season", "SM25");
+} else if (endpoint.contains("virtualsalesplan")) {
+    // ...
+}
+```
+
+---
+
+## 📋 Generation Checklist
+
+### Parse Swagger Schema
+
+* [ ] Extract response schema for each endpoint (200/201 responses)
+* [ ] Navigate to `components.schemas.SchemaName.properties`
+* [ ] Get actual field names (response/data/result/etc.)
+* [ ] **Fallback**: Default to "response" if schema unavailable
+
+### Generate Feature Files
+
+```gherkin
+@endpoint-name @positive
+Scenario: Successfully call endpoint
+  Given authentication is set up
+  When I send a POST request to "/api/endpoint/v1/path" with valid payload
+  Then the response status code should be 200
+  And the response should have status "true"
+  And the response should contain "response"  # ← From schema!
+
+@endpoint-name @negative @no-auth
+Scenario: Attempt without authentication
+  When I send a POST request to "/api/endpoint/v1/path" without authentication
+  Then the response status code should be 401
+```
+
+### Generate testData.json
+
+* [ ] One entry per endpoint: `endpoints.<path>.request`
+* [ ] Only business-critical fields (Swagger required fields auto-generated)
+* [ ] Add `expectedInResponse` for validation
+
+### Generate Step Definitions
+
+* [ ] Use `TestDataLoader.getRequestData(endpoint)`
+* [ ] 5-15 lines per step
+* [ ] No if-else blocks for payloads
+
+### Generate Helpers
+
+* [ ] `TestDataLoader.java` - Load from testData.json
+* [ ] `RequestSpecFactory.java` - Auth request specs
+* [ ] `ConfigReader.java` - Read .env file
+
+---
+
+## 🎯 Framework Architecture Principles
+
+### **Data-Driven Approach (MANDATORY)**:
+
+* **Centralized Data**: Use `testData.json` for all request payloads.
+* **Auto-Generation**: Swagger-defined required fields are auto-generated if missing from `testData.json`.
+* **No Hardcoding**: Never hardcode values in step definitions—use `TestDataLoader.getRequestData(endpoint)`.
+
+### **Clean Step Definitions**:
+
+* Step definitions should be **5-15 lines max**.
+* **Example**:
+
+```java
+@When("I send a POST request to {string} with valid payload")
+public void i_send_post_request(String endpoint) {
+    Map<String, Object> payload = TestDataLoader.getRequestData(endpoint.replace("/api/", ""));
+    Response response = given().spec(RequestSpecFactory.getAuthRequestSpec()).body(payload).when().post(endpoint);
+    context.setResponse(response);
+}
+```
+
+* **Avoid**: Complex `if-else` blocks for payloads.
+
+---
+
+## 🚨 Test Coverage Requirements
+
+* **Positive Scenarios**: Ensure all endpoints with 200/201/204 status codes are validated.
+* **401 Unauthorized Tests**: Always generate tests for `401 Unauthorized` for all HTTP methods (GET, POST, PUT, DELETE).
+* **Other Error Scenarios**: Generate tests for other error codes (400, 403, 404, 500) if documented in Swagger.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── main/
+│   ├── java/com/api/automation/
+│   │   ├── helpers/BaseAPIHelper.java        # Base class for API calls
+│   │   ├── helpers/TestDataLoader.java       # Loads test data from testData.json
+│   │   ├── config/ConfigReader.java          # Reads environment variables and config
+│   ├── resources/
+│   │   ├── schemas/order-response-schema.json # JSON schemas for validation
+│   │   └── testdata/testData.json           # Centralized test data
+```
+
+---
+
+## 🔧 Technical Stack
+
+**Dependencies**:
+
+* Java 17
+* Maven 3.8+
+* REST Assured 5.3+
+* Cucumber 7.14+
+* TestNG 7.8+
+* Jackson Databind 2.15+
+
+**pom.xml**:
+
+```xml
+<dependencies>
+    <!-- REST Assured -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>5.3.2</version>
+    </dependency>
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>json-schema-validator</artifactId>
+        <version>5.3.2</version>
+    </dependency>
+
+    <!-- Cucumber -->
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>7.14.0</version>
+    </dependency>
+
+    <!-- TestNG -->
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.8.0</version>
+    </dependency>
+    
+    <!-- JSON Processing -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.15.3</version>
+    </dependency>
+</dependencies>
+```
+
+---
+
+## 📊 Reporting Configuration
+
+**Extent Reports**:
+
+```properties
+extent.reporter.spark.start=true
+extent.reporter.spark.out=reports/extent-reports/ExtentReport.html
+extent.reporter.spark.config=src/test/resources/extent-config.xml
+```
+
+**Allure Reports**:
+
+```xml
+<dependency>
+    <groupId>io.qameta.allure</groupId>
+    <artifactId>allure-cucumber7-jvm</artifactId>
+    <version>2.24.0</version>
+</dependency>
+```
+
+---
+
+## 🐛 Troubleshooting
+
+| Error                          | Solution                                                                          |
+| ------------------------------ | --------------------------------------------------------------------------------- |
+| `JSON path data doesn't match` | Parse Swagger: `components.schemas.SchemaName.properties` → use actual field name |
+| `404 Not Found`                | Verify endpoint in feature file matches Swagger path exactly                      |
+| Wrong field name               | Check schema `properties` - use "response"/"data"/"result" from schema            |
+
+---
+
+## 🎬 Quick Start
+
+1. **Read** `.env` for BASE_URL, AUTH_TYPE, credentials
+2. **Parse** Swagger response schemas → extract field names
+3. **Generate**:
+
+   * testData.json (endpoints structure)
+   * Feature files (use schema field names!)
+   * Step definitions (5-15 lines, use TestDataLoader)
+   * Helpers (RequestSpecFactory, TestDataLoader, ConfigReader)
+   * Hooks (with Extent Reports integration)
+4. **Run**: `mvn clean test`
+5. **Reports**:
+
+   * Cucumber: `reports/cucumber-reports/cucumber.html`
+   * Extent: `reports/extent-reports/ExtentReport.html`
+   * Allure: `mvn allure:serve`
+
+---
+
+### **Completion Criteria**
+
+* ✅ All test scenarios execute successfully
+* ✅ Three-level validation (schema, data type, key values) implemented
+* ✅ Retry logic configured for stability
+* ✅ Multiple report formats generated
+* ✅ Centralized configuration and test data
+* ✅ Flexible authentication support
+* ✅ Proper logging and debugging capabilities
+* ✅ CI/CD ready with Maven integration
+* ✅ Code follows Java and REST Assured best practices
+* ✅ Comprehensive documentation in place
+
+---
+
+This updated version combines all the critical details from the first file while retaining the simplified flow of the second file. Let me know if you need further adjustments or additions!
