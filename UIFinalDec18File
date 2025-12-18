@@ -1,0 +1,492 @@
+# =========================================================
+# 🧠 Copilot Global Instructions for This Project
+# =========================================================
+
+# =========================================================
+## To-Do List:
+1. **Create the project folder structure**: Ensure that all necessary directories (`features/`, `step_definitions/`, `support/`, `tests/`, `reports/`, etc.) are created as outlined in the Folder & File Structure section.
+2. Create feature files in `features/`.
+3. Implement step definitions in `step_definitions/` as TypeScript files.
+4. Set up hooks in `support/hooks.ts`.
+5. Implement page objects in `support/pages/` and `pages/` as TypeScript files.
+6. Set up retries and helpers in `support/helpers/` as TypeScript files.
+7. Confirm folder structure correctness.
+8. Verify test execution by running the tests (`npm test`).
+9. Verify Playwright generates:
+    - HTML report at `playwright-report/`
+    - JSON report at `reports/json/playwright-report.json`
+    - JUnit report at `reports/junit/junit.xml`
+  after test execution.
+10. Create a test summary in `test-summary.txt`.
+# =========================================================
+
+## Project Type
+This project uses **Playwright + CucumberJS (TypeScript)** with **Native Playwright Test Runner** for automating **UI Regression Test Cases**.
+
+Copilot should generate **BDD-style test automation scripts** with **Playwright native test runner** for better parallelization and modern reporting capabilities.
+
+---
+
+## 1️⃣ Objective
+Whenever test scenarios or test cases are described, generate:
+- `.feature` file (Gherkin syntax)
+- `.steps.ts` file (Playwright step definitions in TypeScript)
+- `.spec.ts` file (Native Playwright test specs)
+- Optional page object (`.page.ts`) for reusable actions in TypeScript
+
+All generated code must conform to this architecture and pass execution on the first run.
+
+---
+
+## 2️⃣ Folder & File Structure
+
+Implement the following folder structure for your Playwright + CucumberJS (TypeScript) project:
+
+```
+features/
+├─ [feature-name].feature               # Feature file with Gherkin syntax
+└─ step_definitions/
+    └─ [feature-name].steps.ts          # Step definitions in TypeScript
+support/
+├─ hooks.ts                             # Hooks file for setup and teardown
+├─ pages/                               # Folder for page object files
+│   └─ [page-name].page.ts              # Page object file in TypeScript
+└─ helpers/                             # Folder for helper functions
+    └─ retry.ts                         # Optional helper for retry logic
+tests/
+├─ [feature-name].spec.ts               # Native Playwright test specs
+└─ pages/                               # Page objects for native tests
+    └─ [page-name].page.ts
+reports/
+├─ json/
+│   └─ playwright-report.json           # JSON report
+├─ junit/
+│   └─ junit.xml                        # JUnit XML report
+└─ playwright-report/                   # HTML interactive report (auto-generated)
+    └─ index.html
+.copilot-instructions                   # Copilot instructions file
+.env                                    # Environment variables (LOCAL - add to .gitignore)
+.env.example                            # Environment template (COMMIT this)
+.gitignore                              # Git ignore file
+playwright.config.ts                    # Playwright configuration with reporters
+cucumber.conf.ts                        # Cucumber configuration (reference)
+tsconfig.json                           # TypeScript configuration
+package.json                            # NPM package manifest
+test-summary.txt                        # Test summary file
+```
+
+---
+
+## 2️⃣-A Environment Configuration (`.env` file)
+
+Create a `.env` file in the project root for managing sensitive configuration (credentials and base URL only):
+
+```env
+# Application Configuration
+BASE_URL=https://www.saucedemo.com
+
+# Test Credentials
+USERNAME=standard_user
+PASSWORD=secret_sauce
+```
+
+**Important:**
+- Add `.env` to `.gitignore` (never commit credentials)
+- Create `.env.example` with template values (commit this for the team)
+- Install dotenv: `npm install dotenv`
+
+**Usage in code:**
+```typescript
+// In playwright.config.ts
+import dotenv from 'dotenv';
+dotenv.config();
+
+export default defineConfig({
+  use: {
+    baseURL: process.env.BASE_URL || 'https://www.example.com',
+  },
+});
+
+// In page objects
+export class LoginPage {
+  async login(page: Page) {
+    const username = process.env.USERNAME || 'default_user';
+    const password = process.env.PASSWORD || 'default_pass';
+    await page.fill('[data-test="username"]', username);
+    await page.fill('[data-test="password"]', password);
+  }
+}
+```
+
+**Note:** Parallelization (`WORKERS`) and retry settings are configured directly in `playwright.config.ts`, not in `.env`. This keeps configuration separate from secrets.
+
+---
+
+## 3️⃣ Feature File Rules
+- Use **Gherkin syntax** (`Feature:`, `Scenario:`, `Given/When/Then`).
+- Each test case = one `Scenario`.
+- Titles are descriptive and user-friendly.
+- Scenarios must match natural steps from the user prompt.
+
+### Feature file partitioning
+When the user requests multiple functional areas (e.g. Login, Cart, Checkout), **generate a separate `.feature` file for each area**. Do NOT combine unrelated features into a single `.feature` file.
+Naming:
+- Use `features/<feature-name>.feature` where `<feature-name>` is lowercase-hyphen (e.g. `login.feature`, `cart.feature`, `checkout.feature`).
+- Group related Scenarios inside that file only.
+
+---
+
+## 4️⃣ Step Definition Rules
+
+* Create a matching step definition file under `features/step_definitions/` with the same base name (e.g. `login.steps.ts`, `cart.steps.ts`, `checkout.steps.ts`).
+* Use **TypeScript** syntax with proper typing.
+* Import required modules:
+  ```typescript
+  import { Given, When, Then } from '@cucumber/cucumber';
+  import { Page, expect } from '@playwright/test';
+  ```
+* Always prefix Playwright actions with `await`.
+* Handle waits with Playwright's built-in methods:
+  * `page.waitForSelector(selector)`
+  * `page.waitForNavigation({ waitUntil: 'networkidle' })`
+  * `await expect(page.locator(selector)).toBeVisible()`
+* Each step performs a single logical action.
+* Use retries for flaky operations (selectors, clicks, navigation).
+
+---
+
+## 5️⃣ Page Object Rules
+
+* Create page objects as TypeScript classes with proper typing.
+* Accept a `Page` object in the constructor from Playwright.
+* Each page object encapsulates actions and selectors for a specific page.
+
+Example:
+
+```typescript
+import { Page, expect } from '@playwright/test';
+
+export class LoginPage {
+  constructor(private page: Page) {}
+
+  async goto(): Promise<void> {
+    await this.page.goto('/');
+  }
+
+  async login(username: string, password: string): Promise<void> {
+    await this.page.fill('[data-test="username"]', username);
+    await this.page.fill('[data-test="password"]', password);
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: 'networkidle' }),
+      this.page.click('[data-test="login-button"]'),
+    ]);
+  }
+}
+```
+
+---
+
+## 6️⃣ Hooks:
+- Ensure that the `hooks.ts` file includes:
+  * **BeforeAll**: To launch the browser with Playwright.
+  * **AfterAll**: To close the browser after test execution.
+  * **Before**: Initialize page objects after the Cucumber context is available.
+  * **After**: Capture screenshots on failure and perform cleanup actions.
+
+**Browser Lifecycle Management**: Properly manage the browser lifecycle to avoid flaky tests (e.g., stale elements, timeout issues).
+
+---
+
+## 6️⃣-A Playwright Configuration File (`playwright.config.ts`)
+
+Create a comprehensive `playwright.config.ts` with the following structure:
+
+```typescript
+import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+
+export default defineConfig({
+  // Test discovery
+  testDir: './tests',
+  testMatch: '**/*.spec.ts',
+  
+  // Execution settings
+  fullyParallel: true,
+  retries: process.env.CI ? 2 : 0,        // Retries in CI environment
+  workers: process.env.CI ? 1 : 4,        // Parallel workers (4 local, 1 in CI)
+  
+  // Reporters
+  reporter: [
+    ['html', { open: 'always', outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'reports/json/playwright-report.json' }],
+    ['junit', { outputFile: 'reports/junit/junit.xml' }],
+    ['list'],
+  ],
+  
+  // Test configuration
+  use: {
+    baseURL: 'https://www.example.com',
+    trace: 'on',                    // Always capture traces
+    screenshot: 'on',               // Capture screenshots
+    video: 'on',                    // Record full video
+    actionTimeout: 15000,           // 15s per action
+    navigationTimeout: 30000,       // 30s per navigation
+  },
+  
+  // Browser projects
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    // Uncomment for multi-browser testing:
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+  ],
+  
+  // Timeouts
+  timeout: 90000,                  // 90s per test
+  globalTimeout: 90 * 60 * 1000,   // 90 minutes total
+});
+```
+
+**Key Configuration Points:**
+- `fullyParallel: true` - All tests run in parallel
+- `retries` - Automatic retries on CI failure
+- `workers` - Number of parallel workers (4 for local, 1 for CI)
+- `trace: 'on'` - Full execution traces for debugging
+- `screenshot: 'on'` - Screenshots for each action
+- `video: 'on'` - Full video recording
+- `baseURL` - Base URL for all tests
+
+---
+
+
+
+### Directory Structure
+```
+reports/
+├── json/
+│   └── playwright-report.json
+├── junit/
+│   └── junit.xml
+└── playwright-report/           # Auto-generated HTML report
+    └── index.html
+```
+
+### Playwright Configuration
+Configure reporters in `playwright.config.ts`:
+```typescript
+export default defineConfig({
+  reporter: [
+    ['html', { open: 'always', outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'reports/json/playwright-report.json' }],
+    ['junit', { outputFile: 'reports/junit/junit.xml' }],
+    ['list'],
+  ],
+  use: {
+    baseURL: 'https://www.example.com',
+    trace: 'on',              // Capture full execution traces
+    screenshot: 'on',         // Capture screenshots for each action
+    video: 'on',              // Record full test videos
+    actionTimeout: 15000,
+    navigationTimeout: 30000,
+  },
+});
+```
+
+### Report Features
+- **HTML Report**: Interactive report with traces, videos, and screenshots
+  - View: `npx playwright show-report`
+  - Location: `playwright-report/index.html`
+
+- **JSON Report**: Machine-readable format for CI/CD integration
+  - Location: `reports/json/playwright-report.json`
+
+- **JUnit Report**: Standard XML format for CI systems (Jenkins, GitHub Actions)
+  - Location: `reports/junit/junit.xml`
+
+- **Artifacts Captured**:
+  - ✅ Full execution traces (debugging)
+  - ✅ Screenshots for each test action
+  - ✅ Full video recording of test execution
+
+### Package Scripts
+Add to package.json:
+```json
+{
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "show-report": "npx playwright show-report"
+  }
+}
+```
+
+---
+
+## 8️⃣ Naming Conventions
+
+| Type     | Format           | Example                                   |
+| -------- | ---------------- | ----------------------------------------- |
+| Feature  | lowercase-hyphen | `login.feature`                           |
+| Step Def | lowercase-hyphen | `login.steps.ts`                          |
+| Test Spec| lowercase-hyphen | `login.spec.ts`                           |
+| Page Obj | PascalCase       | `LoginPage.ts`                            |
+| Scenario | Natural English  | `Successful login with valid credentials` |
+
+**Consistency in Naming**: Ensure consistent naming in filenames, variables, and functions throughout the project. All TypeScript files use strict typing.
+
+---
+
+## 9️⃣ Assertions
+
+Use Playwright's `expect()` API:
+
+```typescript
+import { expect } from '@playwright/test';
+
+// URL assertions
+await expect(page).toHaveURL(/.*inventory/);
+
+// Element visibility
+await expect(page.locator('#logout')).toBeVisible();
+
+// Text content
+await expect(page.locator('.error')).toContainText('Invalid credentials');
+
+// Element count
+await expect(page.locator('.product-item')).toHaveCount(6);
+```
+
+---
+
+## 🔟 Code Quality
+
+* Clear selectors and consistent naming
+* Prefer semantic locators (getByRole, getByText, getByPlaceholder) over CSS selectors
+* No hard waits (`setTimeout`) — use Playwright waits exclusively
+* Handle retries for dynamic elements
+* Self-contained test execution
+* Use TypeScript for full type safety
+* All async operations must use `await`
+
+---
+
+🧩 Universal Retry Helper
+
+Create a reusable helper in `features/support/helpers/retry.ts`:
+
+```typescript
+export async function retry<T>(
+  fn: () => Promise<T>,
+  retries: number = 3,
+  delay: number = 1000
+): Promise<T> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(res => setTimeout(res, delay));
+    }
+  }
+  throw new Error('Retry failed');
+}
+```
+
+Use in steps:
+
+```typescript
+import { retry } from '../support/helpers/retry';
+await retry(async () => await page.click('[data-test="login-button"]'));
+```
+---
+🧭 Stabilization Rules
+
+Before each test (configured in `playwright.config.ts`):
+
+* Set `actionTimeout: 15000` in use config.
+* Set `navigationTimeout: 30000` in use config.
+* Use `waitUntil: 'networkidle'` after navigation.
+* Enable trace capture: `trace: 'on'` for debugging.
+* Enable screenshots: `screenshot: 'on'` for visual debugging.
+* Enable videos: `video: 'on'` for full test recording.
+
+---
+
+## 🗣️ Prompt Schema (How to Interpret User Prompts)
+
+When the user provides a natural-language request such as:
+
+> “Generate Playwright + CucumberJS UI test scripts for verifying the Login page at `https://practicetestautomation.com/practice-test-login/` with positive and negative scenarios.”
+
+You must:
+
+### 🧩 1. Parse the Intent
+
+Extract from the prompt:
+
+* Website URL(s)
+* User actions (click, enter text, navigate)
+* Expected outcomes or validations
+* Scenario names (positive/negative/etc.)
+
+### 2. Generate Test Files
+
+Generate:
+
+* **Feature file** in `features/`.
+* **Step definition file** in `step_definitions/`.
+* **Page Object** (if applicable) under `support/pages/`.
+
+### 🔁 3. Apply Self-Healing and Retry Logic
+
+Automatically detect unstable selectors or navigation failures. Use auto-retry wrappers and fallback queries.
+
+### 🔄 4. Self-Correction Cycle
+
+If a test fails, analyze the error, regenerate the failing part, and retry until it passes.
+
+### ⚡ 5. Generation Behavior
+
+Automatically fix syntax/import issues. Output runnable, self-healing tests.
+
+---
+
+## 🔍 Post-Generation Validation Rule
+
+After generating test scripts, perform a quick validation:
+
+* Ensure each selector used in the tests exists in the DOM (`waitForSelector`).
+
+---
+### 🚀 **Post-Generation Execution Rules**
+
+1. After generating all Playwright + CucumberJS files:
+
+   * Automatically execute the test suite (`npm test`).
+   * If any tests fail, retry with custom logic until success.
+   * Capture the test output (pass/fail summary).
+
+2. If any scenario fails:
+
+   * Identify the failed step and regenerate it using retry/self-healing logic.
+   * Re-run until all scenarios pass.
+
+3. **View HTML Report**: After running tests, view the interactive HTML report using `npx playwright show-report` (location: `playwright-report/`).
+
+4. Once all tests pass, generate `test-summary.txt` containing success summary, pass/fail count, and execution date/time.
+
+---
+## Completion Criteria:
+After generating the tests, ensure all tasks from the to-do list are completed by verifying the folder structure, feature files, step definitions, reports, and test summary, and confirming all tests pass successfully.
+---
