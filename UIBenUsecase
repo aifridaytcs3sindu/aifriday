@@ -1,0 +1,213 @@
+# 🧠 Copilot Global Instructions for This Project
+
+## 1️⃣ Environment Setup
+
+* **Read from `.env` file**:
+
+  * The **base URL** for the web application will be taken from the `.env` file.
+  * **Test credentials** (username, password, etc.) will also be pulled from `.env`.
+
+```env
+# .env file
+BASE_URL=https://www.saucedemo.com
+USERNAME=standard_user
+PASSWORD=secret_sauce
+```
+
+## 2️⃣ Web Crawling and User Journey Recording
+
+1. **Launch Playwright Browser**:
+
+   * Open the browser using Playwright, with the base URL from the `.env` file.
+2. **Interact with the Application**:
+
+   * **Crawl the application** by interacting with it:
+
+     * **Form submissions**: Fill in input fields and submit forms.
+     * **Button clicks**: Click buttons to navigate through the app.
+     * **Navigation events**: Track page navigations (e.g., moving from login to dashboard).
+3. **Record Actions**:
+
+   * **Capture interactions** (clicks, form fills, navigation).
+   * **Store interactions** in a structured format, which will be used to generate feature files (e.g., JSON or plain text).
+   * **Track Element Selectors**: Save selectors of clicked elements and interacted forms.
+
+### Example User Journey (from the app):
+
+1. Go to the login page.
+2. Enter a valid username and password.
+3. Click the login button.
+4. Navigate to the homepage.
+
+---
+
+## 3️⃣ Generate Gherkin Feature Files
+
+1. **Convert Recorded Actions into Gherkin Syntax**:
+
+   * Translate the recorded actions into **Gherkin syntax** (`Given`, `When`, `Then`).
+
+2. **Example Feature File**:
+
+```gherkin
+Feature: User Login
+
+Scenario: Valid login with valid credentials
+  Given I am on the login page
+  When I enter the username "standard_user" and password "secret_sauce"
+  Then I should see the homepage
+```
+
+3. **Generate `.feature` Files**:
+
+   * Create a `.feature` file for each user flow (e.g., login, checkout) in the `features/` folder.
+
+---
+
+## 4️⃣ Generate Step Definitions
+
+1. **Create Step Definitions** for each Gherkin step:
+
+   * Use **Playwright commands** to map the Gherkin steps to actual browser interactions (e.g., `page.fill`, `page.click`).
+
+2. **Step Definition Example**:
+
+```typescript
+import { Given, When, Then } from '@cucumber/cucumber';
+import { Page, expect } from '@playwright/test';
+
+Given('I am on the login page', async function() {
+  await this.page.goto('/login');
+});
+
+When('I enter the username {string} and password {string}', async function(username: string, password: string) {
+  await this.page.fill('[data-test="username"]', username);
+  await this.page.fill('[data-test="password"]', password);
+  await this.page.click('[data-test="login-button"]');
+});
+
+Then('I should see the homepage', async function() {
+  await expect(this.page.locator('#homepage')).toBeVisible();
+});
+```
+
+3. **Store the Step Definitions** in the `step_definitions/` folder.
+
+---
+
+## 5️⃣ Generate Page Objects (If Applicable)
+
+* **Create Page Objects** for reusable actions.
+
+  * For instance, a `LoginPage` object that includes methods for logging in, such as `login()`, `navigate()`, etc.
+
+```typescript
+import { Page } from '@playwright/test';
+
+export class LoginPage {
+  constructor(private page: Page) {}
+
+  async navigate() {
+    await this.page.goto('/login');
+  }
+
+  async login(username: string, password: string) {
+    await this.page.fill('[data-test="username"]', username);
+    await this.page.fill('[data-test="password"]', password);
+    await this.page.click('[data-test="login-button"]');
+  }
+}
+```
+
+---
+
+## 6️⃣ Automate and Execute the Test Scripts
+
+1. **Run the Generated Tests**:
+
+   * **Execute the tests** using Playwright's test runner.
+   * Use the command `npx playwright test` to run all the generated tests.
+
+```bash
+npx playwright test
+```
+
+2. **Apply Retry Logic**:
+
+   * If any test fails, automatically retry the failed test up to a certain number of times.
+
+---
+
+## 7️⃣ Analyze Failures and Retry
+
+1. **Failure Analysis**:
+
+   * If a test fails, the failure reason will be logged, and the system will identify which steps need to be re-executed or fixed.
+
+2. **Self-Healing Logic**:
+
+   * **Retry failed steps** automatically using retry logic for flaky tests (e.g., failed clicks or form submissions).
+   * If an action fails due to dynamic content, automatically reattempt until successful.
+
+---
+
+## 8️⃣ Generate Reports
+
+1. **Generate HTML, JSON, and JUnit Reports** after test execution:
+
+   * HTML report: Viewable through `npx playwright show-report`.
+   * JSON report: Useful for CI/CD integration.
+   * JUnit report: For CI systems like Jenkins, GitHub Actions, etc.
+
+2. **Reports Location**:
+
+   * **HTML**: `playwright-report/`
+   * **JSON**: `reports/json/playwright-report.json`
+   * **JUnit**: `reports/junit/junit.xml`
+
+---
+
+## 9️⃣ Generate Test Summary
+
+1. **Create a `test-summary.txt` File**:
+
+   * Summary should include:
+
+     * Total tests executed
+     * Number of passed and failed tests
+     * Test execution date and time
+
+```txt
+Test Summary:
+- Total Tests: 10
+- Passed: 8
+- Failed: 2
+- Execution Date: 2025-12-18
+```
+
+---
+
+## 🔄 Workflow Summary
+
+When you run the prompt **"Generate UI Test"**:
+
+1. **Extract URL and credentials** from `.env`.
+2. **Automatically crawl the web application**.
+3. **Record user actions** (clicks, form fills, navigation).
+4. **Generate Gherkin feature files** and corresponding **step definitions**.
+5. **Execute tests** with Playwright, apply retries if necessary.
+6. **Generate reports** (HTML, JSON, JUnit).
+7. **Generate test summary** and capture success/fail details.
+
+---
+
+### **Completion Criteria**
+
+After the process runs:
+
+* All required files should be generated (feature files, step definitions, page objects).
+* The tests should be executed with retries and all failures should be handled automatically.
+* Reports should be generated and stored in the appropriate locations.
+* The **test-summary.txt** file should be created with pass/fail details.
+
+---
