@@ -1,0 +1,588 @@
+{
+  "description": "Test data organized by endpoint with request data and expected response values for validation",
+  "common": {
+    "_comment": "Common data shared across multiple endpoints",
+    "userId": "your-user-id",
+    "userType": "global",
+    "franchiseeList": [
+      1234,
+      5678,
+      9012
+    ],
+    "_instructions": "Add any common data here that is reused across multiple endpoints"
+  },
+  "endpoints": {
+    "/v1/pal/PALProject/updateProject": {
+      "_comment": "Test data for /v1/pal/PALProject/updateProject",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/Personnel": {
+      "_comment": "Test data for /v1/pal/PALProject/Personnel",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/Personnel": {
+      "_comment": "Test data for /v1/pal/PALProduct/Personnel",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/Information": {
+      "_comment": "Test data for /v1/pal/PALProduct/Information",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/ImportProductField": {
+      "_comment": "Test data for /v1/pal/PALProduct/ImportProductField",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/users/listUserBySupplierOrg": {
+      "_comment": "Test data for /v1/users/listUserBySupplierOrg",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/users/listUserByRoles": {
+      "_comment": "Test data for /v1/users/listUserByRoles",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "NaN": {
+      "_comment": "Test data for nan",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/uploadFile": {
+      "_comment": "Test data for /v1/pal/uploadFile",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/updatePalConfigurations": {
+      "_comment": "Test data for /v1/pal/updatePalConfigurations",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/triggerExtract": {
+      "_comment": "Test data for /v1/pal/triggerExtract",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/getProductDetails": {
+      "_comment": "Test data for /v1/pal/getProductDetails",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/getPALTemplates": {
+      "_comment": "Test data for /v1/pal/getPALTemplates",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/download": {
+      "_comment": "Test data for /v1/pal/download",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/downloadFile": {
+      "_comment": "Test data for /v1/pal/downloadFile",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/digitalCatalogue": {
+      "_comment": "Test data for /v1/pal/digitalCatalogue",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/validatePalCompletion": {
+      "_comment": "Test data for /v1/pal/PALProject/validatePalCompletion",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/updateCommercial": {
+      "_comment": "Test data for /v1/pal/PALProject/updateCommercial",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/unlinkDualSupplyGroups": {
+      "_comment": "Test data for /v1/pal/PALProject/unlinkDualSupplyGroups",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/dualSupplyList": {
+      "_comment": "Test data for /v1/pal/PALProject/dualSupplyList",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/addProject": {
+      "_comment": "Test data for /v1/pal/PALProject/addProject",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/ProjectList": {
+      "_comment": "Test data for /v1/pal/PALProject/ProjectList",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/ProjectDetails": {
+      "_comment": "Test data for /v1/pal/PALProject/ProjectDetails",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/Progress": {
+      "_comment": "Test data for /v1/pal/PALProject/Progress",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/ProductList": {
+      "_comment": "Test data for /v1/pal/PALProject/ProductList",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/Commercial": {
+      "_comment": "Test data for /v1/pal/PALProject/Commercial",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/Auditlogs": {
+      "_comment": "Test data for /v1/pal/PALProject/Auditlogs",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/linkDualSupplyProducts": {
+      "_comment": "Test data for /v1/pal/PALProduct/linkDualSupplyProducts",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/duplicateSubSectionInformation": {
+      "_comment": "Test data for /v1/pal/PALProduct/duplicateSubSectionInformation",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/duplicateProducts": {
+      "_comment": "Test data for /v1/pal/PALProduct/duplicateProducts",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/deleteProjectOrProducts": {
+      "_comment": "Test data for /v1/pal/PALProduct/deleteProjectOrProducts",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/createProduct": {
+      "_comment": "Test data for /v1/pal/PALProduct/createProduct",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/bulkUpdateInformation": {
+      "_comment": "Test data for /v1/pal/PALProduct/bulkUpdateInformation",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/bulkInformation": {
+      "_comment": "Test data for /v1/pal/PALProduct/bulkInformation",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/Progress": {
+      "_comment": "Test data for /v1/pal/PALProduct/Progress",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/Auditlogs": {
+      "_comment": "Test data for /v1/pal/PALProduct/Auditlogs",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALConfigurations": {
+      "_comment": "Test data for /v1/pal/PALConfigurations",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/users/getSupplierCodes": {
+      "_comment": "Test data for /v1/users/getSupplierCodes",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/listRoles": {
+      "_comment": "Test data for /v1/pal/listRoles",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/listProjectTemplateRoles": {
+      "_comment": "Test data for /v1/pal/listProjectTemplateRoles",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/": {
+      "_comment": "Test data for /v1/pal/",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProject/sendPlatformNotification": {
+      "_comment": "Test data for /v1/pal/PALProject/sendPlatformNotification",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/v1/pal/PALProduct/getPalFields": {
+      "_comment": "Test data for /v1/pal/PALProduct/getPalFields",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    },
+    "/evictCache": {
+      "_comment": "Test data for /evictCache",
+      "request": {
+        "_comment": "Placeholder for request data (parameters, body, etc.)",
+        "exampleParam": "exampleValue"
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue"
+      }
+    }
+  }
+}

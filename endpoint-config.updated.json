@@ -1,0 +1,338 @@
+{
+  "generateForAllEndpoints": false,
+  "endpoints": [
+    {
+      "method": "PUT",
+      "path": "/v1/pal/PALProject/updateProject",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/pal/PALProject/Personnel",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/pal/PALProduct/Personnel",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/Personnel",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/pal/PALProduct/Information",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/Information",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/pal/PALProduct/ImportProductField",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/users/listUserBySupplierOrg",
+      "controller": "user-list-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/users/listUserByRoles",
+      "controller": "user-list-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": NaN,
+      "path": NaN,
+      "controller": NaN,
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/uploadFile",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/updatePalConfigurations",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/triggerExtract",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/getProductDetails",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/getPALTemplates",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/download",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/downloadFile",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/digitalCatalogue",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/validatePalCompletion",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/updateCommercial",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/unlinkDualSupplyGroups",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/dualSupplyList",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/addProject",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/ProjectList",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/ProjectDetails",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/Progress",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/ProductList",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/Commercial",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProject/Auditlogs",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/linkDualSupplyProducts",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/duplicateSubSectionInformation",
+      "controller": "pal-product-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/duplicateProducts",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/deleteProjectOrProducts",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/createProduct",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/bulkUpdateInformation",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/bulkInformation",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/Progress",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALProduct/Auditlogs",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/pal/PALConfigurations",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/users/getSupplierCodes",
+      "controller": "user-list-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/pal/listRoles",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/pal/listProjectTemplateRoles",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/pal/",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/pal/PALProject/sendPlatformNotification",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/pal/PALProduct/getPalFields",
+      "controller": "product-attribute-listing-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/evictCache",
+      "controller": "caching-controller",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    }
+  ],
+  "_instructions": {
+    "description": "Template for endpoint-config.json file",
+    "fields": {
+      "generateForAllEndpoints": "Boolean - Set to true to generate tests for all endpoints in swagger.json, false to use only endpoints listed below",
+      "method": "HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)",
+      "path": "API endpoint path as defined in swagger.json. Use {paramName} for path parameters",
+      "controller": "Name of the controller handling this endpoint (used for organization)",
+      "enabled": "Boolean - Set to true to generate tests for this endpoint, false to skip"
+    },
+    "usage": "Copy this file to endpoint-config.json and customize the endpoints array with your API endpoints"
+  }
+}
