@@ -1,0 +1,44 @@
+{
+  "description": "Configuration file specifying which endpoints to generate tests for",
+  "generateForAllEndpoints": false,
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/your-endpoint/v1/resource",
+      "controller": "your-controller-name",
+      "enabled": true,
+      "_comment": "Set enabled to false to skip test generation for this endpoint"
+    },
+    {
+      "method": "GET",
+      "path": "/api/your-endpoint/v1/resource/{id}",
+      "controller": "your-controller-name",
+      "enabled": true,
+      "_comment": "Path parameters should be included in curly braces {paramName}"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/your-endpoint/v1/update",
+      "controller": "your-controller-name",
+      "enabled": false,
+      "_comment": "Example of disabled endpoint - no tests will be generated"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/your-endpoint/v1/delete/{id}",
+      "controller": "your-controller-name",
+      "enabled": true
+    }
+  ],
+  "_instructions": {
+    "description": "Template for endpoint-config.json file",
+    "fields": {
+      "generateForAllEndpoints": "Boolean - Set to true to generate tests for all endpoints in swagger.json, false to use only endpoints listed below",
+      "method": "HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)",
+      "path": "API endpoint path as defined in swagger.json. Use {paramName} for path parameters",
+      "controller": "Name of the controller handling this endpoint (used for organization)",
+      "enabled": "Boolean - Set to true to generate tests for this endpoint, false to skip"
+    },
+    "usage": "Copy this file to endpoint-config.json and customize the endpoints array with your API endpoints"
+  }
+}

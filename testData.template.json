@@ -1,0 +1,140 @@
+{
+  "description": "Test data organized by endpoint with request data and expected response values for validation",
+  
+  "common": {
+    "_comment": "Common data shared across multiple endpoints",
+    "userId": "your-user-id",
+    "userType": "global",
+    "franchiseeList": [1234, 5678, 9012],
+    "_instructions": "Add any common data here that is reused across multiple endpoints"
+  },
+
+  "endpoints": {
+    "_comment": "Organize test data by endpoint path (without /api/ prefix and version)",
+    
+    "your-endpoint/v1/resource": {
+      "request": {
+        "_comment": "Request body or query parameters for this endpoint",
+        "franchiseNumber": 9999,
+        "season": "SM25",
+        "type": "PH",
+        "exampleArray": [1, 2, 3],
+        "exampleObject": {
+          "key": "value"
+        }
+      },
+      "expectedInResponse": {
+        "_comment": "Expected values in the response for validation",
+        "status": true,
+        "error": null,
+        "response.fieldName": "expectedValue",
+        "_instructions": "Use dot notation for nested fields: response.data.id"
+      },
+      "_comment": "Human-readable description of what this endpoint does"
+    },
+
+    "your-endpoint/v1/getById": {
+      "request": {
+        "_comment": "For path parameters, include them here",
+        "id": 12345,
+        "additionalParam": "value"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.id": 12345,
+        "response.name": "Expected Name",
+        "response.status": "active"
+      },
+      "_comment": "This endpoint retrieves a specific resource by ID"
+    },
+
+    "your-endpoint/v1/listing": {
+      "request": {
+        "sortBy": "createdDate",
+        "sortOrder": "desc",
+        "page": 1,
+        "pageSize": 10
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.totalCount": ">0",
+        "_comment": "Use comparison operators: >0, <100, >=10, <=50"
+      },
+      "_comment": "This endpoint returns a paginated list of resources"
+    },
+
+    "your-endpoint/v1/create": {
+      "request": {
+        "name": "Test Item",
+        "description": "Test Description",
+        "category": "TestCategory",
+        "isActive": true,
+        "priority": 1
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.id": ">0",
+        "response.name": "Test Item",
+        "response.createdBy": "{{common.userId}}"
+      },
+      "_comment": "Use {{common.fieldName}} to reference common data"
+    },
+
+    "your-endpoint/v1/update": {
+      "request": {
+        "id": 12345,
+        "name": "Updated Name",
+        "status": "active"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.id": 12345,
+        "response.name": "Updated Name",
+        "response.updatedBy": "{{common.userId}}"
+      },
+      "_comment": "Update operations should include the ID of the resource being updated"
+    },
+
+    "your-endpoint/v1/delete": {
+      "request": {
+        "id": 12345
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.message": "Successfully deleted"
+      },
+      "_comment": "Delete operations typically return a success message"
+    }
+  },
+
+  "_instructions": {
+    "description": "Template for testData.json file",
+    "structure": {
+      "common": "Shared data that can be referenced using {{common.fieldName}} syntax",
+      "endpoints": "Test data organized by endpoint path (without /api/ prefix)",
+      "request": "Input data for the API request (body params, query params, or path params)",
+      "expectedInResponse": "Expected values to validate in the response"
+    },
+    "validation": {
+      "exact_match": "Specify the exact expected value: 'fieldName': 'expectedValue'",
+      "comparison": "Use operators for numeric comparisons: '>0', '<100', '>=10', '<=50'",
+      "nested_fields": "Use dot notation for nested fields: 'response.data.user.id'",
+      "reference_common": "Reference common data with: '{{common.fieldName}}'",
+      "null_check": "Use null to validate null values: 'error': null"
+    },
+    "naming": {
+      "endpoint_key": "Use the endpoint path without /api/ prefix as the key",
+      "examples": [
+        "windowsandcamp/v1/listing",
+        "virtualsalesplan/v1/getSalesPlan",
+        "rangebuilding/v1/pdp/sizes"
+      ]
+    },
+    "usage": "Copy this file to testData.json and customize with your API test data"
+  }
+}
