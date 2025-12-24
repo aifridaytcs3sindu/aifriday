@@ -1,0 +1,283 @@
+{
+  "description": "Test data organized by endpoint with request data and expected response values for validation",
+  
+  "common": {
+    "userId": "850680",
+    "userType": "global",
+    "franchiseeList": [8439, 8345, 5384, 8329, 5381, 1628, 8251, 8264, 1665, 9395, 1084, 8455, 9111, 7197, 2164, 5571, 9852, 7977, 8468, 9421, 9784, 8681, 278, 7835, 8206, 1604, 9405, 1605, 1087, 5382, 973, 7294, 8442, 8235, 8196, 8277, 8293, 9413, 3382, 9432, 950, 6101, 1079, 1372, 4611, 8280, 9988, 976, 975]
+  },
+
+  "endpoints": {
+    "windowsandcamp/v1/listing": {
+      "request": {
+        "franchiseNumber": 9999,
+        "season": "SM25",
+        "type": "PH"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains sales plans grouped by userId with type matching request"
+    },
+
+    "virtualsalesplan/v1/listing": {
+      "request": {
+        "franchiseNumber": 9999,
+        "season": "SM25"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains sales plans grouped by userId"
+    },
+
+    "virtualsalesplan/v1/getSalesPlan": {
+      "request": {
+        "salesPlanId": 3621
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.salesPlanId": 3621,
+        "response.salesPlanName": "SSTestSalesPlan",
+        "response.createdBy": "850680",
+        "response.status": "draft"
+      },
+      "_comment": "Response should contain the specific sales plan with matching ID"
+    },
+
+    "rangebuilding/v1/vspbasket/listing": {
+      "request": {
+        "moduleName": "Basket",
+        "sortBy": null,
+        "sortOrder": "desc"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains basket items or empty object"
+    },
+
+    "rangebuilding/v1/ranges/listing": {
+      "request": {
+        "businessUnit": "G3-02",
+        "franchiseeNumber": 9999,
+        "season": "SM25"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains ranges grouped by userId"
+    },
+
+    "rangebuilding/v1/pdp/sizes": {
+      "request": {
+        "seasonName": "SM25",
+        "productId": "000000000060533884"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of size variants with variantId, primaryDesc, secondaryDesc"
+    },
+
+    "rangebuilding/v1/pdp/orders": {
+      "request": {
+        "productId": "000000000060533884",
+        "seasonName": "SM25"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of franchise orders with franchiseNumber and quantity"
+    },
+
+    "rangebuilding/v1/getProductData": {
+      "request": {
+        "moduleName": "PLP",
+        "productId": "000000000060560043"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "API returns response:null for this product - may not exist in the system"
+    },
+
+    "ordering/notifications/v1/drb/listing": {
+      "request": {
+        "action": "VIEW"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of notifications with notificationId, title, description"
+    },
+
+    "images/v1/downloadImages": {
+      "request": {
+        "imageUrl": "https://assets.digitalcontent.marksandspencer.app/image/upload/w_auto,q_100/SD_02_T32_1100_Y0_X_EC_90",
+        "hostUrl": "assets.digitalcontent.marksandspencer.app",
+        "downloadAll": false
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains imageBytes as base64 encoded string"
+    },
+
+    "favourites/v1/listing": {
+      "request": {
+        "season": "SM25"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of favourite items with season matching request"
+    },
+
+    "dssettings/v1/saveSettings": {
+      "request": {
+        "global": {
+          "rank": true,
+          "totalCashBuy": true,
+          "previousQty": true,
+          "price": true,
+          "currentQty": true,
+          "newTag": true,
+          "partnerLabel": true
+        },
+        "range": {
+          "rank": false,
+          "currentQty": true,
+          "previousQty": false,
+          "totalCashBuy": false,
+          "price": false,
+          "productDesc": true,
+          "newTag": true,
+          "partnerLabel": true
+        }
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null,
+        "response.message": "Saved successfully"
+      },
+      "_comment": "Response confirms settings saved successfully"
+    },
+
+    "drbsubscriptionnotification/v1/getSubscriptionDetails": {
+      "request": {},
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains subscription flags like vspShare, releaseStatus"
+    },
+
+    "dsbudget/v1/details": {
+      "request": {
+        "franchiseNumber": [8439, 8345, 5384, 8329, 5381, 1628, 8251, 8264, 1665, 9395, 1084, 8455, 9111, 7197, 2164, 5571, 9852, 7977, 8468, 9421, 9784, 8681, 278, 7835, 8206, 1604, 9405, 1605, 1087, 5382, 973, 7294, 8442, 8235, 8196, 8277, 8293, 9413, 3382, 9432, 950, 6101, 1079, 1372, 4611, 8280, 9988, 976, 975],
+        "seasonName": "SM25",
+        "businessUnit": ["G3-02"]
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of budget details with buId, buName, buBudget, deptBudget"
+    },
+
+    "productHierarchy/v1/listing/departments": {
+      "request": {
+        "eventId": "G3-01"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of departments with value, level, description"
+    },
+
+    "productHierarchy/v1/listing/businessUnit": {
+      "request": {},
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of business units"
+    },
+
+    "drbimages/v1/listing": {
+      "request": {},
+      "expectedInResponse": {
+        "status": true,
+        "error": null
+      },
+      "_comment": "Response contains array of DRB images"
+    },
+
+    "optionsplanning/budget/overallbudget/listing": {
+      "request": {
+        "account": 9328,
+        "season": "SM25",
+        "businessUnit": "WOMENSWEAR"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "response.account": 9328,
+        "response.season": "SM25"
+      },
+      "_comment": "Response contains overall budget with account, season, estimatedSeasonBudget, actualSeasonBudget"
+    },
+
+    "optionsplanning/budget/deptbudget/listing": {
+      "request": {
+        "accounts": [9328],
+        "seasons": ["SM25"],
+        "businessUnits": ["G3-01"],
+        "departments": []
+      },
+      "expectedInResponse": {
+        "status": true
+      },
+      "_comment": "Response contains nested department budgets by season/account/businessUnit"
+    },
+
+    "optionsplanning/budget/carryover/save": {
+      "request": {
+        "account": 9328,
+        "currentSeason": "SM25",
+        "carryOverSeason": "SP26"
+      },
+      "expectedInResponse": {
+        "status": true,
+        "message": "Saved/Updated Successfully"
+      },
+      "_comment": "Response confirms carryover saved successfully"
+    },
+
+    "optionsplanning/budget/export": {
+      "request": {
+        "accounts": [9328],
+        "season": "SM25",
+        "businessUnits": [],
+        "departments": []
+      },
+      "expectedInResponse": {
+        "status": true,
+        "message": "Data Found"
+      },
+      "_comment": "Response contains base64 encoded Excel file in response field"
+    }
+  }
+}
