@@ -1,0 +1,39 @@
+Workflow:
+
+Step 1: Input Configuration
+
+.env: Contains non-sensitive configuration, such as baseUrl.
+
+requirements.xlsx: Contains the business requirements and user journey steps that will be parsed into test scenarios.
+
+Step 2: User Journey Creation
+
+Parse the requirements.xlsx to extract user journeys and acceptance criteria.
+
+Generate user journeys in a structured markdown format (user-journeys.md) from the input Excel file.
+
+Step 3: BDD Artifacts Generation
+
+Feature files (.feature) are generated using the Gherkin syntax based on the user journey.
+
+Step definition files (.steps.ts) are created to implement the Given/When/Then steps using Playwright commands.
+
+Page objects (.page.ts) are created for reusable page interaction logic.
+
+Step 4: Test Execution
+
+Execute tests using Playwright's npm test command.
+
+If tests fail, apply self-healing by running discovery tests, identifying real selectors, and fixing the issues.
+
+Step 5: Post-Execution Actions
+
+Re-run all tests after applying fixes to ensure all tests pass.
+
+Generate reports (HTML, JSON, JUnit) with Playwright’s built-in reporting functionality.
+
+Step 6: Final Documentation
+
+Test execution summary: A summary of test results (pass/fail, scenarios executed).
+
+Generate README.md: Document the entire testing setup, instructions, and any specific configurations used.
