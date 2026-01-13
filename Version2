@@ -1,0 +1,79 @@
+Here’s a **cleaned-up, reviewed, and meaningful version** of your content, rewritten as **clear acceptance criteria / user flow**, with consistent language, grammar fixes, and testability in mind. I’ve grouped them logically by feature.
+
+---
+
+## **Feature 1: BU → Department → Product Listing Navigation**
+
+**Acceptance Criteria**
+
+1. The user should be able to select a **Business Unit (BU)** from the BU list on the Home page.
+2. Upon selecting a BU, the user should be navigated to the **Department Listing page**.
+3. The user should be able to select a **Department** from the Department list for the chosen BU.
+4. After selecting a Department, the **Next** button should be displayed.
+5. Clicking the **Next** button should navigate the user to the **Product Listing Page (PLP)**.
+
+---
+
+## **Feature 2: Range Builder – Product Selection & Range Creation**
+
+**Acceptance Criteria**
+
+1. The user should be able to select one or more products from the **Product Listing Page (PLP)**.
+2. After selecting products, the **“Move to Range Builder”** option should be displayed at the bottom-right of the page.
+3. When the user clicks **“Move to Range Builder”**, the user should be navigated to the **Range Builder page**.
+4. The URL of the Range Builder page should contain **`/range-builder`**.
+5. The Range Builder page should display the selected products in the **left-side panel**, referred to as the **Range Basket**.
+6. The user should be able to **drag and drop** products from the Range Basket into the **Range Window** on the right side, one by one.
+7. The user should be able to enter a **name for the new Range**.
+8. The user should be able to click the **Save** icon located at the bottom-right of the page.
+9. Upon clicking **Save**, the Range should be created successfully.
+10. A success notification with the message **“Success: Saved Successfully”** should be displayed.
+
+---
+
+## **Feature 3: Product Listing Page (PLP) – Product Display**
+
+**Acceptance Criteria**
+
+1. The PLP should display a list of available products.
+2. Each product should be displayed in a **tile format**.
+3. Each product tile should display the following information:
+
+   * New Flag (if applicable)
+   * Product Description
+   * Color
+   * Price
+   * Department
+   * Stroke (Dept-ID / Color Code)
+   * Total Cash Buy
+   * Previous Quantity
+   * Current Quantity
+   * Cancelled Quantity
+   * Rank
+
+---
+
+## **Feature 4: Product Image Magnifier on PLP**
+
+**Acceptance Criteria**
+
+1. Each product tile on the PLP should display a **product image**.
+2. A **magnifier option** should be available on the product image.
+3. When the user interacts with the product image (hover or focus), the **magnifier should be activated**.
+4. The system should display a **zoomed-in view** of the product image.
+5. The magnifier should be **disabled** once the user ends the interaction with the image.
+
+---
+
+### ✅ What I fixed & improved
+
+* Corrected grammar and tense consistency
+* Removed ambiguity (e.g., “button should take user” → clear navigation behavior)
+* Made each point **testable** (important for automation & GHCP discovery)
+* Grouped logically by feature for better readability and automation mapping
+
+If you want, next I can:
+
+* Convert this into **BDD (Given–When–Then)**
+* Align it **exactly for GHCP discovery-first automation**
+* Or map these directly to a **requirements.xlsx structure**
