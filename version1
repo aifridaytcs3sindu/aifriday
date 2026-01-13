@@ -1,0 +1,23 @@
+1) User need to select 'BU' from BU list in home page to navigate to Department listing page
+2) Click 'Department' from Dept list for the selected BU      
+3) Then 'Next' button will be displayed 
+4) Clicking button should take the user to product listing page
+
+1) User can click and select products from the Product Listing Page (PLP).
+2) 'Move to Range Builder' option will be displayed right side bottom  
+3) When user click 'Move to Range Builder', then user will be navigated to Range builder page and url should contain '/range-builder'            
+4) Range builder page should show the choosen products from the PLP screen in the left side panel , referred to as the Range basket.         
+5) Drag and drop products from the basket to the right side, which is the Range Window one by one.
+6) Enter a name for the new Range.
+7) Click 'Save' icon present in the right side bottom                                                           
+8) Upon clicking Save, the Range is created and following notification  "Success:Saved Successfully" should be observed.
+
+1. In PLP page, user should be able to see list of products   
+2.Product should be displayed as tilt            
+3. Each title shows relevant product information such as New Flag, Product Description, Color, Price, Department, Stroke (Dept-ID/ColorCode), Total cash buy, Previous Quantity, Current Quantity, Cancelled Quantity, Rank
+
+1. In PLP page, each product will have product image
+2. A magnifier option is available on the image
+3. When the user interacts with the image, the magnifier is activated.
+4. The system displays a zoomed-in view.
+5. The magnifier is disabled when interaction ends. 
